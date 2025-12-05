@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "products")
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "productos")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,24 +24,28 @@ public class Product {
     private String name;
 
     private String imageurl;
+
     @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal price;
 
     @OneToMany(mappedBy = "product")
     private List<InventoryItem> inventoryItems =  new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "products")
     private List<Order> orders =  new ArrayList<>();
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany
+    @JoinTable(
+            name = "products_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private List<Category> categories =new ArrayList<>();
 
-
-   @Builder
+    @Builder
     public Product(String name, String imageurl, BigDecimal price) {
         this.name = name;
         this.imageurl = imageurl;
         this.price = price;
     }
-    
 }

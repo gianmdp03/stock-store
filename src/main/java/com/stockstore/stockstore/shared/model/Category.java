@@ -22,7 +22,7 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "categories")
     List<Product> products = new ArrayList<>();
 
     @Builder
