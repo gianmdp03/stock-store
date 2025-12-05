@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.service;
+package com.stockstore.stockstore.inventory.service;
 
 public interface SupplierService {
 }

@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.model;
+package com.stockstore.stockstore.shared.model;
 
 public class Order {
 }

@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.service;
+package com.stockstore.stockstore.onlinestore.service;
 
 public interface CartService {
 }

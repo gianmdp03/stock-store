@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.model;
+package com.stockstore.stockstore.inventory.model;
 
 public class Supplier {
 }

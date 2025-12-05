@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.service;
+package com.stockstore.stockstore.shared.service;
 
 public interface CategoryService {
 }
