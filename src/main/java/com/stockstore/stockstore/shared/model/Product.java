@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class Product {
     private String name;
 
     private String imageurl;
+    @Column(precision = 19, scale = 2, nullable = false)
+    private BigDecimal price;
 
     @OneToMany(mappedBy = "product")
     private List<InventoryItem> inventoryItems =  new ArrayList<>();
@@ -33,12 +36,12 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private List<Category> categories =new ArrayList<>();
 
+
    @Builder
-    public Product(String name, String imageurl) {
+    public Product(String name, String imageurl, BigDecimal price) {
         this.name = name;
         this.imageurl = imageurl;
+        this.price = price;
     }
-
-
-
+    
 }
