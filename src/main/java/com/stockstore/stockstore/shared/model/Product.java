@@ -1,5 +1,6 @@
 package com.stockstore.stockstore.shared.model;
 
+import com.stockstore.stockstore.inventory.model.Supplier;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +35,10 @@ public class Product {
     @OneToMany(mappedBy = "products")
     private List<Order> orders =  new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+
     @ManyToMany
     @JoinTable(
             name = "products_categories",
@@ -43,9 +48,13 @@ public class Product {
     private List<Category> categories =new ArrayList<>();
 
     @Builder
-    public Product(String name, String imageurl, BigDecimal price) {
+    public Product(String name, String imageurl, BigDecimal price, List<InventoryItem> inventoryItems, List<Order> orders, Supplier supplier, List<Category> categories) {
         this.name = name;
         this.imageurl = imageurl;
         this.price = price;
+        this.inventoryItems = inventoryItems;
+        this.orders = orders;
+        this.supplier = supplier;
+        this.categories = categories;
     }
 }
