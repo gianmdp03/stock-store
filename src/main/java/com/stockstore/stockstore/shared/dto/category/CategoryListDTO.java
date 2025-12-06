@@ -1,4 +1,4 @@
 package com.stockstore.stockstore.shared.dto.category;
 
-public record CategoryListDTO() {
+public record CategoryListDTO(Long id, String name) {
 }
