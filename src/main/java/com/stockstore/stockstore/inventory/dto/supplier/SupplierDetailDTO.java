@@ -1,4 +1,7 @@
 package com.stockstore.stockstore.inventory.dto.supplier;
 
-public record SupplierDetailDTO() {
-}
+import com.stockstore.stockstore.shared.dto.product.ProductListDTO;
+
+import java.util.List;
+
+public record SupplierDetailDTO(Long id, String name, String email, Long phoneNumber, List<ProductListDTO> products) {}
