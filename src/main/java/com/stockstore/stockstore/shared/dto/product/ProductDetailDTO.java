@@ -1,4 +1,18 @@
 package com.stockstore.stockstore.shared.dto.product;
 
-public record ProductDetailDTO() {
-}
+import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;
+import com.stockstore.stockstore.shared.dto.category.CategoryListDTO;
+import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemDetailDTO;
+import com.stockstore.stockstore.shared.dto.order.OrderListDTO;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+public record ProductDetailDTO(Long id,
+                               String name,
+                               String imageUrl,
+                               BigDecimal price,
+                               List<InventoryItemDetailDTO> inventoryItems,
+                               List<OrderListDTO> orders,
+                               SupplierListDTO supplier,
+                               List<CategoryListDTO> categories) {}

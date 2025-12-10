@@ -24,7 +24,7 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    private String imageurl;
+    private String imageUrl;
 
     @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal price;
@@ -48,9 +48,9 @@ public class Product {
     private List<Category> categories =new ArrayList<>();
 
     @Builder
-    public Product(String name, String imageurl, BigDecimal price, Supplier supplier) {
+    public Product(String name, String imageUrl, BigDecimal price, Supplier supplier) {
         this.name = name;
-        this.imageurl = imageurl;
+        this.imageUrl = imageUrl;
         this.price = price;
         this.supplier = supplier;
     }
