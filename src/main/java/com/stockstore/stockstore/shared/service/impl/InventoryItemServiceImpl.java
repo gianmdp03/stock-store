@@ -21,7 +21,7 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     @Override
     @Transactional
     public InventoryItemDetailDTO addInventoryItem(InventoryItemRequestDTO dto) {
-        return null;
+       Product
     }
 
     @Override
