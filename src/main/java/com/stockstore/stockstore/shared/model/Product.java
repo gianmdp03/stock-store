@@ -48,13 +48,10 @@ public class Product {
     private List<Category> categories =new ArrayList<>();
 
     @Builder
-    public Product(String name, String imageurl, BigDecimal price, List<InventoryItem> inventoryItems, List<Order> orders, Supplier supplier, List<Category> categories) {
+    public Product(String name, String imageurl, BigDecimal price, Supplier supplier) {
         this.name = name;
         this.imageurl = imageurl;
         this.price = price;
-        this.inventoryItems = inventoryItems;
-        this.orders = orders;
         this.supplier = supplier;
-        this.categories = categories;
     }
 }

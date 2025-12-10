@@ -33,10 +33,9 @@ public class Supplier {
     private List<Product> products = new ArrayList<>();
 
     @Builder
-    public Supplier(String name, String email, String phoneNumber, List<Product> products) {
+    public Supplier(String name, String email, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.products = products;
     }
 }
