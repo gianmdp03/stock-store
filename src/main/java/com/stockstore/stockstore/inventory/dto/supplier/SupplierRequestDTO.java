@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record SupplierRequestDTO(@NotBlank String name, @NotBlank @Email String email, @NotBlank String phoneNumber, @NotNull @NotEmpty
-                                 List<Long> productsId) {
-}
+public record SupplierRequestDTO(@NotBlank String name,
+                                 @NotBlank @Email String email,
+                                 @NotBlank String phoneNumber,
+                                 @NotNull @NotEmpty List<Long> productsId) {}
