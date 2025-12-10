@@ -2,7 +2,6 @@ package com.stockstore.stockstore.inventory.model;
 
 import com.stockstore.stockstore.shared.model.Product;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,13 +27,13 @@ public class Supplier {
     private String email;
 
     @Column(nullable = false)
-    private Long phoneNumber;
+    private String phoneNumber;
 
     @OneToMany(mappedBy = "supplier")
     private List<Product> products = new ArrayList<>();
 
     @Builder
-    public Supplier(String name, String email, Long phoneNumber, List<Product> products) {
+    public Supplier(String name, String email, String phoneNumber, List<Product> products) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;

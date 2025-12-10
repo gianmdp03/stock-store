@@ -4,4 +4,4 @@ import com.stockstore.stockstore.shared.dto.product.ProductListDTO;
 
 import java.util.List;
 
-public record SupplierDetailDTO(Long id, String name, String email, Long phoneNumber, List<ProductListDTO> products) {}
+public record SupplierDetailDTO(Long id, String name, String email, String phoneNumber, List<ProductListDTO> products) {}
