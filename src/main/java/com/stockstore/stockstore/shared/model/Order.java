@@ -39,10 +39,9 @@ public class Order {
     private List<Product> products = new ArrayList<>();
 
     @Builder
-    public Order(BigDecimal amount, String description, LocalDate saleDate, List<Product> products) {
+    public Order(BigDecimal amount, String description, LocalDate saleDate) {
         this.amount = amount;
         this.description = description;
         this.saleDate = saleDate;
-        this.products = products;
     }
 }

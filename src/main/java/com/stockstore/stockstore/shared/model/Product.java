@@ -32,7 +32,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<InventoryItem> inventoryItems =  new ArrayList<>();
 
-    @OneToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products")
     private List<Order> orders =  new ArrayList<>();
 
     @ManyToOne
@@ -45,7 +45,7 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> categories =new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
     @Builder
     public Product(String name, String imageUrl, BigDecimal price, Supplier supplier) {
