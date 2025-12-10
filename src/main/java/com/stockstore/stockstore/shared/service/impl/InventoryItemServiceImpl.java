@@ -34,12 +34,17 @@ public class InventoryItemServiceImpl implements InventoryItemService {
 
     @Override
     public Page<InventoryItemDetailDTO> listInventoryItems(Pageable pageable) {
-       Page<Inven>
+       Page<InventoryItem> page = inventoryItemRepository.findAll(pageable);
+       if(page.isEmpty()){
+           throw new NotFoundException("Page is empty");
+       }
+       return page.map(inventoryItemMapper::toDetailDTO);
     }
 
     @Override
     @Transactional
     public void deleteInventoryItem(Long inventoryItemId) {
-
+        InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()-> new NotFoundException("InventoryItem not found"));
+        inventoryItemRepository.delete(inventoryItem);
     }
 }
