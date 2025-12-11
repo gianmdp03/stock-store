@@ -1,10 +1,14 @@
 package com.stockstore.stockstore.shared.service.impl;
 
+import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
 import com.stockstore.stockstore.shared.dto.order.OrderListDTO;
 import com.stockstore.stockstore.shared.dto.order.OrderRequestDTO;
 import com.stockstore.stockstore.shared.mapper.OrderMapper;
+import com.stockstore.stockstore.shared.model.Order;
+import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.OrderRepository;
+import com.stockstore.stockstore.shared.repository.ProductRepository;
 import com.stockstore.stockstore.shared.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,27 +16,40 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final ProductRepository productRepository;
 
     @Override
     @Transactional
     public OrderDetailDTO addOrder(OrderRequestDTO dto) {
-        return null;
+        List<Product> products = productRepository.findAllById(dto.productsId());
+        if(products.isEmpty())
+            throw new NotFoundException("Product list is empty");
+        Order order = orderMapper.toEntity(dto);
+        order.setProducts(products);
+        order = orderRepository.save(order);
+        return orderMapper.toDetailDto(order);
     }
 
     @Override
     public Page<OrderListDTO> listOrders(Pageable pageable) {
-        return null;
+        Page<Order> page = orderRepository.findAll(pageable);
+        if(page.isEmpty())
+            throw new NotFoundException("Order list is empty");
+        return page.map(orderMapper::toListDto);
     }
 
     @Override
     @Transactional
     public void deleteOrder(Long orderId) {
-
+        Order order = orderRepository.findById(orderId).orElseThrow(()-> new NotFoundException("Order ID does not exist"));
+        orderRepository.delete(order);
     }
 }
