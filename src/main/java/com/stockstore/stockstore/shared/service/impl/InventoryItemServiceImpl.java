@@ -27,8 +27,10 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     @Transactional
     public InventoryItemDetailDTO addInventoryItem(InventoryItemRequestDTO dto) {
         Product product = productRepository.findById(dto.productId())
-                .orElseThrow(()-> new NotFoundException("Product not found"));
-        InventoryItem inventoryItem = inventoryItemRepository.save(inventoryItemMapper.toEntity(dto));
+                .orElseThrow(()-> new NotFoundException("Product ID does not exist"));
+        InventoryItem inventoryItem = inventoryItemMapper.toEntity(dto);
+        inventoryItem.setProduct(product);
+        inventoryItem = inventoryItemRepository.save(inventoryItem);
         return inventoryItemMapper.toDetailDTO(inventoryItem);
     }
 
@@ -36,7 +38,7 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     public Page<InventoryItemDetailDTO> listInventoryItems(Pageable pageable) {
        Page<InventoryItem> page = inventoryItemRepository.findAll(pageable);
        if(page.isEmpty()){
-           throw new NotFoundException("Page is empty");
+           throw new NotFoundException("List is empty");
        }
        return page.map(inventoryItemMapper::toDetailDTO);
     }
@@ -44,7 +46,7 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     @Override
     @Transactional
     public void deleteInventoryItem(Long inventoryItemId) {
-        InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()-> new NotFoundException("InventoryItem not found"));
+        InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()-> new NotFoundException("InventoryItem ID does not exist"));
         inventoryItemRepository.delete(inventoryItem);
     }
 }

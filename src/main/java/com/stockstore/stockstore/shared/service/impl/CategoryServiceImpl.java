@@ -25,15 +25,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryDetailDTO addCategory(CategoryRequestDTO dto) {
-    Category category = categoryRepository.save(categoryMapper.toEntity(dto));
-    return categoryMapper.toDetailDto(category);
+        Category category = categoryRepository.save(categoryMapper.toEntity(dto));
+        return categoryMapper.toDetailDto(category);
     }
 
     @Override
     public Page<CategoryListDTO> listCategories(Pageable pageable) {
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
         if(categoryPage.isEmpty()){
-            throw new NotFoundException("Category not found");
+            throw new NotFoundException("List is empty");
         }
         return categoryPage.map(categoryMapper::toListDto);
     }
@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteCategory(Long categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElseThrow(()-> new NotFoundException("Category not found"));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(()-> new NotFoundException("Category ID does not exist"));
         categoryRepository.delete(category);
     }
 
