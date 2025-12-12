@@ -1,7 +1,6 @@
 package com.stockstore.stockstore.shared.mapper;
 
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemDetailDTO;
-import com.stockstore.stockstore.shared.dto.orderItem.OrderItemListDTO;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
 import com.stockstore.stockstore.shared.model.OrderItem;
 import org.mapstruct.Mapper;
@@ -12,7 +11,5 @@ public interface OrderItemMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "product", ignore = true)
     OrderItem toEntity (OrderItemRequestDTO dto);
-    OrderItemDetailDTO toDetailDTO ( OrderItem orderItem);
-    OrderItemListDTO toListDTO (OrderItem orderItem);
-
+    OrderItemDetailDTO toDetailDto ( OrderItem orderItem);
 }
