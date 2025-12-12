@@ -26,10 +26,8 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @Transactional
     public SupplierDetailDTO addSupplier(SupplierRequestDTO dto) {
-        Supplier supplier = supplierMapper.toEntity(dto);
-        Supplier savedSupplier = supplierRepository.save(supplier);
-
-        return supplierMapper.toDetailDto(savedSupplier);
+        Supplier supplier = supplierRepository.save(supplierMapper.toEntity(dto));
+        return supplierMapper.toDetailDto(supplier);
     }
 
     @Override
@@ -46,7 +44,6 @@ public class SupplierServiceImpl implements SupplierService {
     @Transactional
     public void deleteSupplier(Long supplierId) {
         Supplier supplier = supplierRepository.findById(supplierId).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
-
         supplierRepository.delete(supplier);
     }
 }
