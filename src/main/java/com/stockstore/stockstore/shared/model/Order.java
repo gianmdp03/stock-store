@@ -21,17 +21,13 @@ public class Order {    //PRIMERO SE CREA ORDER, Y DESPUES TODOS LOS ORDER ITEM 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
-    private String description;
-
     @Column(nullable = false)
     private LocalDate saleDate;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    public Order(String description, LocalDate saleDate) {
-        this.description = description;
+    public Order(LocalDate saleDate) {
         this.saleDate = saleDate;
     }
 }

@@ -1,12 +1,10 @@
 package com.stockstore.stockstore.shared.controller;
 
 import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
-import com.stockstore.stockstore.shared.dto.order.OrderListDTO;
 import com.stockstore.stockstore.shared.dto.order.OrderRequestDTO;
 import com.stockstore.stockstore.shared.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,7 +25,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<OrderListDTO>> listOrders(
+    public ResponseEntity<Page<OrderDetailDTO>> listOrders(
             @PageableDefault(page = 0, size = 10, sort = "saleDate", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(orderService.listOrders(pageable));
     }

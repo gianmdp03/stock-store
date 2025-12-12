@@ -2,11 +2,9 @@ package com.stockstore.stockstore.shared.service.impl;
 
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
-import com.stockstore.stockstore.shared.dto.order.OrderListDTO;
 import com.stockstore.stockstore.shared.dto.order.OrderRequestDTO;
 import com.stockstore.stockstore.shared.mapper.OrderMapper;
 import com.stockstore.stockstore.shared.model.Order;
-import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.OrderRepository;
 import com.stockstore.stockstore.shared.repository.ProductRepository;
 import com.stockstore.stockstore.shared.service.OrderService;
@@ -15,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,11 +31,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderListDTO> listOrders(Pageable pageable) {
+    public Page<OrderDetailDTO> listOrders(Pageable pageable) {
         Page<Order> page = orderRepository.findAll(pageable);
         if(page.isEmpty())
             throw new NotFoundException("Order list is empty");
-        return page.map(orderMapper::toListDto);
+        return page.map(orderMapper::toDetailDto);
     }
 
     @Override
