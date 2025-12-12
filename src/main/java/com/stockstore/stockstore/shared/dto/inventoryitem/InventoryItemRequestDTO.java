@@ -5,4 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record InventoryItemRequestDTO(@NotNull Long productId, @NotNull int stock, @NotNull @Future LocalDate expireDate) {}
+public record InventoryItemRequestDTO(@NotNull Long productId,
+                                      @NotNull int stock,
+                                      @NotNull @Future LocalDate expireDate) {}
