@@ -29,6 +29,10 @@ public abstract class ProductMapper {
     @Lazy
     private CategoryMapper categoryMapper;
 
+    @Autowired
+    @Lazy
+    private OrderItemMapper orderItemMapper;
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "inventoryItems", ignore = true)
     @Mapping(target = "orders", ignore = true)
