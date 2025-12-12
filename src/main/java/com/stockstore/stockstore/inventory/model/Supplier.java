@@ -31,7 +31,7 @@ public class Supplier {
 
     @OneToMany(mappedBy = "supplier")
     private List<Product> products = new ArrayList<>();
-    
+
     public Supplier(String name, String email, String phoneNumber) {
         this.name = name;
         this.email = email;
