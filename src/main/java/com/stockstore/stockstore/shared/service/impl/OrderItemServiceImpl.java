@@ -2,7 +2,6 @@ package com.stockstore.stockstore.shared.service.impl;
 
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemDetailDTO;
-import com.stockstore.stockstore.shared.dto.orderItem.OrderItemListDTO;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
 import com.stockstore.stockstore.shared.mapper.OrderItemMapper;
 import com.stockstore.stockstore.shared.model.OrderItem;
@@ -29,11 +28,11 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public Page<OrderItemListDTO> listOrderItems(Pageable pageable) {
+    public Page<OrderItemDetailDTO> listOrderItems(Pageable pageable) {
         Page<OrderItem> page = orderItemRepository.findAll(pageable);
         if(page.isEmpty())
             throw new NotFoundException("OrderItem list is empty");
-        return page.map(orderItemMapper::toListDto);
+        return page.map(orderItemMapper::toDetailDto);
     }
 
     @Override
