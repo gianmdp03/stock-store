@@ -38,7 +38,6 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
-    @Builder
     public Order(BigDecimal amount, String description, LocalDate saleDate) {
         this.amount = amount;
         this.description = description;

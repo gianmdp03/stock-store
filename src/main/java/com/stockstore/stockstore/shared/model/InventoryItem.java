@@ -28,7 +28,6 @@ public class InventoryItem {
     @Column(nullable = false)
     private LocalDate expireDate;
 
-    @Builder
     public InventoryItem(Product product, int stock, LocalDate expireDate) {
         this.product = product;
         this.stock = stock;

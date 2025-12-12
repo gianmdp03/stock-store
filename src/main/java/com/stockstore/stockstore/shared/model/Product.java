@@ -47,7 +47,6 @@ public class Product {
     )
     private List<Category> categories = new ArrayList<>();
 
-    @Builder
     public Product(String name, String imageUrl, BigDecimal price, Supplier supplier) {
         this.name = name;
         this.imageUrl = imageUrl;

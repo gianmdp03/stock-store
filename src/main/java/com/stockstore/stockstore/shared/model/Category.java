@@ -25,7 +25,6 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     List<Product> products = new ArrayList<>();
 
-    @Builder
     public Category(String name) {
         this.name = name;
     }
