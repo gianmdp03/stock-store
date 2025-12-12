@@ -20,12 +20,17 @@ public class OrderItem {
     private int amount;
 
     @ManyToOne
-    @JoinColumn(name = "order_item_id")
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    public OrderItem(int amount, Product product) {
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    public OrderItem(int amount, Product product, Order order) {
         this.amount = amount;
         this.product = product;
+        this.order = order;
     }
     
 }

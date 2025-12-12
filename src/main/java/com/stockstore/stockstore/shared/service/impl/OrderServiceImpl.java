@@ -29,11 +29,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDetailDTO addOrder(OrderRequestDTO dto) {
-        List<Product> products = productRepository.findAllById(dto.productsId());
-        if(products.isEmpty())
-            throw new NotFoundException("Product list is empty");
         Order order = orderMapper.toEntity(dto);
-        order.setProducts(products);
         order = orderRepository.save(order);
         return orderMapper.toDetailDto(order);
     }

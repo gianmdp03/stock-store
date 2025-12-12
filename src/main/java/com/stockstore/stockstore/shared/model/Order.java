@@ -16,13 +16,10 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Order {
+public class Order {    //PRIMERO SE CREA ORDER, Y DESPUES TODOS LOS ORDER ITEM SE LINKEAN A ESA ORDER
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(precision = 19, scale = 2, nullable = false)
-    private BigDecimal amount;
 
     @Lob
     private String description;
@@ -30,16 +27,10 @@ public class Order {
     @Column(nullable = false)
     private LocalDate saleDate;
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_products",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    public Order(BigDecimal amount, String description, LocalDate saleDate) {
-        this.amount = amount;
+    public Order(String description, LocalDate saleDate) {
         this.description = description;
         this.saleDate = saleDate;
     }

@@ -8,10 +8,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring",  uses = {ProductMapper.class})
-public interface CategoryMapper {
+public abstract class CategoryMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "products", ignore = true)
-    Category toEntity(CategoryRequestDTO dto);
-    CategoryDetailDTO toDetailDto(Category entity);
-    CategoryListDTO toListDto(Category entity);
+    public abstract Category toEntity(CategoryRequestDTO dto);
+    public abstract CategoryDetailDTO toDetailDto(Category entity);
+    public abstract CategoryListDTO toListDto(Category entity);
 }

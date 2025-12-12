@@ -5,11 +5,17 @@ import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
 import com.stockstore.stockstore.shared.model.OrderItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 @Mapper(componentModel = "spring", uses = {ProductMapper.class})
-public interface OrderItemMapper {
+public abstract class OrderItemMapper {
+    @Autowired
+    @Lazy
+    private OrderMapper orderMapper;
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "product", ignore = true)
-    OrderItem toEntity (OrderItemRequestDTO dto);
-    OrderItemDetailDTO toDetailDto ( OrderItem orderItem);
+    public abstract OrderItem toEntity (OrderItemRequestDTO dto);
+    public abstract OrderItemDetailDTO toDetailDto ( OrderItem orderItem);
 }

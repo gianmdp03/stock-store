@@ -7,9 +7,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = {ProductMapper.class})
-public interface InventoryItemMapper {
+public abstract class InventoryItemMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "product", ignore = true)
-    InventoryItem toEntity(InventoryItemRequestDTO dto);
-    InventoryItemDetailDTO toDetailDTO(InventoryItem entity);
+    public abstract InventoryItem toEntity(InventoryItemRequestDTO dto);
+    public abstract InventoryItemDetailDTO toDetailDTO(InventoryItem entity);
 }

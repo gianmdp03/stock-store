@@ -23,7 +23,7 @@ public class OrderItemController {
     public ResponseEntity<OrderItemDetailDTO> addOrderItem(@Valid @RequestBody OrderItemRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(orderItemService.addOrderItem(dto));
     }
-    
+
     @GetMapping
     public ResponseEntity<Page<OrderItemDetailDTO>> listOrderItems(
             @PageableDefault(page = 0, size = 10, sort = "amount", direction = Sort.Direction.DESC) Pageable pageable){
