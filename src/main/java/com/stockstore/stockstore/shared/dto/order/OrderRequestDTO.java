@@ -8,4 +8,4 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public record OrderRequestDTO(@NotNull BigDecimal amount, String description, @PastOrPresent LocalDate saleDate, @NotNull @NotEmpty List<Long> productsId) {}
+public record OrderRequestDTO(String description, @PastOrPresent LocalDate saleDate, @NotNull @NotEmpty List<Long> orderItemsId) {}
