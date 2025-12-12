@@ -2,7 +2,6 @@ package com.stockstore.stockstore.shared.service.impl;
 
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
-import com.stockstore.stockstore.shared.dto.order.OrderRequestDTO;
 import com.stockstore.stockstore.shared.mapper.OrderMapper;
 import com.stockstore.stockstore.shared.model.Order;
 import com.stockstore.stockstore.shared.repository.OrderRepository;
@@ -14,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderDetailDTO addOrder(OrderRequestDTO dto) {
-        Order order = orderMapper.toEntity(dto);
+    public OrderDetailDTO addOrder() {
+        Order order = new Order(LocalDate.now());
         order = orderRepository.save(order);
         return orderMapper.toDetailDto(order);
     }

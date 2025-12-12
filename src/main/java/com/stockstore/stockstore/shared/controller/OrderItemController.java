@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/order/item")
+@RequestMapping("/api/orders/items")
 @RequiredArgsConstructor
 public class OrderItemController {
     private final OrderItemService orderItemService;

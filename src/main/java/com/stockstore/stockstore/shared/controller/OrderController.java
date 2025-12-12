@@ -1,9 +1,7 @@
 package com.stockstore.stockstore.shared.controller;
 
 import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
-import com.stockstore.stockstore.shared.dto.order.OrderRequestDTO;
 import com.stockstore.stockstore.shared.service.OrderService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +18,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDetailDTO> addOrder(@Valid @RequestBody OrderRequestDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addOrder(dto));
+    public ResponseEntity<OrderDetailDTO> addOrder(){
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addOrder());
     }
 
     @GetMapping

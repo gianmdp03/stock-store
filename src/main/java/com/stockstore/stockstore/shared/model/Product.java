@@ -32,8 +32,8 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<InventoryItem> inventoryItems =  new ArrayList<>();
 
-    @ManyToMany(mappedBy = "products")
-    private List<Order> orders =  new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems =  new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")

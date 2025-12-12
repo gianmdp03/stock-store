@@ -16,6 +16,7 @@ public abstract class OrderItemMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "product", ignore = true)
+    @Mapping(target = "order", ignore = true)
     public abstract OrderItem toEntity (OrderItemRequestDTO dto);
     public abstract OrderItemDetailDTO toDetailDto ( OrderItem orderItem);
 }

@@ -35,7 +35,7 @@ public abstract class ProductMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "inventoryItems", ignore = true)
-    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "orderItems", ignore = true)
     @Mapping(target = "supplier", ignore = true)
     @Mapping(target = "categories", ignore = true)
     public abstract Product toEntity(ProductRequestDTO dto);
