@@ -3,6 +3,7 @@ package com.stockstore.stockstore.shared.controller;
 import com.stockstore.stockstore.shared.dto.product.ProductDetailDTO;
 import com.stockstore.stockstore.shared.dto.product.ProductListDTO;
 import com.stockstore.stockstore.shared.dto.product.ProductRequestDTO;
+import com.stockstore.stockstore.shared.dto.product.ProductUpdateDTO;
 import com.stockstore.stockstore.shared.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +31,12 @@ public class ProductController {
             @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(productService.listProducts(pageable));
     }
-
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductDetailDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.updateProducto(id, dto));
+    }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(Long id){
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
