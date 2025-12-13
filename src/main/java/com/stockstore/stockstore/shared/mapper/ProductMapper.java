@@ -4,10 +4,10 @@ import com.stockstore.stockstore.inventory.mapper.SupplierMapper;
 import com.stockstore.stockstore.shared.dto.product.ProductDetailDTO;
 import com.stockstore.stockstore.shared.dto.product.ProductListDTO;
 import com.stockstore.stockstore.shared.dto.product.ProductRequestDTO;
+import com.stockstore.stockstore.shared.dto.product.ProductUpdateDTO;
 import com.stockstore.stockstore.shared.model.Product;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
@@ -41,4 +41,8 @@ public abstract class ProductMapper {
     public abstract Product toEntity(ProductRequestDTO dto);
     public abstract ProductDetailDTO toDetailDto(Product entity);
     public abstract ProductListDTO toListDto(Product entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id", ignore = true)
+    public abstract void updateEntityFromDto(ProductUpdateDTO dto, @MappingTarget Product product);
 }

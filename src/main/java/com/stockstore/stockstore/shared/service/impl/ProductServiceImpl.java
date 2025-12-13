@@ -6,6 +6,7 @@ import com.stockstore.stockstore.inventory.repository.SupplierRepository;
 import com.stockstore.stockstore.shared.dto.product.ProductDetailDTO;
 import com.stockstore.stockstore.shared.dto.product.ProductListDTO;
 import com.stockstore.stockstore.shared.dto.product.ProductRequestDTO;
+import com.stockstore.stockstore.shared.dto.product.ProductUpdateDTO;
 import com.stockstore.stockstore.shared.mapper.ProductMapper;
 import com.stockstore.stockstore.shared.model.Category;
 import com.stockstore.stockstore.shared.model.Product;
@@ -39,6 +40,17 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.toEntity(dto);
         product.setSupplier(supplier);
         product.setCategories(categories);
+        product = productRepository.save(product);
+        return productMapper.toDetailDto(product);
+    }
+
+
+
+    @Override
+    @Transactional
+    public ProductDetailDTO updateProducto(Long id, ProductUpdateDTO dto) {
+        Product product = productRepository.findById(id).orElseThrow(()-> new NotFoundException("Product id does not exist"));
+        productMapper.updateEntityFromDto(dto,product);
         product = productRepository.save(product);
         return productMapper.toDetailDto(product);
     }
