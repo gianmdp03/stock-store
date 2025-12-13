@@ -3,6 +3,7 @@ package com.stockstore.stockstore.shared.service.impl;
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemDetailDTO;
 import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemRequestDTO;
+import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemUpdateDTO;
 import com.stockstore.stockstore.shared.mapper.InventoryItemMapper;
 import com.stockstore.stockstore.shared.model.InventoryItem;
 import com.stockstore.stockstore.shared.model.Product;
@@ -30,6 +31,15 @@ public class InventoryItemServiceImpl implements InventoryItemService {
                 .orElseThrow(()-> new NotFoundException("Product ID does not exist"));
         InventoryItem inventoryItem = inventoryItemMapper.toEntity(dto);
         inventoryItem.setProduct(product);
+        inventoryItem = inventoryItemRepository.save(inventoryItem);
+        return inventoryItemMapper.toDetailDTO(inventoryItem);
+    }
+
+    @Override
+    @Transactional
+    public InventoryItemDetailDTO updateInventoryItem(Long id, InventoryItemUpdateDTO dto){
+        InventoryItem inventoryItem = inventoryItemRepository.findById(id).orElseThrow(()->new NotFoundException("InventoryItem ID does not exist"));
+        inventoryItemMapper.updateEntityFromDto(dto, inventoryItem);
         inventoryItem = inventoryItemRepository.save(inventoryItem);
         return inventoryItemMapper.toDetailDTO(inventoryItem);
     }

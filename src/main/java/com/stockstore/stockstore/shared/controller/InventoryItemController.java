@@ -2,6 +2,7 @@ package com.stockstore.stockstore.shared.controller;
 
 import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemDetailDTO;
 import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemRequestDTO;
+import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemUpdateDTO;
 import com.stockstore.stockstore.shared.service.InventoryItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,12 @@ public class InventoryItemController {
     @PostMapping
     public ResponseEntity<InventoryItemDetailDTO> addInventoryItem(@Valid @RequestBody InventoryItemRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(inventoryItemService.addInventoryItem(dto));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<InventoryItemDetailDTO> updateInventoryItem(@PathVariable Long id, @RequestBody InventoryItemUpdateDTO dto)
+    {
+        return ResponseEntity.status(HttpStatus.CREATED).body(inventoryItemService.updateInventoryItem(id, dto));
     }
 
     @GetMapping
