@@ -4,6 +4,7 @@ import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.shared.dto.category.CategoryDetailDTO;
 import com.stockstore.stockstore.shared.dto.category.CategoryListDTO;
 import com.stockstore.stockstore.shared.dto.category.CategoryRequestDTO;
+import com.stockstore.stockstore.shared.dto.category.CategoryUpdateDTO;
 import com.stockstore.stockstore.shared.mapper.CategoryMapper;
 import com.stockstore.stockstore.shared.model.Category;
 import com.stockstore.stockstore.shared.repository.CategoryRepository;
@@ -26,6 +27,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryDetailDTO addCategory(CategoryRequestDTO dto) {
         Category category = categoryRepository.save(categoryMapper.toEntity(dto));
+        return categoryMapper.toDetailDto(category);
+    }
+
+    @Override
+    @Transactional
+    public CategoryDetailDTO updateCategory(Long id, CategoryUpdateDTO dto){
+        Category category = categoryRepository.findById(id).orElseThrow(()->new NotFoundException("Category ID does not exist"));
+        categoryMapper.updateEntityFromDto(dto, category);
+        category = categoryRepository.save(category);
         return categoryMapper.toDetailDto(category);
     }
 

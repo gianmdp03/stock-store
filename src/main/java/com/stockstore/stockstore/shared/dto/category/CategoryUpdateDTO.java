@@ -1,4 +1,3 @@
 package com.stockstore.stockstore.shared.dto.category;
 
-public record CategoryUpdateDTO (){
-}
+public record CategoryUpdateDTO (String name){}
