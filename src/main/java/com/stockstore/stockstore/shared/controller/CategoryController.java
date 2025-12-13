@@ -3,6 +3,7 @@ package com.stockstore.stockstore.shared.controller;
 import com.stockstore.stockstore.shared.dto.category.CategoryDetailDTO;
 import com.stockstore.stockstore.shared.dto.category.CategoryListDTO;
 import com.stockstore.stockstore.shared.dto.category.CategoryRequestDTO;
+import com.stockstore.stockstore.shared.dto.category.CategoryUpdateDTO;
 import com.stockstore.stockstore.shared.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,12 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<CategoryDetailDTO> addCategory(@Valid @RequestBody CategoryRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.addCategory(dto));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CategoryDetailDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryUpdateDTO dto)
+    {
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.updateCategory(id, dto));
     }
 
     @GetMapping
