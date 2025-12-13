@@ -2,6 +2,7 @@ package com.stockstore.stockstore.shared.controller;
 
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemDetailDTO;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
+import com.stockstore.stockstore.shared.dto.orderItem.OrderItemUpdateDTO;
 import com.stockstore.stockstore.shared.service.OrderItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,11 @@ public class OrderItemController {
     @PostMapping
     public ResponseEntity<OrderItemDetailDTO> addOrderItem(@Valid @RequestBody OrderItemRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(orderItemService.addOrderItem(dto));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<OrderItemDetailDTO> updateOrderItem(@PathVariable Long id, @RequestBody OrderItemUpdateDTO dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderItemService.updateOrderItem(id, dto));
     }
 
     @GetMapping

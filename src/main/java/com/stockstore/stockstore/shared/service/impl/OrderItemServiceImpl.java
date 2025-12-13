@@ -3,6 +3,7 @@ package com.stockstore.stockstore.shared.service.impl;
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemDetailDTO;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
+import com.stockstore.stockstore.shared.dto.orderItem.OrderItemUpdateDTO;
 import com.stockstore.stockstore.shared.mapper.OrderItemMapper;
 import com.stockstore.stockstore.shared.model.Order;
 import com.stockstore.stockstore.shared.model.OrderItem;
@@ -34,6 +35,15 @@ public class OrderItemServiceImpl implements OrderItemService {
         OrderItem orderItem = orderItemMapper.toEntity(dto);
         orderItem.setProduct(product);
         orderItem.setOrder(order);
+        orderItem = orderItemRepository.save(orderItem);
+        return orderItemMapper.toDetailDto(orderItem);
+    }
+
+    @Override
+    @Transactional
+    public OrderItemDetailDTO updateOrderItem(Long id, OrderItemUpdateDTO dto){
+        OrderItem orderItem = orderItemRepository.findById(id).orElseThrow(()->new NotFoundException("Order Item ID does not exist"));
+        orderItemMapper.updateEntityFromDto(dto, orderItem);
         orderItem = orderItemRepository.save(orderItem);
         return orderItemMapper.toDetailDto(orderItem);
     }
