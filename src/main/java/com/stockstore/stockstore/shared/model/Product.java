@@ -29,7 +29,7 @@ public class Product {
     @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryItem> inventoryItems =  new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
@@ -39,7 +39,7 @@ public class Product {
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id"),
