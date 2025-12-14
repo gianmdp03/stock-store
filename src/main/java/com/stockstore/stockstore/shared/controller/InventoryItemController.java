@@ -26,7 +26,7 @@ public class InventoryItemController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<InventoryItemDetailDTO> updateInventoryItem(@PathVariable Long id, @RequestBody InventoryItemUpdateDTO dto)
+    public ResponseEntity<InventoryItemDetailDTO> updateInventoryItem(@PathVariable Long id, @Valid @RequestBody InventoryItemUpdateDTO dto)
     {
         return ResponseEntity.status(HttpStatus.CREATED).body(inventoryItemService.updateInventoryItem(id, dto));
     }

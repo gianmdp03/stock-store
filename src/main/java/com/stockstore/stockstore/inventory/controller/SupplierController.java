@@ -27,7 +27,7 @@ public class SupplierController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<SupplierDetailDTO> updateSupplier(@PathVariable Long id, @RequestBody SupplierUpdateDTO dto){
+    public ResponseEntity<SupplierDetailDTO> updateSupplier(@PathVariable Long id, @Valid @RequestBody SupplierUpdateDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(supplierService.updateSupplier(id, dto));
     }
 
