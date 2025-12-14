@@ -3,6 +3,7 @@ package com.stockstore.stockstore.inventory.controller;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierDetailDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierRequestDTO;
+import com.stockstore.stockstore.inventory.dto.supplier.SupplierUpdateDTO;
 import com.stockstore.stockstore.inventory.service.SupplierService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class SupplierController {
     @PostMapping
     public ResponseEntity<SupplierDetailDTO> addSupplier(@Valid @RequestBody SupplierRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(supplierService.addSupplier(dto));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<SupplierDetailDTO> updateSupplier(@PathVariable Long id, @RequestBody SupplierUpdateDTO dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(supplierService.updateSupplier(id, dto));
     }
 
     @GetMapping
