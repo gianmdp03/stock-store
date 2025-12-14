@@ -4,12 +4,11 @@ import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierDetailDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierRequestDTO;
+import com.stockstore.stockstore.inventory.dto.supplier.SupplierUpdateDTO;
 import com.stockstore.stockstore.inventory.mapper.SupplierMapper;
 import com.stockstore.stockstore.inventory.model.Supplier;
 import com.stockstore.stockstore.inventory.repository.SupplierRepository;
 import com.stockstore.stockstore.inventory.service.SupplierService;
-import com.stockstore.stockstore.shared.model.Category;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +26,15 @@ public class SupplierServiceImpl implements SupplierService {
     @Transactional
     public SupplierDetailDTO addSupplier(SupplierRequestDTO dto) {
         Supplier supplier = supplierRepository.save(supplierMapper.toEntity(dto));
+        return supplierMapper.toDetailDto(supplier);
+    }
+
+    @Override
+    @Transactional
+    public SupplierDetailDTO updateSupplier(Long id, SupplierUpdateDTO dto){
+        Supplier supplier = supplierRepository.findById(id).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
+        supplierMapper.updateEntityFromDto(dto, supplier);
+        supplier = supplierRepository.save(supplier);
         return supplierMapper.toDetailDto(supplier);
     }
 
