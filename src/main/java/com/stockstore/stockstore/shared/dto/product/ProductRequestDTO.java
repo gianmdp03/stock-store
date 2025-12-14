@@ -12,4 +12,4 @@ public record ProductRequestDTO(@NotBlank String name,
                                 String imageUrl,
                                 @NotNull @Positive BigDecimal price,
                                 @NotNull Long supplierId,
-                                @NotNull @NotEmpty List<Long> categoriesId) {}
+                                @NotEmpty List<Long> categoriesId) {}
