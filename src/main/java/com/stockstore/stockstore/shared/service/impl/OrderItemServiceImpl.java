@@ -3,7 +3,6 @@ package com.stockstore.stockstore.shared.service.impl;
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemDetailDTO;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
-import com.stockstore.stockstore.shared.dto.orderItem.OrderItemUpdateDTO;
 import com.stockstore.stockstore.shared.mapper.OrderItemMapper;
 import com.stockstore.stockstore.shared.model.Order;
 import com.stockstore.stockstore.shared.model.OrderItem;
