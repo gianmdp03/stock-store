@@ -2,7 +2,7 @@ package com.stockstore.stockstore.shared.mapper;
 
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemDetailDTO;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
-import com.stockstore.stockstore.shared.dto.orderItem.OrderItemUpdateDTO;
+
 import com.stockstore.stockstore.shared.model.OrderItem;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,4 @@ public abstract class OrderItemMapper {
     @Mapping(target = "order", ignore = true)
     public abstract OrderItem toEntity (OrderItemRequestDTO dto);
     public abstract OrderItemDetailDTO toDetailDto ( OrderItem orderItem);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "product", ignore = true)
-    @Mapping(target = "order", ignore = true)
-    public abstract void updateEntityFromDto(OrderItemUpdateDTO dto, @MappingTarget OrderItem entity);
 }

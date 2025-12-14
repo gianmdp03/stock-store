@@ -10,6 +10,6 @@ import org.springframework.data.domain.Pageable;
 public interface ProductService {
     ProductDetailDTO addProduct(ProductRequestDTO dto);
     Page<ProductListDTO> listProducts(Pageable pageable);
-    ProductDetailDTO updateProducto(Long id, ProductUpdateDTO dto);
+    ProductDetailDTO updateProduct(Long id, ProductUpdateDTO dto);
     void deleteProduct(Long productId);
 }

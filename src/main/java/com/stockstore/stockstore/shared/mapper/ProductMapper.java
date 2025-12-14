@@ -44,5 +44,9 @@ public abstract class ProductMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "inventoryItems", ignore = true)
+    @Mapping(target = "orderItems", ignore = true)
+    @Mapping(target = "supplier", ignore = true)
+    @Mapping(target = "categories", ignore = true)
     public abstract void updateEntityFromDto(ProductUpdateDTO dto, @MappingTarget Product product);
 }

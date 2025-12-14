@@ -40,15 +40,6 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    @Transactional
-    public OrderItemDetailDTO updateOrderItem(Long id, OrderItemUpdateDTO dto){
-        OrderItem orderItem = orderItemRepository.findById(id).orElseThrow(()->new NotFoundException("Order Item ID does not exist"));
-        orderItemMapper.updateEntityFromDto(dto, orderItem);
-        orderItem = orderItemRepository.save(orderItem);
-        return orderItemMapper.toDetailDto(orderItem);
-    }
-
-    @Override
     public Page<OrderItemDetailDTO> listOrderItems(Pageable pageable) {
         Page<OrderItem> page = orderItemRepository.findAll(pageable);
         if(page.isEmpty())
