@@ -1,7 +1,6 @@
 package com.stockstore.stockstore.shared.controller;
 
 import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
-import com.stockstore.stockstore.shared.dto.order.OrderUpdateDTO;
 import com.stockstore.stockstore.shared.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,13 +18,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDetailDTO> addOrder(){
+    public ResponseEntity<OrderDetailDTO> addOrder() {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addOrder());
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<OrderDetailDTO> updateOrder(@PathVariable Long id, @RequestBody OrderUpdateDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.updateOrder(id, dto));
     }
 
     @GetMapping
