@@ -33,7 +33,7 @@ public class ProductController {
     }
     @PatchMapping("/{id}")
     public ResponseEntity<ProductDetailDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.updateProduct(id, dto));
+        return ResponseEntity.status(HttpStatus.OK).body(productService.updateProduct(id, dto));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){

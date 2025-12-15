@@ -1,8 +1,11 @@
 package com.stockstore.stockstore.shared.controller;
 
 import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
+import com.stockstore.stockstore.shared.dto.order.OrderUpdateDTO;
 import com.stockstore.stockstore.shared.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.server.servlet.context.ServletComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,5 +35,10 @@ public class OrderController {
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id){
         orderService.deleteOrder(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<OrderDetailDTO> updateOrder(@PathVariable Long id, @RequestBody @Valid OrderUpdateDTO dto){
+        return ResponseEntity.status(HttpStatus.OK).build(orderService.updateOrder(id, dto));
     }
 }
