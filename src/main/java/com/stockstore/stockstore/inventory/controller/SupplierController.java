@@ -42,4 +42,11 @@ public class SupplierController {
         supplierService.deleteSupplier(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<Page<SupplierListDTO>> searchSuppliers(
+            @PathVariable String email, @PageableDefault(page=0, size = 10, sort="name", direction = Sort.Direction.DESC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(supplierService.searchSuppliers(email, pageable));
+    }
+
 }
