@@ -5,7 +5,6 @@ import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
 import com.stockstore.stockstore.shared.mapper.OrderMapper;
 import com.stockstore.stockstore.shared.model.Order;
 import com.stockstore.stockstore.shared.repository.OrderRepository;
-import com.stockstore.stockstore.shared.repository.ProductRepository;
 import com.stockstore.stockstore.shared.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,6 @@ import java.time.LocalDate;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
-    private final ProductRepository productRepository;
 
     @Override
     @Transactional
@@ -40,11 +38,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Page<OrderDetailDTO> searchOrders(LocalDate saleDate, Pageable pageable){
+        Page<Order> page = orderRepository.findAllBySaleDate(saleDate, pageable);
+        return page.map(orderMapper::toDetailDto);
+    }
+
+    @Override
     @Transactional
     public void deleteOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(()-> new NotFoundException("Order ID does not exist"));
         orderRepository.delete(order);
     }
-
-
 }

@@ -29,13 +29,20 @@ public class CategoryController {
     @PatchMapping("/{id}")
     public ResponseEntity<CategoryDetailDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryUpdateDTO dto)
     {
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.updateCategory(id, dto));
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.updateCategory(id, dto));
     }
 
     @GetMapping
     public ResponseEntity<Page<CategoryListDTO>> listCategories(
             @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.listCategories(pageable));
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<Page<CategoryListDTO>> searchCategories(
+            @PathVariable String name,
+            @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.searchCategories(name, pageable));
     }
 
     @DeleteMapping("/{id}")

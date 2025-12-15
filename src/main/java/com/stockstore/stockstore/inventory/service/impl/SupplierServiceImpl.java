@@ -52,6 +52,15 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
+    public Page<SupplierListDTO> searchSuppliersByName(String name, Pageable pageable){
+        if(name == null || name.isBlank()){
+            return Page.empty();
+        }
+        Page<Supplier> page = supplierRepository.findAllByNameContainingIgnoreCase(name, pageable);
+        return page.map(supplierMapper::toListDto);
+    }
+
+    @Override
     @Transactional
     public void deleteSupplier(Long supplierId) {
         Supplier supplier = supplierRepository.findById(supplierId).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));

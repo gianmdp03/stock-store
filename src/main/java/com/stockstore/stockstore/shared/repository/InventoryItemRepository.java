@@ -10,5 +10,6 @@ import java.time.LocalDate;
 
 @Repository
 public interface InventoryItemRepository extends JpaRepository<InventoryItem, Long> {
+    Page<InventoryItem> findAllByProductId(Long productId, Pageable pageable);
     Page<InventoryItem> findByExpireDate(LocalDate date, Pageable page);
 }

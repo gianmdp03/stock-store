@@ -12,5 +12,6 @@ public interface CategoryService {
     CategoryDetailDTO addCategory(CategoryRequestDTO dto);
     CategoryDetailDTO updateCategory(Long id, CategoryUpdateDTO dto);
     Page<CategoryListDTO> listCategories(Pageable pageable);
+    Page<CategoryListDTO> searchCategories(String name, Pageable pageable);
     void deleteCategory(Long categoryId);
 }
