@@ -5,7 +5,6 @@ import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
 import com.stockstore.stockstore.shared.mapper.OrderMapper;
 import com.stockstore.stockstore.shared.model.Order;
 import com.stockstore.stockstore.shared.repository.OrderRepository;
-import com.stockstore.stockstore.shared.repository.ProductRepository;
 import com.stockstore.stockstore.shared.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

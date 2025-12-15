@@ -10,5 +10,6 @@ public interface InventoryItemService {
     InventoryItemDetailDTO addInventoryItem(InventoryItemRequestDTO dto);
     InventoryItemDetailDTO updateInventoryItem(Long id, InventoryItemUpdateDTO dto);
     Page<InventoryItemDetailDTO> listInventoryItems(Pageable pageable);
+    Page<InventoryItemDetailDTO> searchInventoryItemsByProduct(Long productId, Pageable pageable);
     void deleteInventoryItem(Long inventoryItemId);
 }
