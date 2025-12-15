@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -58,6 +57,15 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> page = productRepository.findAll(pageable);
         if (page.isEmpty())
             throw new NotFoundException("List is empty");
+        return page.map(productMapper::toListDto);
+    }
+
+    @Override
+    public Page<ProductListDTO> searchProductsByName(String name, Pageable pageable){
+        if(name == null || name.isBlank()){
+            return Page.empty();
+        }
+        Page<Product> page = productRepository.findByNameContainingIgnoreCase(name, pageable);
         return page.map(productMapper::toListDto);
     }
 

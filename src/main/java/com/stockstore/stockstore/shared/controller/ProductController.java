@@ -26,15 +26,23 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(dto));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductDetailDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
+        return ResponseEntity.status(HttpStatus.OK).body(productService.updateProduct(id, dto));
+    }
+
     @GetMapping
     public ResponseEntity<Page<ProductListDTO>> listProducts(
             @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(productService.listProducts(pageable));
     }
-    @PatchMapping("/{id}")
-    public ResponseEntity<ProductDetailDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto){
-        return ResponseEntity.status(HttpStatus.OK).body(productService.updateProduct(id, dto));
+
+    @GetMapping("/{name}")
+    public ResponseEntity<Page<ProductListDTO>> searchProductsByName(@PathVariable String name,
+                                                                     @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductsByName(name, pageable));
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
