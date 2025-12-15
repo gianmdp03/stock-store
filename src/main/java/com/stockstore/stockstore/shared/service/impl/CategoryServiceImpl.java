@@ -50,7 +50,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Page<CategoryListDTO> searchCategories(String name, Pageable pageable){
-        return null;
+        if(name == null || name.isBlank()){
+            return Page.empty();
+        }
+        Page<Category> page = categoryRepository.findByNameContainingIgnoreCase(name, pageable);
+        return page.map(categoryMapper::toListDto);
     }
 
     @Override
