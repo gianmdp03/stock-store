@@ -49,6 +49,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Page<CategoryListDTO> searchCategories(String name, Pageable pageable){
+        return null;
+    }
+
+    @Override
     @Transactional
     public void deleteCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(()-> new NotFoundException("Category ID does not exist"));
