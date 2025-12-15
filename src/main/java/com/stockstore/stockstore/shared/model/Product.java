@@ -2,11 +2,9 @@ package com.stockstore.stockstore.shared.model;
 
 import com.stockstore.stockstore.inventory.model.Supplier;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
