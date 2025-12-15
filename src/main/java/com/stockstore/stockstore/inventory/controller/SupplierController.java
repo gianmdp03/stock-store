@@ -37,6 +37,13 @@ public class SupplierController {
         return ResponseEntity.status(HttpStatus.OK).body(supplierService.listSuppliers(pageable));
     }
 
+    @GetMapping("/{name}")
+    public ResponseEntity<Page<SupplierListDTO>> searchSuppliersByName(
+            @PathVariable String name,
+            @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(supplierService.searchSuppliersByName(name, pageable));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSupplier(@PathVariable Long id){
         supplierService.deleteSupplier(id);
