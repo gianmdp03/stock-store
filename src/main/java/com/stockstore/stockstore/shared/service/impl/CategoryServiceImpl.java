@@ -53,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
         if(name == null || name.isBlank()){
             return Page.empty();
         }
-        Page<Category> page = categoryRepository.findByNameContainingIgnoreCase(name, pageable);
+        Page<Category> page = categoryRepository.findAllByNameContainingIgnoreCase(name, pageable);
         return page.map(categoryMapper::toListDto);
     }
 
