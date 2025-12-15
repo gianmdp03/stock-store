@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -67,5 +69,11 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     public void deleteInventoryItem(Long inventoryItemId) {
         InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()-> new NotFoundException("InventoryItem ID does not exist"));
         inventoryItemRepository.delete(inventoryItem);
+    }
+
+    @Override
+    public Page<InventoryItemDetailDTO> searchInventoryItem(Pageable page, LocalDate date) {
+        Page<InventoryItem> inventoryItemPage = inventoryItemRepository.findByExpireDate(date, page);
+        return inventoryItemPage.map(inventoryItemMapper::toDetailDTO);
     }
 }

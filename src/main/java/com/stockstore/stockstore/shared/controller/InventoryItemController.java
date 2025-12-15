@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/inventory-items")
 @RequiredArgsConstructor
@@ -48,5 +50,10 @@ public class InventoryItemController {
     public ResponseEntity<Void> deleteInventoryItem(@PathVariable Long id){
         inventoryItemService.deleteInventoryItem(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    @GetMapping("/{expireDate}")
+    public ResponseEntity<Page<InventoryItemDetailDTO>> searchInventoryItem(
+            @PathVariable LocalDate expireDate, @PageableDefault(page = 0, size = 10, sort = "expireDate", direction = Sort.Direction.DESC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(inventoryItemService.searchInventoryItem(pageable, expireDate));
     }
 }
