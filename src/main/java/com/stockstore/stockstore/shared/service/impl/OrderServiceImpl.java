@@ -42,11 +42,4 @@ public class OrderServiceImpl implements OrderService {
         Page<Order> page = orderRepository.findAllBySaleDate(saleDate, pageable);
         return page.map(orderMapper::toDetailDto);
     }
-
-    @Override
-    @Transactional
-    public void deleteOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(()-> new NotFoundException("Order ID does not exist"));
-        orderRepository.delete(order);
-    }
 }

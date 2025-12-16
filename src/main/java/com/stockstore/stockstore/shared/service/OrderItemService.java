@@ -8,5 +8,4 @@ import org.springframework.data.domain.Pageable;
 public interface OrderItemService {
     OrderItemDetailDTO addOrderItem(OrderItemRequestDTO dto);
     Page<OrderItemDetailDTO> listOrderItems(Pageable pageable);
-    void deleteOrderItem(Long orderItemId);
 }

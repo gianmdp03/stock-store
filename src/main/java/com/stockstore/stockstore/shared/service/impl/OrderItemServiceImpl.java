@@ -45,11 +45,4 @@ public class OrderItemServiceImpl implements OrderItemService {
             throw new NotFoundException("OrderItem list is empty");
         return page.map(orderItemMapper::toDetailDto);
     }
-
-    @Override
-    @Transactional
-    public void deleteOrderItem(Long orderItemId) {
-        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(()-> new NotFoundException("OrderItem ID does not exist"));
-        orderItemRepository.delete(orderItem);
-    }
 }

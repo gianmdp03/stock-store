@@ -19,7 +19,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     private String imageUrl;
@@ -44,6 +44,8 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories = new ArrayList<>();
+
+    private boolean enabled = true;
 
     public Product(String name, String imageUrl, BigDecimal price, Supplier supplier) {
         this.name = name;

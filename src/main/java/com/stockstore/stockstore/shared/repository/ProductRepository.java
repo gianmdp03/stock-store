@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
-    Page<Product> findBySupplierId(Long id, Pageable pageable);
+    Optional<Product> findByName(String name);
+    Page<Product> findByEnabledTrue(Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCaseAndEnabledTrue(String name, Pageable pageable);
 }

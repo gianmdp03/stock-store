@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,18 +27,22 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-    private final SupplierRepository supplierRepository;
     private final CategoryRepository categoryRepository;
 
     @Override
     @Transactional
     public ProductDetailDTO addProduct(ProductRequestDTO dto) {
-        Supplier supplier = supplierRepository.findById(dto.supplierId()).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
+        Optional<Product> optionalProduct = productRepository.findByName(dto.name());
+        if(optionalProduct.isPresent()){
+           Product existingProduct = optionalProduct.get();
+           existingProduct.setEnabled(true);
+           existingProduct = productRepository.save(existingProduct);
+           return productMapper.toDetailDto(existingProduct);
+        }
         List<Category> categories = categoryRepository.findAllById(dto.categoriesId());
         if(categories.isEmpty())
             throw new NotFoundException("List is empty");
         Product product = productMapper.toEntity(dto);
-        product.setSupplier(supplier);
         product.setCategories(categories);
         product = productRepository.save(product);
         return productMapper.toDetailDto(product);
@@ -54,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductListDTO> listProducts(Pageable pageable) {
-        Page<Product> page = productRepository.findAll(pageable);
+        Page<Product> page = productRepository.findByEnabledTrue(pageable);
         if (page.isEmpty())
             throw new NotFoundException("List is empty");
         return page.map(productMapper::toListDto);
@@ -65,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         if(name == null || name.isBlank()){
             return Page.empty();
         }
-        Page<Product> page = productRepository.findByNameContainingIgnoreCase(name, pageable);
+        Page<Product> page = productRepository.findByNameContainingIgnoreCaseAndEnabledTrue(name, pageable);
         return page.map(productMapper::toListDto);
     }
 
@@ -73,6 +78,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void deleteProduct(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(()->new NotFoundException("Product ID does not exist"));
-        productRepository.delete(product);
+        product.setEnabled(false);
+        productRepository.save(product);
     }
 }
