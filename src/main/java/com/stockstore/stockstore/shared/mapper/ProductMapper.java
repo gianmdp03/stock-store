@@ -23,10 +23,6 @@ public abstract class ProductMapper {
 
     @Autowired
     @Lazy
-    private SupplierMapper supplierMapper;
-
-    @Autowired
-    @Lazy
     private CategoryMapper categoryMapper;
 
     @Autowired
@@ -36,7 +32,6 @@ public abstract class ProductMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "inventoryItems", ignore = true)
     @Mapping(target = "orderItems", ignore = true)
-    @Mapping(target = "supplier", ignore = true)
     @Mapping(target = "categories", ignore = true)
     public abstract Product toEntity(ProductRequestDTO dto);
     public abstract ProductDetailDTO toDetailDto(Product entity);
@@ -46,7 +41,6 @@ public abstract class ProductMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "inventoryItems", ignore = true)
     @Mapping(target = "orderItems", ignore = true)
-    @Mapping(target = "supplier", ignore = true)
     @Mapping(target = "categories", ignore = true)
     public abstract void updateEntityFromDto(ProductUpdateDTO dto, @MappingTarget Product product);
 }

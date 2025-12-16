@@ -77,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void deleteProduct(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(()->new NotFoundException("Product ID does not exist"));
+        Product product = productRepository.findByIdAndEnabledTrue(productId).orElseThrow(()->new NotFoundException("Product ID does not exist"));
         product.setEnabled(false);
         productRepository.save(product);
     }
