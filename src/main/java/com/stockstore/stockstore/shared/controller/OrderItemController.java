@@ -30,9 +30,4 @@ public class OrderItemController {
         return ResponseEntity.status(HttpStatus.OK).body(orderItemService.listOrderItems(pageable));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrderItems(@PathVariable Long id){
-        orderItemService.deleteOrderItem(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 }

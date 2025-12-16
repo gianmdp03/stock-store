@@ -37,9 +37,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.searchOrders(saleDate, pageable));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id){
-        orderService.deleteOrder(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    @GetMapping("/{startDate}/{endDate}")
+    public ResponseEntity<Page<OrderDetailDTO>> searchOrdersBetween(
+            @PathVariable LocalDate startDate,
+            @PathVariable LocalDate endDate,
+            @PageableDefault(page = 0, size = 10, sort = "saleDate", direction = Sort.Direction.DESC) Pageable pageable)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.searchOrdersBetween(startDate, endDate, pageable));
     }
 }
