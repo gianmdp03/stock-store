@@ -10,6 +10,8 @@ import com.stockstore.stockstore.inventory.mapper.SupplierMapper;
 import com.stockstore.stockstore.inventory.model.Supplier;
 import com.stockstore.stockstore.inventory.repository.SupplierRepository;
 import com.stockstore.stockstore.inventory.service.SupplierService;
+import com.stockstore.stockstore.shared.model.Product;
+import com.stockstore.stockstore.shared.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +26,19 @@ import java.util.List;
 public class SupplierServiceImpl implements SupplierService {
     private final SupplierRepository supplierRepository;
     private final SupplierMapper supplierMapper;
+    private final ProductRepository productRepository;
 
     @Override
     @Transactional
     public SupplierDetailDTO addSupplier(SupplierRequestDTO dto) {
-        Supplier supplier = supplierRepository.save(supplierMapper.toEntity(dto));
+        List<Product> products = productRepository.findAllByIdAndEnabledTrue(dto.productIds());
+        if(products.isEmpty()){
+            throw new NotFoundException("Product list is empty");
+        }
+        Supplier supplier = supplierMapper.toEntity(dto);
+        supplier.setProducts(products);
+        supplier = supplierRepository.save(supplier);
+
         return supplierMapper.toDetailDto(supplier);
     }
 
