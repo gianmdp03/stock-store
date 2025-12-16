@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,6 +43,17 @@ public class OrderServiceImpl implements OrderService {
     public Page<OrderDetailDTO> searchOrders(LocalDate saleDate, Pageable pageable){
         LocalDateTime fullSaleDate = saleDate.atStartOfDay();
         Page<Order> page = orderRepository.findAllBySaleDate(fullSaleDate, pageable);
+        return page.map(orderMapper::toDetailDto);
+    }
+
+    @Override
+    public Page<OrderDetailDTO> searchOrdersBetween(LocalDate start, LocalDate end, Pageable pageable) {
+        LocalDateTime startDate = start.atStartOfDay();
+        LocalDateTime endDate = end.atTime(LocalTime.MAX);
+        Page<Order> page = orderRepository.findBySaleDateBetween(startDate, endDate, pageable);
+        if(page.isEmpty()){
+            throw new NotFoundException("List is empty");
+        }
         return page.map(orderMapper::toDetailDto);
     }
 }

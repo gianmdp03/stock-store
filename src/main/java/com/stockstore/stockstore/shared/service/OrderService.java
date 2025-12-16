@@ -12,4 +12,5 @@ public interface OrderService {
     OrderDetailDTO addOrder();
     Page<OrderDetailDTO> listOrders(Pageable pageable);
     Page<OrderDetailDTO> searchOrders(LocalDate saleDate, Pageable pageable);
+    Page<OrderDetailDTO> searchOrdersBetween(LocalDate start, LocalDate end, Pageable pageable);
 }
