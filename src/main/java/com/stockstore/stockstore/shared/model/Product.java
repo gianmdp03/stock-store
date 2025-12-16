@@ -29,9 +29,6 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryItem> inventoryItems =  new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
-    private List<OrderItem> orderItems =  new ArrayList<>();
-
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "products_categories",

@@ -1,6 +1,5 @@
 package com.stockstore.stockstore.inventory.service.impl;
 
-import com.stockstore.stockstore.exception.ConflictException;
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierDetailDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;

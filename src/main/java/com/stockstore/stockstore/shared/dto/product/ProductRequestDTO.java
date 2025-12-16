@@ -11,5 +11,4 @@ import java.util.List;
 public record ProductRequestDTO(@NotBlank String name,
                                 String imageUrl,
                                 @NotNull @Positive BigDecimal price,
-                                @NotNull Long supplierId,
                                 @NotEmpty List<Long> categoriesId) {}
