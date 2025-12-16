@@ -1,13 +1,11 @@
 package com.stockstore.stockstore.shared.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +20,12 @@ public class Order {    //PRIMERO SE CREA ORDER, Y DESPUES TODOS LOS ORDER ITEM 
     private Long id;
 
     @Column(nullable = false)
-    private LocalDate saleDate;
+    private LocalDateTime saleDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    public Order(LocalDate saleDate) {
+    public Order(LocalDateTime saleDate){
         this.saleDate = saleDate;
     }
 }

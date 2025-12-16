@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDetailDTO addOrder() {
-        Order order = new Order(LocalDate.now());
+        Order order = new Order(LocalDateTime.now());
         order = orderRepository.save(order);
         return orderMapper.toDetailDto(order);
     }
@@ -39,7 +40,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<OrderDetailDTO> searchOrders(LocalDate saleDate, Pageable pageable){
-        Page<Order> page = orderRepository.findAllBySaleDate(saleDate, pageable);
+        LocalDateTime fullSaleDate = saleDate.atStartOfDay();
+        Page<Order> page = orderRepository.findAllBySaleDate(fullSaleDate, pageable);
         return page.map(orderMapper::toDetailDto);
     }
 }
