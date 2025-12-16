@@ -29,7 +29,12 @@ public class Supplier {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "supplier")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "suppliers_products",
+            joinColumns = @JoinColumn(name = "supplier_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     private List<Product> products = new ArrayList<>();
 
     public Supplier(String name, String email, String phoneNumber) {
