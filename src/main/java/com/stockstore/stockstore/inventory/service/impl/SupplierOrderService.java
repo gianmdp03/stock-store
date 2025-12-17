@@ -18,18 +18,17 @@ public class SupplierOrderService {
     private final EmaiLService emailService;
 
     public void processSupplierOrder(Long supplierId, BatchRequestDTO orderDetails) {
-        // 1. Buscar proveedor para obtener su email
         Supplier supplier = supplierRepository.findById(supplierId)
                 .orElseThrow(() -> new NotFoundException("Proveedor no encontrado"));
 
-        // 2. Construir el cuerpo del mensaje
         StringBuilder body = new StringBuilder();
         body.append("Estimado/a ").append(supplier.getName()).append(",\n\n");
         body.append("Deseamos realizar el siguiente pedido de productos:\n\n");
-
+        
+        //El cuerpo del email
         orderDetails.items().forEach(item -> {
             Product product = productRepository.findById(item.productId())
-                    .orElseThrow(() -> new NotFoundException("Producto ID " + item.productId() + " no existe"));
+                    .orElseThrow(() -> new NotFoundException("Producto ID " + item.productId() + " Does Not exist"));
             body.append("- ").append(product.getName())
                     .append(" | Cantidad: ").append(item.quantity()).append("\n");
         });

@@ -13,8 +13,10 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Properties;
@@ -23,15 +25,22 @@ import java.util.Properties;
 public class GmailEmailServiceImpl implements EmaiLService {
 
     private static final String APPLICATION_NAME = "stockstore";
-    private static final String ADMIN_EMAIL = "tu-email-administrador@tu-dominio.com"; // El usuario a impersonar
+    private static final String ADMIN_EMAIL = "danteskate13@gmail.com";
 
     private Gmail getGmailService() throws Exception {
-        // Carga las credenciales desde el archivo JSON en resources
+        // 1. Cargar el archivo una sola vez
         InputStream in = getClass().getResourceAsStream("/service-account-key.json");
-        GoogleCredentials credentials = GoogleCredentials.fromStream(in)
-                .createScoped(Collections.singleton(GmailScopes.GMAIL_SEND))
-                .createDelegatedUser(ADMIN_EMAIL);
+        if (in == null) {
+            throw new FileNotFoundException("No se encontró el archivo /service-account-key.json en resources");
+        }
 
+        // 2. Crear las credenciales con el orden correcto:
+
+        GoogleCredentials credentials = ServiceAccountCredentials.fromStream(in)
+                .createDelegated(ADMIN_EMAIL)
+                .createScoped(Collections.singleton(GmailScopes.GMAIL_SEND));
+
+        // 3. Construir el servicio usando las credenciales ya creadas
         return new Gmail.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 GsonFactory.getDefaultInstance(),
@@ -39,6 +48,7 @@ public class GmailEmailServiceImpl implements EmaiLService {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
+
 
     @Override
     public void sendSimpleEmail(String to, String subject, String bodyText) {

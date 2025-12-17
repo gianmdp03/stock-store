@@ -97,11 +97,4 @@ public class SupplierServiceImpl implements SupplierService {
 
     }
 
-    @Override
-    @Transactional
-    public void orderBatch(Long supplierId, BatchRequestDTO dto) {
-        Supplier
-    }
-
-
 }

@@ -17,6 +17,5 @@ public interface SupplierService {
     Page<SupplierListDTO> searchSuppliersByName(String name, Pageable pageable);
     void deleteSupplier(Long supplierId);
     Page<SupplierListDTO> searchSuppliers(String email, Pageable page);
-    void orderBatch(Long supplierId, BatchRequestDTO dto);
 
 }
