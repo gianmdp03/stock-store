@@ -29,20 +29,32 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierMapper supplierMapper;
     private final ProductRepository productRepository;
 
+
     @Override
     @Transactional
     public SupplierDetailDTO addSupplier(SupplierRequestDTO dto) {
         List<Product> products = productRepository.findByIdInAndEnabledTrue(dto.productIds());
         Optional<Supplier> optionalSupplier = supplierRepository.findByName(dto.name());
+
         if(products.isEmpty()){
             throw new NotFoundException("Product list is empty");
         }
+
         if(optionalSupplier.isPresent()){
             Supplier existingSupplier = optionalSupplier.get();
+
+            // Lógica actual: solo reactiva
             existingSupplier.setEnabled(true);
+
+            // CORRECCIÓN: Actualiza los datos con los del DTO
+            existingSupplier.setEmail(dto.email());
+            existingSupplier.setPhoneNumber(dto.phoneNumber());
+            existingSupplier.setProducts(products);
+
             existingSupplier = supplierRepository.save(existingSupplier);
             return supplierMapper.toDetailDto(existingSupplier);
         }
+
         Supplier supplier = supplierMapper.toEntity(dto);
         supplier.setProducts(products);
         supplier = supplierRepository.save(supplier);
