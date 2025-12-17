@@ -4,6 +4,7 @@ import com.stockstore.stockstore.inventory.dto.supplier.SupplierDetailDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierRequestDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierUpdateDTO;
+import com.stockstore.stockstore.shared.dto.Batch.BatchRequestDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,5 +17,6 @@ public interface SupplierService {
     Page<SupplierListDTO> searchSuppliersByName(String name, Pageable pageable);
     void deleteSupplier(Long supplierId);
     Page<SupplierListDTO> searchSuppliers(String email, Pageable page);
+    void orderBatch(Long supplierId, BatchRequestDTO dto);
 
 }
