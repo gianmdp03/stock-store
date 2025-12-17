@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,8 +32,15 @@ public class SupplierServiceImpl implements SupplierService {
     @Transactional
     public SupplierDetailDTO addSupplier(SupplierRequestDTO dto) {
         List<Product> products = productRepository.findAllByIdAndEnabledTrue(dto.productIds());
+        Optional<Supplier> optionalSupplier = supplierRepository.findByName(dto.name());
         if(products.isEmpty()){
             throw new NotFoundException("Product list is empty");
+        }
+        if(optionalSupplier.isPresent()){
+            Supplier existingSupplier = optionalSupplier.get();
+            existingSupplier.setEnabled(true);
+            existingSupplier = supplierRepository.save(existingSupplier);
+            return supplierMapper.toDetailDto(existingSupplier);
         }
         Supplier supplier = supplierMapper.toEntity(dto);
         supplier.setProducts(products);
@@ -40,6 +48,8 @@ public class SupplierServiceImpl implements SupplierService {
 
         return supplierMapper.toDetailDto(supplier);
     }
+
+    
 
     @Override
     @Transactional
