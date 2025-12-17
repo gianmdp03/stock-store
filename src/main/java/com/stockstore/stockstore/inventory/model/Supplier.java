@@ -29,6 +29,8 @@ public class Supplier {
     @Column(nullable = false)
     private String phoneNumber;
 
+    private boolean enabled = true;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "suppliers_products",

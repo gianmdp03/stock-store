@@ -65,7 +65,7 @@ public class SupplierServiceImpl implements SupplierService {
         if(name == null || name.isBlank()){
             return Page.empty();
         }
-        Page<Supplier> page = supplierRepository.findAllByNameContainingIgnoreCase(name, pageable);
+        Page<Supplier> page = supplierRepository.findAllByNameContainingIgnoreCaseAndEnabledTrue(name, pageable);
         return page.map(supplierMapper::toListDto);
     }
 
@@ -81,7 +81,7 @@ public class SupplierServiceImpl implements SupplierService {
         if(email == null || email.isBlank()){
             return Page.empty();
         }
-      Page<Supplier> supplierPage = supplierRepository.findByEmailContainingIgnoreCase(email, page);
+      Page<Supplier> supplierPage = supplierRepository.findByEmailContainingIgnoreCaseAndEnabledTrue(email, page);
         return supplierPage.map(supplierMapper::toListDto);
 
     }
