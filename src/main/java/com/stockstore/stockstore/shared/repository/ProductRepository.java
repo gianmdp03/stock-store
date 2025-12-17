@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findAllByIdAndEnabledTrue(Iterable<Long> ids);
+    // Agrega "In" después de "Id"
+    List<Product> findByIdInAndEnabledTrue(Iterable<Long> ids);
     Optional<Product> findByName(String name);
     Optional<Product> findByIdAndEnabledTrue(Long id);
     Page<Product> findByEnabledTrue(Pageable pageable);

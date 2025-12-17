@@ -4,8 +4,9 @@ import com.stockstore.stockstore.inventory.dto.supplier.SupplierDetailDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierRequestDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierUpdateDTO;
-import com.stockstore.stockstore.inventory.service.SupplierOrderService;
+
 import com.stockstore.stockstore.inventory.service.SupplierService;
+import com.stockstore.stockstore.inventory.service.impl.SupplierOrderService;
 import com.stockstore.stockstore.shared.dto.Batch.BatchRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

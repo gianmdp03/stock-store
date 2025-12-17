@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.inventory.service;
+package com.stockstore.stockstore.inventory.service.impl;
 
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.inventory.model.Supplier;
@@ -24,7 +24,7 @@ public class SupplierOrderService {
         StringBuilder body = new StringBuilder();
         body.append("Estimado/a ").append(supplier.getName()).append(",\n\n");
         body.append("Deseamos realizar el siguiente pedido de productos:\n\n");
-        
+
         //El cuerpo del email
         orderDetails.items().forEach(item -> {
             Product product = productRepository.findById(item.productId())
