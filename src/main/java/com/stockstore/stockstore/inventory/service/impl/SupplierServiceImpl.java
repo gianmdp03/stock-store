@@ -9,6 +9,7 @@ import com.stockstore.stockstore.inventory.mapper.SupplierMapper;
 import com.stockstore.stockstore.inventory.model.Supplier;
 import com.stockstore.stockstore.inventory.repository.SupplierRepository;
 import com.stockstore.stockstore.inventory.service.SupplierService;
+import com.stockstore.stockstore.shared.dto.Batch.BatchRequestDTO;
 import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,19 +29,40 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierMapper supplierMapper;
     private final ProductRepository productRepository;
 
+
     @Override
     @Transactional
     public SupplierDetailDTO addSupplier(SupplierRequestDTO dto) {
-        List<Product> products = productRepository.findAllByIdAndEnabledTrue(dto.productIds());
+        List<Product> products = productRepository.findByIdInAndEnabledTrue(dto.productIds());
+        Optional<Supplier> optionalSupplier = supplierRepository.findByName(dto.name());
+
         if(products.isEmpty()){
             throw new NotFoundException("Product list is empty");
         }
+
+        if(optionalSupplier.isPresent()){
+            Supplier existingSupplier = optionalSupplier.get();
+
+            // Lógica actual: solo reactiva
+            existingSupplier.setEnabled(true);
+
+            // CORRECCIÓN: Actualiza los datos con los del DTO
+            existingSupplier.setEmail(dto.email());
+            existingSupplier.setPhoneNumber(dto.phoneNumber());
+            existingSupplier.setProducts(products);
+
+            existingSupplier = supplierRepository.save(existingSupplier);
+            return supplierMapper.toDetailDto(existingSupplier);
+        }
+
         Supplier supplier = supplierMapper.toEntity(dto);
         supplier.setProducts(products);
         supplier = supplierRepository.save(supplier);
 
         return supplierMapper.toDetailDto(supplier);
     }
+
+
 
     @Override
     @Transactional
@@ -52,7 +75,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Page<SupplierListDTO> listSuppliers(Pageable pageable) {
-        Page<Supplier> supplierPage = supplierRepository.findAll(pageable);
+        Page<Supplier> supplierPage = supplierRepository.findByEnabledTrue(pageable);
         if(supplierPage.isEmpty()){
             throw new NotFoundException("List is empty");
         }
@@ -65,14 +88,14 @@ public class SupplierServiceImpl implements SupplierService {
         if(name == null || name.isBlank()){
             return Page.empty();
         }
-        Page<Supplier> page = supplierRepository.findAllByNameContainingIgnoreCase(name, pageable);
+        Page<Supplier> page = supplierRepository.findAllByNameContainingIgnoreCaseAndEnabledTrue(name, pageable);
         return page.map(supplierMapper::toListDto);
     }
 
     @Override
     @Transactional
     public void deleteSupplier(Long supplierId) {
-        Supplier supplier = supplierRepository.findById(supplierId).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
+        Supplier supplier = supplierRepository.findByIdAndEnabledTrue(supplierId).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
         supplierRepository.delete(supplier);
     }
 
@@ -81,8 +104,9 @@ public class SupplierServiceImpl implements SupplierService {
         if(email == null || email.isBlank()){
             return Page.empty();
         }
-      Page<Supplier> supplierPage = supplierRepository.findByEmailContainingIgnoreCase(email, page);
+      Page<Supplier> supplierPage = supplierRepository.findByEmailContainingIgnoreCaseAndEnabledTrue(email, page);
         return supplierPage.map(supplierMapper::toListDto);
 
     }
+
 }
