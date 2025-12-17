@@ -49,7 +49,7 @@ public class SupplierServiceImpl implements SupplierService {
         return supplierMapper.toDetailDto(supplier);
     }
 
-    
+
 
     @Override
     @Transactional
@@ -62,7 +62,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Page<SupplierListDTO> listSuppliers(Pageable pageable) {
-        Page<Supplier> supplierPage = supplierRepository.findAll(pageable);
+        Page<Supplier> supplierPage = supplierRepository.findByEnabledTrue(pageable);
         if(supplierPage.isEmpty()){
             throw new NotFoundException("List is empty");
         }
@@ -82,7 +82,7 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @Transactional
     public void deleteSupplier(Long supplierId) {
-        Supplier supplier = supplierRepository.findById(supplierId).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
+        Supplier supplier = supplierRepository.findByIdAndEnabledTrue(supplierId).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
         supplierRepository.delete(supplier);
     }
 

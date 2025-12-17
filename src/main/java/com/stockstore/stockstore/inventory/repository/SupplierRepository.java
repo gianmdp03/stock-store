@@ -14,4 +14,6 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long> {
     Page<Supplier> findAllByNameContainingIgnoreCaseAndEnabledTrue(String name, Pageable pageable);
     Page<Supplier> findByEmailContainingIgnoreCaseAndEnabledTrue(String email, Pageable page);
     Optional<Supplier> findByName(String name);
+    Page<Supplier> findByEnabledTrue(Pageable pageable);
+    Optional<Supplier> findByIdAndEnabledTrue(Long id);
 }
