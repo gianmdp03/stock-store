@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-    
+
     @Value("${application.security.jwt.secret-key:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}")
     private String secretKey;
 
