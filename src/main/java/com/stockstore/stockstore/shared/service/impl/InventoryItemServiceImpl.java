@@ -29,7 +29,7 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     @Override
     @Transactional
     public InventoryItemDetailDTO addInventoryItem(InventoryItemRequestDTO dto) {
-        Product product = productRepository.findById(dto.productId())
+        Product product = productRepository.findByIdAndEnabledTrue(dto.productId())
                 .orElseThrow(()-> new NotFoundException("Product ID does not exist"));
         InventoryItem inventoryItem = inventoryItemMapper.toEntity(dto);
         inventoryItem.setProduct(product);

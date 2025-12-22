@@ -33,9 +33,9 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @Transactional
     public SupplierDetailDTO addSupplier(SupplierRequestDTO dto) {
-        List<Product> products = productRepository.findByIdInAndEnabledTrue(dto.productIds());
-        Optional<Supplier> optionalSupplier = supplierRepository.findByName(dto.name());
 
+        List<Product> products = productRepository.findAllByIdInAndEnabledTrue(dto.productIds());
+        Optional<Supplier> optionalSupplier = supplierRepository.findByName(dto.name());
         if(products.isEmpty()){
             throw new NotFoundException("Product list is empty");
         }
