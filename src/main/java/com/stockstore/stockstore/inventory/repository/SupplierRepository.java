@@ -6,8 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
-    Page<Supplier> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
-    Page<Supplier> findByEmailContainingIgnoreCase(String email, Pageable page);
+    Page<Supplier> findAllByNameContainingIgnoreCaseAndEnabledTrue(String name, Pageable pageable);
+    Page<Supplier> findByEmailContainingIgnoreCaseAndEnabledTrue(String email, Pageable page);
+    Optional<Supplier> findByName(String name);
+    Page<Supplier> findByEnabledTrue(Pageable pageable);
+    Optional<Supplier> findByIdAndEnabledTrue(Long id);
 }
