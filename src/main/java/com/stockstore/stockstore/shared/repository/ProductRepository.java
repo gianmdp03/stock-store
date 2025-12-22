@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findAllByIdAndEnabledTrue(Iterable<Long> ids);
+    List<Product> findAllByIdInAndEnabledTrue(Iterable<Long> ids);
     Optional<Product> findByName(String name);
     Optional<Product> findByIdAndEnabledTrue(Long id);
     Page<Product> findByEnabledTrue(Pageable pageable);

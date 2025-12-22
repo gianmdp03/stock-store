@@ -24,9 +24,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Permitir acceso libre SOLO a las rutas de autenticación
                         .requestMatchers("/api/auth/**").permitAll()
-                        // 2. Cualquier otra petición requiere token
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
