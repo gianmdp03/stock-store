@@ -2,7 +2,6 @@ package com.stockstore.stockstore.shared.controller;
 
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemDetailDTO;
 import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
-import com.stockstore.stockstore.shared.service.OrderItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
