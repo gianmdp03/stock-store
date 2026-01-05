@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 
 public interface OrderService {
-    OrderDetailDTO addOrder();
+    OrderDetailDTO addOrder(String shippingAdress);
     Page<OrderDetailDTO> listOrders(Pageable pageable);
     Page<OrderDetailDTO> searchOrders(LocalDate saleDate, Pageable pageable);
     Page<OrderDetailDTO> searchOrdersBetween(LocalDate start, LocalDate end, Pageable pageable);
