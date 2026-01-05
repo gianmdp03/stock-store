@@ -10,7 +10,6 @@ import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.OrderItemRepository;
 import com.stockstore.stockstore.shared.repository.OrderRepository;
 import com.stockstore.stockstore.shared.repository.ProductRepository;
-import com.stockstore.stockstore.shared.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
