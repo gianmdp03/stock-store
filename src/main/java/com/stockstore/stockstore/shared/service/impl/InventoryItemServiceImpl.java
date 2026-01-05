@@ -50,7 +50,7 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     public Page<InventoryItemDetailDTO> listInventoryItems(Pageable pageable) {
        Page<InventoryItem> page = inventoryItemRepository.findAll(pageable);
        if(page.isEmpty()){
-           throw new NotFoundException("List is empty");
+           return Page.empty();
        }
        return page.map(inventoryItemMapper::toDetailDTO);
     }

@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "_user")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,9 +24,6 @@ public class User implements UserDetails {
 
     @Column(nullable = false, unique = true)
     private String email;
-
-    @Column(nullable = false, unique = true)
-    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -45,6 +42,11 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override
@@ -67,9 +69,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User(String email, String username, String password, String name, String lastname, String phoneNumber, Role role) {
+    public User(String email, String password, String name, String lastname, String phoneNumber, Role role) {
         this.email = email;
-        this.username = username;
         this.password = password;
         this.name = name;
         this.lastname = lastname;

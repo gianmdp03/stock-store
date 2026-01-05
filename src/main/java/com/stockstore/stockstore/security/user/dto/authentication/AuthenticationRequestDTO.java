@@ -1,6 +1,7 @@
 package com.stockstore.stockstore.security.user.dto.authentication;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public record AuthenticationRequestDTO(String email, String username, @NotBlank String password) {
+public record AuthenticationRequestDTO(@NotBlank @Email String email, @NotBlank String password) {
 }

@@ -1,6 +1,6 @@
 package com.stockstore.stockstore.security.config;
 
-import com.stockstore.stockstore.security.config.service.JwtService;
+import com.stockstore.stockstore.security.user.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
