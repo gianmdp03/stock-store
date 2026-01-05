@@ -2,6 +2,7 @@ package com.stockstore.stockstore.shared.controller;
 
 import com.stockstore.stockstore.shared.dto.order.OrderDetailDTO;
 import com.stockstore.stockstore.shared.dto.order.OrderRequestDTO;
+import com.stockstore.stockstore.shared.dto.orderItem.OrderItemRequestDTO;
 import com.stockstore.stockstore.shared.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -21,8 +23,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDetailDTO> addOrder(@RequestBody OrderRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addOrder(dto.shippingAddress()));
+    public ResponseEntity<OrderDetailDTO> addOrder(@RequestBody List<OrderItemRequestDTO> dtos, @PathVariable String shippingAddress) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addOrderWithItems(dtos, shippingAddress));
     }
 
     @GetMapping
