@@ -71,11 +71,11 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public CartListDTO modifyCartItemAmount(String email, Long cartItemId, int amount){
         if(amount < 1){
-            throw new BadRequestException("Amount can't be zero or positive");
+            throw new BadRequestException("Amount can't be zero or negative");
         }
         Cart cart = cartRepository.findByUserEmail(email)
                 .orElseThrow(()->new NotFoundException("Cart does not exist"));
-        CartItem cartItem = cartItemRepository.findByIdAndCartId(cart.getId(), cartItemId)
+        CartItem cartItem = cartItemRepository.findByIdAndCartId(cartItemId, cart.getId())
                 .orElseThrow(()->new NotFoundException("CartItem does not exist"));
         cartItem.setAmount(amount);
         cartItemRepository.save(cartItem);
@@ -89,7 +89,7 @@ public class CartServiceImpl implements CartService {
     public void deleteCartItem(String email, Long cartItemId){
         Cart cart = cartRepository.findByUserEmail(email)
                 .orElseThrow(()->new NotFoundException("Cart does not exist"));
-        cartItemRepository.deleteByIdAndCartId(cart.getId(), cartItemId);
+        cartItemRepository.deleteByIdAndCartId(cartItemId, cart.getId());
     }
 
     @Override
