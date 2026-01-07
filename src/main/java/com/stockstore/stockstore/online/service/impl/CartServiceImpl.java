@@ -1,5 +1,6 @@
 package com.stockstore.stockstore.online.service.impl;
 
+import com.stockstore.stockstore.exception.BadRequestException;
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.online.dto.cart.CartListDTO;
 import com.stockstore.stockstore.online.dto.cartItem.CartItemListDTO;
@@ -60,7 +61,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartListDTO listCart(String email){
+    public CartListDTO viewCart(String email){
         Cart cart = cartRepository.findByUserEmail(email)
                 .orElseThrow(()->new NotFoundException("Cart does not exist"));
         return cartMapper.toListDto(cart);
@@ -69,6 +70,9 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public CartListDTO modifyCartItemAmount(String email, Long cartItemId, int amount){
+        if(amount < 1){
+            throw new BadRequestException("Amount can't be zero or positive");
+        }
         Cart cart = cartRepository.findByUserEmail(email)
                 .orElseThrow(()->new NotFoundException("Cart does not exist"));
         CartItem cartItem = cartItemRepository.findByIdAndCartId(cart.getId(), cartItemId)

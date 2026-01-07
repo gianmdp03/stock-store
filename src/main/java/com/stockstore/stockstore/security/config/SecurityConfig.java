@@ -29,6 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/inventory-items/**").hasRole("ADMIN")
                         .requestMatchers("/api/orders/**").hasRole("ADMIN")
                         .requestMatchers("/api/products/**").hasRole("ADMIN")
+                        .requestMatchers("/api/carts/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
