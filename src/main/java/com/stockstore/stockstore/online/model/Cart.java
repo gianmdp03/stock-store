@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "carts")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,9 +27,13 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartItem> items = new ArrayList<>();
 
-        public BigDecimal getTotalAmount() {
+    public Cart(User user) {
+        this.user = user;
+    }
+
+    /*public BigDecimal getTotalAmount() {
             return items.stream()
-                    .map(item -> item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                    .map(item -> item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getAmount())))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
-        }
+        }*/
 }
