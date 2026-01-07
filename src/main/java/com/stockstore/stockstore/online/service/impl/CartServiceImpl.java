@@ -1,6 +1,5 @@
 package com.stockstore.stockstore.online.service.impl;
 
-import com.stockstore.stockstore.exception.BadRequestException;
 import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.online.dto.cart.CartListDTO;
 import com.stockstore.stockstore.online.dto.cartItem.CartItemListDTO;
@@ -17,7 +16,6 @@ import com.stockstore.stockstore.security.user.repository.UserRepository;
 import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
