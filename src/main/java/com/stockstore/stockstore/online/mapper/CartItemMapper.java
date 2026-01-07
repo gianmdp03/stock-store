@@ -13,10 +13,6 @@ import org.springframework.context.annotation.Lazy;
 public abstract class CartItemMapper {
     @Autowired
     @Lazy
-    private CartMapper cartMapper;
-
-    @Autowired
-    @Lazy
     private ProductMapper productMapper;
 
     @Mapping(target = "id", ignore = true)
