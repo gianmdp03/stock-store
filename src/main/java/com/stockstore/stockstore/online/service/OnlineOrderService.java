@@ -13,6 +13,7 @@ public interface OnlineOrderService {
     OnlineOrder addOnlineOrder(String shippingAdress);
     OnlineOrderDetailDTO addOnlineOrderWithItems(List<OnlineOrderItemRequestDTO> onlineOrderItemsDTO, String shippingAddress);
     Page<OnlineOrderDetailDTO> listOnlineOrders(Pageable pageable);
+    OnlineOrderDetailDTO getOnlineOrderById(Long id);
     Page<OnlineOrderDetailDTO> searchOnlineOrders(LocalDate saleDate, Pageable pageable);
     Page<OnlineOrderDetailDTO> searchOnlineOrdersBetween(LocalDate start, LocalDate end, Pageable pageable);
 }

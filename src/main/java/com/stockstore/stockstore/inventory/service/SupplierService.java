@@ -11,6 +11,7 @@ public interface SupplierService {
     SupplierDetailDTO updateSupplier(Long id, SupplierUpdateDTO dto);
     Page<SupplierListDTO> listSuppliers(Pageable pageable);
     Page<SupplierListDTO> searchSuppliersByName(String name, Pageable pageable);
+    SupplierDetailDTO getSupplierById(Long id);
     void deleteSupplier(Long supplierId);
     Page<SupplierListDTO> searchSuppliers(String email, Pageable page);
     void sendOrderToSupplier(List<SupplierOrderDTO> items, Long supplierId);

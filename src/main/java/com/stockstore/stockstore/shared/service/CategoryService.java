@@ -12,6 +12,7 @@ public interface CategoryService {
     CategoryDetailDTO addCategory(CategoryRequestDTO dto);
     CategoryDetailDTO updateCategory(Long id, CategoryUpdateDTO dto);
     Page<CategoryListDTO> listCategories(Pageable pageable);
+    CategoryDetailDTO getCategoryById(Long id);
     Page<CategoryListDTO> searchCategories(String name, Pageable pageable);
     void deleteCategory(Long categoryId);
 }
