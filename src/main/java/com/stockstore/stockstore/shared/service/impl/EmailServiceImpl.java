@@ -1,6 +1,6 @@
-package com.stockstore.stockstore.inventory.service.impl;
+package com.stockstore.stockstore.shared.service.impl;
 
-import com.stockstore.stockstore.inventory.service.EmailService;
+import com.stockstore.stockstore.shared.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;

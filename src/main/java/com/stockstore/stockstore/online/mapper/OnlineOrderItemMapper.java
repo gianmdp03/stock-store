@@ -16,7 +16,7 @@ public abstract class OnlineOrderItemMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "product", ignore = true)
-    @Mapping(target = "order", ignore = true)
+    @Mapping(target = "onlineOrder", ignore = true)
     public abstract OnlineOrderItem toEntity (OnlineOrderItemRequestDTO dto);
     public abstract OnlineOrderItemDetailDTO toDetailDto (OnlineOrderItem orderItem);
 }

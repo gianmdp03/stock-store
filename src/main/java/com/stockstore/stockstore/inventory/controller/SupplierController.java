@@ -6,8 +6,6 @@ import com.stockstore.stockstore.inventory.dto.supplier.SupplierRequestDTO;
 import com.stockstore.stockstore.inventory.dto.supplier.SupplierUpdateDTO;
 
 import com.stockstore.stockstore.inventory.service.SupplierService;
-import com.stockstore.stockstore.inventory.service.impl.SupplierOrderService;
-import com.stockstore.stockstore.shared.dto.Batch.BatchRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SupplierController {
     private final SupplierService supplierService;
-    private final SupplierOrderService supplierOrderService;
 
     @PostMapping
     public ResponseEntity<SupplierDetailDTO> addSupplier(@Valid @RequestBody SupplierRequestDTO dto){
@@ -58,12 +55,5 @@ public class SupplierController {
     public ResponseEntity<Page<SupplierListDTO>> searchSuppliers(
             @PathVariable String email, @PageableDefault(page=0, size = 10, sort="name", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(supplierService.searchSuppliers(email, pageable));
-    }
-
-
-    @PostMapping("/{id}/order")
-    public ResponseEntity<String> orderToSupplier(@PathVariable Long id, @Valid @RequestBody BatchRequestDTO dto) {
-        supplierOrderService.processSupplierOrder(id, dto);
-        return ResponseEntity.ok("Pedido enviado correctamente al proveedor");
     }
 }
