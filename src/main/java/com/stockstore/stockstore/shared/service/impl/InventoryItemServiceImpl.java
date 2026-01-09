@@ -65,6 +65,13 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     }
 
     @Override
+    public InventoryItemDetailDTO getInventoryItemById(Long id){
+        InventoryItem inventoryItem = inventoryItemRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("InventoryItem ID does not exist"));
+        return inventoryItemMapper.toDetailDTO(inventoryItem);
+    }
+
+    @Override
     @Transactional
     public void deleteInventoryItem(Long inventoryItemId) {
         InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()-> new NotFoundException("InventoryItem ID does not exist"));

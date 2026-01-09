@@ -85,7 +85,14 @@ public class SupplierServiceImpl implements SupplierService {
         Page<Supplier> page = supplierRepository.findAllByNameContainingIgnoreCaseAndEnabledTrue(name, pageable);
         return page.map(supplierMapper::toListDto);
     }
-    
+
+    @Override
+    public SupplierDetailDTO getSupplierById(Long id){
+        Supplier supplier = supplierRepository.findByIdAndEnabledTrue(id)
+                .orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
+        return supplierMapper.toDetailDto(supplier);
+    }
+
     @Override
     @Transactional
     public void deleteSupplier(Long supplierId) {

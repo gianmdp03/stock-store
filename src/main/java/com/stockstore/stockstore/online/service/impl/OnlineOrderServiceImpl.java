@@ -81,7 +81,12 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
             throw new NotFoundException("Order list is empty");
         return page.map(onlineOrderMapper::toDetailDto);
     }
-
+    @Override
+    public OnlineOrderDetailDTO getOnlineOrderById(Long id){
+        OnlineOrder onlineOrder = onlineOrderRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("OnlineOrder ID does not exist"));
+        return onlineOrderMapper.toDetailDto(onlineOrder);
+    }
     @Override
     public Page<OnlineOrderDetailDTO> searchOnlineOrders(LocalDate saleDate, Pageable pageable){
         LocalDateTime fullSaleDate = saleDate.atStartOfDay();

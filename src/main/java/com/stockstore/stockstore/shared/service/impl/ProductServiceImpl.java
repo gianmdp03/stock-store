@@ -74,6 +74,12 @@ public class ProductServiceImpl implements ProductService {
         return page.map(productMapper::toListDto);
     }
 
+    public ProductDetailDTO getProductById(Long id){
+        Product product = productRepository.findByIdAndEnabledTrue(id)
+                .orElseThrow(()-> new NotFoundException("Product ID does not exist"));
+        return productMapper.toDetailDto(product);
+    }
+
     @Override
     @Transactional
     public void deleteProduct(Long productId) {
