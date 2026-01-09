@@ -9,7 +9,6 @@ import com.stockstore.stockstore.inventory.mapper.SupplierMapper;
 import com.stockstore.stockstore.inventory.model.Supplier;
 import com.stockstore.stockstore.inventory.repository.SupplierRepository;
 import com.stockstore.stockstore.inventory.service.SupplierService;
-import com.stockstore.stockstore.shared.dto.Batch.BatchRequestDTO;
 import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;

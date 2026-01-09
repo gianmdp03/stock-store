@@ -2,7 +2,6 @@ package com.stockstore.stockstore.shared.dto.product;
 
 import com.stockstore.stockstore.shared.dto.category.CategoryListDTO;
 import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemDetailDTO;
-import com.stockstore.stockstore.shared.dto.orderItem.OrderItemDetailDTO;
 
 import java.math.BigDecimal;
 import java.util.List;

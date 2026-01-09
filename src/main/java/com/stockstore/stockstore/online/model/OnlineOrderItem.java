@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "orderitem")
+@Table(name = "online_order_items")
 @Getter
 @Setter
 @NoArgsConstructor
