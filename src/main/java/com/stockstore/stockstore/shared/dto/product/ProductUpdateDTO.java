@@ -5,5 +5,5 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.List;
 
-public record ProductUpdateDTO (String name, String imageUrl, @Positive BigDecimal price, List<Long> categoriesId){
+public record ProductUpdateDTO (String name, String imageUrl, @Positive BigDecimal price, String barcode, List<Long> categoriesId){
 }

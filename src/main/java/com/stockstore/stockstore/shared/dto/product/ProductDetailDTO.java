@@ -10,5 +10,6 @@ public record ProductDetailDTO(Long id,
                                String name,
                                String imageUrl,
                                BigDecimal price,
+                               String barcode,
                                List<InventoryItemDetailDTO> inventoryItems,
                                List<CategoryListDTO> categories) {}

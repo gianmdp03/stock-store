@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record ProductRequestDTO(@NotBlank String name,
-                                String imageUrl,
+                                @NotBlank String imageUrl,
                                 @NotNull @Positive BigDecimal price,
+                                @NotBlank String barcode,
                                 @NotEmpty List<Long> categoriesId) {}

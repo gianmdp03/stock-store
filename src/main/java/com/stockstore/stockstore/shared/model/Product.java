@@ -21,10 +21,14 @@ public class Product {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false)
     private String imageUrl;
 
     @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal price;
+
+    @Column(nullable = false, unique = true)
+    private String barcode;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryItem> inventoryItems =  new ArrayList<>();
