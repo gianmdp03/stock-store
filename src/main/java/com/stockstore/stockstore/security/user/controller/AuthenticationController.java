@@ -20,7 +20,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponseDTO> register(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<Void> register(@RequestBody UserRequestDTO request) {
         AuthenticationResponseDTO authResponse = authenticationService.register(request);
 
         // Creamos la cookie
@@ -28,12 +28,11 @@ public class AuthenticationController {
 
         // La agregamos al header de la respuesta
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(authResponse);
+                .header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDTO> authenticate(@RequestBody AuthenticationRequestDTO request) {
+    public ResponseEntity<Void> authenticate(@RequestBody AuthenticationRequestDTO request) {
         AuthenticationResponseDTO authResponse = authenticationService.authenticate(request);
 
         // Creamos la cookie
@@ -41,7 +40,7 @@ public class AuthenticationController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(authResponse);
+                .build();
     }
 
     // Método auxiliar para crear la cookie con las configuraciones de seguridad
