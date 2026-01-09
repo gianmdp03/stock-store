@@ -77,10 +77,4 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()-> new NotFoundException("InventoryItem ID does not exist"));
         inventoryItemRepository.delete(inventoryItem);
     }
-
-    @Override
-    public Page<InventoryItemDetailDTO> searchInventoryItem(Pageable page, LocalDate date) {
-        Page<InventoryItem> inventoryItemPage = inventoryItemRepository.findByExpireDate(date, page);
-        return inventoryItemPage.map(inventoryItemMapper::toDetailDTO);
-    }
 }

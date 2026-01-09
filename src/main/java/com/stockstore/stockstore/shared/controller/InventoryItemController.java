@@ -56,9 +56,4 @@ public class InventoryItemController {
         inventoryItemService.deleteInventoryItem(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-    @GetMapping("/{expireDate}")
-    public ResponseEntity<Page<InventoryItemDetailDTO>> searchInventoryItem(
-            @PathVariable LocalDate expireDate, @PageableDefault(page = 0, size = 10, sort = "expireDate", direction = Sort.Direction.DESC) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(inventoryItemService.searchInventoryItem(pageable, expireDate));
-    }
 }
