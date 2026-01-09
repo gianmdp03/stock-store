@@ -38,6 +38,11 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.listCategories(pageable));
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<CategoryDetailDTO> getCategoryById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.getCategoryById(id));
+    }
+
     @GetMapping("/{name}")
     public ResponseEntity<Page<CategoryListDTO>> searchCategories(
             @PathVariable String name,

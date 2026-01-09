@@ -44,6 +44,11 @@ public class SupplierController {
         return ResponseEntity.status(HttpStatus.OK).body(supplierService.searchSuppliersByName(name, pageable));
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<SupplierDetailDTO> getSupplierById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(supplierService.getSupplierById(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSupplier(@PathVariable Long id){
         supplierService.deleteSupplier(id);

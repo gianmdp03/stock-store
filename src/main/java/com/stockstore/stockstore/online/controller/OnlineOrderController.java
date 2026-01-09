@@ -32,6 +32,11 @@ public class OnlineOrderController {
         return ResponseEntity.status(HttpStatus.OK).body(onlineOrderService.listOnlineOrders(pageable));
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<OnlineOrderDetailDTO> getOnlineOrderById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(onlineOrderService.getOnlineOrderById(id));
+    }
+
     @GetMapping("/{saleDate}")
     public ResponseEntity<Page<OnlineOrderDetailDTO>> searchOrders(
             @PathVariable LocalDate saleDate,

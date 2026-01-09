@@ -43,6 +43,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductsByName(name, pageable));
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<ProductDetailDTO> getProductById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);

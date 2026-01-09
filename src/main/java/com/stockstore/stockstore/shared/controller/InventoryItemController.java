@@ -46,6 +46,11 @@ public class InventoryItemController {
         return ResponseEntity.status(HttpStatus.OK).body(inventoryItemService.searchInventoryItemsByProduct(productId, pageable));
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<InventoryItemDetailDTO> getInventoryItemById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(inventoryItemService.getInventoryItemById(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInventoryItem(@PathVariable Long id){
         inventoryItemService.deleteInventoryItem(id);
