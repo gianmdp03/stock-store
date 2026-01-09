@@ -1,22 +1,21 @@
 package com.stockstore.stockstore.inventory.service.impl;
 
 import com.stockstore.stockstore.exception.NotFoundException;
-import com.stockstore.stockstore.inventory.dto.supplier.SupplierDetailDTO;
-import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;
-import com.stockstore.stockstore.inventory.dto.supplier.SupplierRequestDTO;
-import com.stockstore.stockstore.inventory.dto.supplier.SupplierUpdateDTO;
+import com.stockstore.stockstore.inventory.dto.supplier.*;
 import com.stockstore.stockstore.inventory.mapper.SupplierMapper;
 import com.stockstore.stockstore.inventory.model.Supplier;
 import com.stockstore.stockstore.inventory.repository.SupplierRepository;
 import com.stockstore.stockstore.inventory.service.SupplierService;
 import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.ProductRepository;
+import com.stockstore.stockstore.shared.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +26,7 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierRepository supplierRepository;
     private final SupplierMapper supplierMapper;
     private final ProductRepository productRepository;
-
+    private final EmailService emailService;
 
     @Override
     @Transactional
@@ -41,11 +40,7 @@ public class SupplierServiceImpl implements SupplierService {
 
         if(optionalSupplier.isPresent()){
             Supplier existingSupplier = optionalSupplier.get();
-
-            // Lógica actual: solo reactiva
             existingSupplier.setEnabled(true);
-
-            // CORRECCIÓN: Actualiza los datos con los del DTO
             existingSupplier.setEmail(dto.email());
             existingSupplier.setPhoneNumber(dto.phoneNumber());
             existingSupplier.setProducts(products);
@@ -105,7 +100,34 @@ public class SupplierServiceImpl implements SupplierService {
         }
       Page<Supplier> supplierPage = supplierRepository.findByEmailContainingIgnoreCaseAndEnabledTrue(email, page);
         return supplierPage.map(supplierMapper::toListDto);
-
     }
 
+    public void sendOrderToSupplier(List<SupplierOrderDTO> items, Long supplierId) {
+        Supplier supplier = supplierRepository.findByIdAndEnabledTrue(supplierId)
+                .orElseThrow(() -> new NotFoundException("Supplier ID does not exist"));
+        StringBuilder body = new StringBuilder();
+
+        body.append("Estimado proveedor ").append(supplier.getName()).append(",\n\n");
+        body.append("Queriamos realizar el siguiente pedido:\n\n");
+        body.append(String.format("%-30s | %10s\n", "PRODUCTO", "CANTIDAD"));
+        body.append("-------------------------------------------\n");
+
+        for (SupplierOrderDTO item : items) {
+            body.append(String.format("%-30s | %10d\n",
+                    item.productName(),
+                    item.quantity()
+            ));
+        }
+
+        body.append("\n-------------------------------------------\n");
+        body.append("Espero su confirmación.\n");
+        body.append("Saludos,\n");
+        body.append("Mi Empresa");
+
+        emailService.sendEmail(
+                supplier.getEmail(),
+                "Nuevo Pedido de Compra - " + LocalDate.now(),
+                body.toString()
+        );
+    }
 }

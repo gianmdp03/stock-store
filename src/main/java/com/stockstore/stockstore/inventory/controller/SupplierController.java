@@ -1,9 +1,6 @@
 package com.stockstore.stockstore.inventory.controller;
 
-import com.stockstore.stockstore.inventory.dto.supplier.SupplierDetailDTO;
-import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;
-import com.stockstore.stockstore.inventory.dto.supplier.SupplierRequestDTO;
-import com.stockstore.stockstore.inventory.dto.supplier.SupplierUpdateDTO;
+import com.stockstore.stockstore.inventory.dto.supplier.*;
 
 import com.stockstore.stockstore.inventory.service.SupplierService;
 import jakarta.validation.Valid;
@@ -15,6 +12,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/suppliers")
@@ -55,5 +54,11 @@ public class SupplierController {
     public ResponseEntity<Page<SupplierListDTO>> searchSuppliers(
             @PathVariable String email, @PageableDefault(page=0, size = 10, sort="name", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(supplierService.searchSuppliers(email, pageable));
+    }
+
+    @PostMapping("/send/{supplierId}")
+    public ResponseEntity<Void> sendOrderToSupplier(@Valid @RequestBody List<SupplierOrderDTO> items, @PathVariable Long supplierId){
+        supplierService.sendOrderToSupplier(items, supplierId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
