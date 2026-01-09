@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.shared.dto.Batch;
+package com.stockstore.stockstore.online.dto.Batch;
 
 import jakarta.validation.constraints.NotEmpty;
 
