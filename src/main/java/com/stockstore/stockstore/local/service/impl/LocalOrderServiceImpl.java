@@ -91,8 +91,14 @@ public class LocalOrderServiceImpl implements LocalOrderService {
     }
 
     @Override
-    public Page<LocalOrderDetailDTO> searchLocalOrderBetween(LocalDate start, LocalDate end, Pageable pageable) {
-        return null;
+    public Page<LocalOrderDetailDTO> searchLocalOrdersBetween(LocalDate start, LocalDate end, Pageable pageable) {
+        LocalDateTime startDate = start.atStartOfDay();
+        LocalDateTime endDate = end.atTime(LocalTime.MAX);
+        Page<LocalOrder> page = localOrderRepository.findBySaleDateBetween(startDate, endDate, pageable);
+        if(page.isEmpty()){
+            return Page.empty();
+        }
+        return page.map(localOrderMapper::toDetailDTO);
     }
 
     @Transactional

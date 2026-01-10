@@ -15,5 +15,5 @@ public interface LocalOrderService {
     Page<LocalOrderDetailDTO> listLocalOrders(Pageable pageable);
     LocalOrderDetailDTO getLocalOrderById(Long id);
     Page<LocalOrderDetailDTO> searchLocalOrders(LocalDate saleDate, Pageable pageable);
-    Page<LocalOrderDetailDTO> searchLocalOrderBetween(LocalDate start, LocalDate end, Pageable pageable);
+    Page<LocalOrderDetailDTO> searchLocalOrdersBetween(LocalDate start, LocalDate end, Pageable pageable);
 }
