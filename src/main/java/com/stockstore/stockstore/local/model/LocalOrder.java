@@ -31,9 +31,8 @@ public class LocalOrder {
 
     private BigDecimal totalAmount;
 
-    public LocalOrder(LocalDateTime saleDate, List<LocalOrderItem> localOrderItems, PaymentMethod paymentMethod) {
+    public LocalOrder(LocalDateTime saleDate, PaymentMethod paymentMethod) {
         this.saleDate = saleDate;
-        this.localOrderItems = localOrderItems;
         this.paymentMethod = paymentMethod;
     }
 }
