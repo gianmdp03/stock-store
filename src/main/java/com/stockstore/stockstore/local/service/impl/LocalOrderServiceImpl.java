@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +41,20 @@ public class LocalOrderServiceImpl implements LocalOrderService {
 
     @Override
     @Transactional
+    public LocalOrder addTotalAmountToLocalOrder(Long localOrderId, BigDecimal totalAmount){
+        LocalOrder localOrder = localOrderRepository.findById(localOrderId)
+                .orElseThrow(()-> new NotFoundException("LocalOrder ID does not exist"));
+        localOrder.setTotalAmount(totalAmount);
+        return localOrderRepository.save(localOrder);
+    }
+
+    @Override
+    @Transactional
     public LocalOrderDetailDTO addLocalOrderWithItems(LocalDateTime saleDate, List<LocalOrderItemRequestDTO> list, PaymentMethod paymentMethod) {
         if(list.isEmpty()){
             throw new BadRequestException("LocalOrderItem List is empty");
         }
+        BigDecimal totalAmount = BigDecimal.ZERO;
         LocalOrder localOrder = addLocalOrder(saleDate, paymentMethod);
         List<LocalOrderItem> orderItems = new ArrayList<>();
         for(LocalOrderItemRequestDTO request: list){
@@ -51,12 +62,13 @@ public class LocalOrderServiceImpl implements LocalOrderService {
             item.setLocalOrder(localOrder);
             Product product = productRepository.findByIdAndEnabledTrue(request.productId())
                     .orElseThrow(()-> new NotFoundException("Product ID does not exist"));
+            totalAmount = totalAmount.add(product.getPrice());
             item.setProduct(product);
             orderItems.add(item);
         }
         localOrderItemRepository.saveAll(orderItems);
-        localOrder = localOrderRepository.findById(localOrder.getId())
-                .orElseThrow(()-> new NotFoundException("LocalOrder ID does not exist"));
+        localOrder = addTotalAmountToLocalOrder(localOrder.getId(), totalAmount);
+
         return localOrderMapper.toDetailDTO(localOrder);
     }
 }
