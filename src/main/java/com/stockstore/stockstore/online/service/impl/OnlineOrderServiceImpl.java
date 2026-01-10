@@ -41,20 +41,6 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 
     @Override
     @Transactional
-    public OnlineOrder addOnlineOrder(String shippingAddress) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
-
-        OnlineOrder onlineOrder = new OnlineOrder(LocalDateTime.now(),shippingAddress);
-        onlineOrder.setUser(user);
-        onlineOrder.setStatus(OnlineOrderStatus.PENDING);
-        return onlineOrderRepository.save(onlineOrder);
-    }
-
-    @Override
-    @Transactional
     public OnlineOrderDetailDTO addOnlineOrderWithItems(List<OnlineOrderItemRequestDTO> onlineOrderItemsDTO, String shippingAddress){
         OnlineOrder order = addOnlineOrder(shippingAddress);
         if(onlineOrderItemsDTO.isEmpty()){
@@ -103,5 +89,18 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
             throw new NotFoundException("List is empty");
         }
         return page.map(onlineOrderMapper::toDetailDto);
+    }
+
+    @Transactional
+    public OnlineOrder addOnlineOrder(String shippingAddress) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
+
+        OnlineOrder onlineOrder = new OnlineOrder(LocalDateTime.now(),shippingAddress);
+        onlineOrder.setUser(user);
+        onlineOrder.setStatus(OnlineOrderStatus.PENDING);
+        return onlineOrderRepository.save(onlineOrder);
     }
 }

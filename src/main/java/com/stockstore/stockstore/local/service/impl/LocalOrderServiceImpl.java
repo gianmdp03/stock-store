@@ -35,21 +35,6 @@ public class LocalOrderServiceImpl implements LocalOrderService {
 
     @Override
     @Transactional
-    public LocalOrder addLocalOrder(LocalDateTime saleDate, PaymentMethod paymentMethod){
-        return localOrderRepository.save(new LocalOrder(saleDate, paymentMethod));
-    }
-
-    @Override
-    @Transactional
-    public LocalOrder addTotalAmountToLocalOrder(Long localOrderId, BigDecimal totalAmount){
-        LocalOrder localOrder = localOrderRepository.findById(localOrderId)
-                .orElseThrow(()-> new NotFoundException("LocalOrder ID does not exist"));
-        localOrder.setTotalAmount(totalAmount);
-        return localOrderRepository.save(localOrder);
-    }
-
-    @Override
-    @Transactional
     public LocalOrderDetailDTO addLocalOrderWithItems(LocalDateTime saleDate, List<LocalOrderItemRequestDTO> list, PaymentMethod paymentMethod) {
         if(list.isEmpty()){
             throw new BadRequestException("LocalOrderItem List is empty");
@@ -70,5 +55,18 @@ public class LocalOrderServiceImpl implements LocalOrderService {
         localOrder = addTotalAmountToLocalOrder(localOrder.getId(), totalAmount);
 
         return localOrderMapper.toDetailDTO(localOrder);
+    }
+
+    @Transactional
+    public LocalOrder addLocalOrder(LocalDateTime saleDate, PaymentMethod paymentMethod){
+        return localOrderRepository.save(new LocalOrder(saleDate, paymentMethod));
+    }
+
+    @Transactional
+    public LocalOrder addTotalAmountToLocalOrder(Long localOrderId, BigDecimal totalAmount){
+        LocalOrder localOrder = localOrderRepository.findById(localOrderId)
+                .orElseThrow(()-> new NotFoundException("LocalOrder ID does not exist"));
+        localOrder.setTotalAmount(totalAmount);
+        return localOrderRepository.save(localOrder);
     }
 }

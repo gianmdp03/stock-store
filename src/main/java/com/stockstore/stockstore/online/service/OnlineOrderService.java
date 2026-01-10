@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OnlineOrderService {
-    OnlineOrder addOnlineOrder(String shippingAdress);
     OnlineOrderDetailDTO addOnlineOrderWithItems(List<OnlineOrderItemRequestDTO> onlineOrderItemsDTO, String shippingAddress);
     Page<OnlineOrderDetailDTO> listOnlineOrders(Pageable pageable);
     OnlineOrderDetailDTO getOnlineOrderById(Long id);
