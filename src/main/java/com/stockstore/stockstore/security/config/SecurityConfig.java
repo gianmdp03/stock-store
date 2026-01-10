@@ -29,12 +29,18 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // <--- AGREGAR ESTO
                 .authorizeHttpRequests(auth -> auth
+                        //SESION
                         .requestMatchers("/api/auth/**").permitAll()
+                        //GESTION DE INVENTARIO
                         .requestMatchers("/api/categories/**").hasRole("ADMIN")
                         .requestMatchers("/api/inventory-items/**").hasRole("ADMIN")
-                        .requestMatchers("/api/orders/**").hasRole("ADMIN")
                         .requestMatchers("/api/products/**").hasRole("ADMIN")
+                        .requestMatchers("/api/suppliers/**").hasRole("ADMIN")
+                        //TIENDA ONLINE
                         .requestMatchers("/api/carts/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/online-orders/**").hasRole("ADMIN")
+                        //TIENDA LOCAL
+                        .requestMatchers("/api/local-orders/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
