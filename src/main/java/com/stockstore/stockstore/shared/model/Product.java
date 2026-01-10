@@ -43,9 +43,10 @@ public class Product {
 
     private boolean enabled = true;
 
-    public Product(String name, String imageUrl, BigDecimal price) {
+    public Product(String name, String imageUrl, BigDecimal price, String barcode) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.price = price;
+        this.barcode = barcode;
     }
 }
