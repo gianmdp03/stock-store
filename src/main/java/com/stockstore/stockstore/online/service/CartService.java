@@ -8,7 +8,7 @@ public interface CartService {
     CartListDTO addCartToUser(String email);
     CartItemListDTO addItemToCart(String email, CartItemRequestDTO dto);
     CartListDTO viewCart(String email);
-    CartListDTO modifyCartItemAmount(String email, Long cartItemId, int amount);
+    CartListDTO modifyCartItemAmount(String email, Long cartItemId, int quantity);
     void deleteCartItem(String email, Long cartItemId);
     void emptyCart(String email);
 }

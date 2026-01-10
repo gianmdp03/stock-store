@@ -1,10 +1,12 @@
 package com.stockstore.stockstore.local.model;
 
+import com.stockstore.stockstore.local.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,10 +26,14 @@ public class LocalOrder {
     @OneToMany(mappedBy = "localOrder")
     private List<LocalOrderItem> localOrderItems;
 
-    //Metodo pago
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
-    public LocalOrder(LocalDateTime saleDate, List<LocalOrderItem> localOrderItems) {
+    private BigDecimal totalAmount;
+
+    public LocalOrder(LocalDateTime saleDate, List<LocalOrderItem> localOrderItems, PaymentMethod paymentMethod) {
         this.saleDate = saleDate;
         this.localOrderItems = localOrderItems;
+        this.paymentMethod = paymentMethod;
     }
 }

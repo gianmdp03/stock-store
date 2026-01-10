@@ -70,15 +70,15 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartListDTO modifyCartItemAmount(String email, Long cartItemId, int amount){
-        if(amount < 1){
+    public CartListDTO modifyCartItemAmount(String email, Long cartItemId, int quantity){
+        if(quantity < 1){
             throw new BadRequestException("Amount can't be zero or negative");
         }
         Cart cart = cartRepository.findByUserEmail(email)
                 .orElseThrow(()->new NotFoundException("Cart does not exist"));
         CartItem cartItem = cartItemRepository.findByIdAndCartId(cartItemId, cart.getId())
                 .orElseThrow(()->new NotFoundException("CartItem does not exist"));
-        cartItem.setAmount(amount);
+        cartItem.setQuantity(quantity);
         cartItemRepository.save(cartItem);
         cart = cartRepository.findByUserEmail(email)
                 .orElseThrow(()->new NotFoundException("Cart does not exist"));

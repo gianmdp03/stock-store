@@ -21,15 +21,15 @@ public class LocalOrderItem {
     private Product product;
 
     @Column(nullable = false)
-    private int amount;
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "local_order_id")
     private LocalOrder localOrder;
 
-    public LocalOrderItem(Product product, int amount, LocalOrder localOrder) {
+    public LocalOrderItem(Product product, int quantity, LocalOrder localOrder) {
         this.product = product;
-        this.amount = amount;
+        this.quantity = quantity;
         this.localOrder = localOrder;
     }
 }

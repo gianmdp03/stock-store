@@ -18,7 +18,7 @@ public class OnlineOrderItem {
     private Long id;
 
     @Column(nullable = false)
-    private int amount;
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -28,8 +28,8 @@ public class OnlineOrderItem {
     @JoinColumn(name = "online_order_id")
     private OnlineOrder onlineOrder;
 
-    public OnlineOrderItem(int amount, Product product, OnlineOrder onlineOrder) {
-        this.amount = amount;
+    public OnlineOrderItem(int quantity, Product product, OnlineOrder onlineOrder) {
+        this.quantity = quantity;
         this.product = product;
         this.onlineOrder = onlineOrder;
     }

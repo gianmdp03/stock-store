@@ -20,15 +20,16 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private int amount;
+    @Column(nullable = false)
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    public CartItem(Product product, int amount, Cart cart) {
+    public CartItem(Product product, int quantity, Cart cart) {
         this.product = product;
-        this.amount = amount;
+        this.quantity = quantity;
         this.cart = cart;
     }
 }
