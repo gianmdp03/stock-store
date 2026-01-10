@@ -12,14 +12,20 @@ import com.stockstore.stockstore.local.model.LocalOrderItem;
 import com.stockstore.stockstore.local.repository.LocalOrderItemRepository;
 import com.stockstore.stockstore.local.repository.LocalOrderRepository;
 import com.stockstore.stockstore.local.service.LocalOrderService;
+import com.stockstore.stockstore.online.dto.onlineOrder.OnlineOrderDetailDTO;
+import com.stockstore.stockstore.online.model.OnlineOrder;
 import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +61,38 @@ public class LocalOrderServiceImpl implements LocalOrderService {
         localOrder = addTotalAmountToLocalOrder(localOrder.getId(), totalAmount);
 
         return localOrderMapper.toDetailDTO(localOrder);
+    }
+
+    @Override
+    public Page<LocalOrderDetailDTO> listLocalOrders(Pageable pageable) {
+        Page<LocalOrder> page = localOrderRepository.findAll(pageable);
+        if(page.isEmpty()){
+            return Page.empty();
+        }
+        return page.map(localOrderMapper::toDetailDTO);
+    }
+
+    @Override
+    public LocalOrderDetailDTO getLocalOrderById(Long id) {
+        LocalOrder localOrder = localOrderRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("LocalOrder ID does not exist"));
+        return localOrderMapper.toDetailDTO(localOrder);
+    }
+
+    @Override
+    public Page<LocalOrderDetailDTO> searchLocalOrders(LocalDate saleDate, Pageable pageable) {
+        LocalDateTime saleDateA = saleDate.atStartOfDay();
+        LocalDateTime saleDateB = saleDate.atTime(LocalTime.MIN);
+        Page<LocalOrder> page = localOrderRepository.findBySaleDateBetween(saleDateA, saleDateB, pageable);
+        if(page.isEmpty()){
+            return Page.empty();
+        }
+        return page.map(localOrderMapper::toDetailDTO);
+    }
+
+    @Override
+    public Page<LocalOrderDetailDTO> searchLocalOrderBetween(LocalDate start, LocalDate end, Pageable pageable) {
+        return null;
     }
 
     @Transactional

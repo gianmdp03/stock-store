@@ -75,8 +75,12 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
     }
     @Override
     public Page<OnlineOrderDetailDTO> searchOnlineOrders(LocalDate saleDate, Pageable pageable){
-        LocalDateTime fullSaleDate = saleDate.atStartOfDay();
-        Page<OnlineOrder> page = onlineOrderRepository.findAllBySaleDate(fullSaleDate, pageable);
+        LocalDateTime saleDateA = saleDate.atStartOfDay();
+        LocalDateTime saleDateB = saleDate.atTime(LocalTime.MIN);
+        Page<OnlineOrder> page = onlineOrderRepository.findBySaleDateBetween(saleDateA, saleDateB, pageable);
+        if(page.isEmpty()){
+            return Page.empty();
+        }
         return page.map(onlineOrderMapper::toDetailDto);
     }
 
