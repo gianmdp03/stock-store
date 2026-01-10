@@ -1,8 +1,8 @@
 package com.stockstore.stockstore.online.service.impl;
 
 import com.stockstore.stockstore.exception.NotFoundException;
-import com.stockstore.stockstore.online.dto.order.OnlineOrderDetailDTO;
-import com.stockstore.stockstore.online.dto.orderItem.OnlineOrderItemRequestDTO;
+import com.stockstore.stockstore.online.dto.onlineOrder.OnlineOrderDetailDTO;
+import com.stockstore.stockstore.online.dto.onlineOrderItem.OnlineOrderItemRequestDTO;
 import com.stockstore.stockstore.online.enums.OnlineOrderStatus;
 import com.stockstore.stockstore.online.mapper.OnlineOrderItemMapper;
 import com.stockstore.stockstore.online.mapper.OnlineOrderMapper;

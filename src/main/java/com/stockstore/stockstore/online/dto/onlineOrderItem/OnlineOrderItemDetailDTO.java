@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.online.dto.orderItem;
+package com.stockstore.stockstore.online.dto.onlineOrderItem;
 
 import com.stockstore.stockstore.shared.dto.product.ProductListDTO;
 

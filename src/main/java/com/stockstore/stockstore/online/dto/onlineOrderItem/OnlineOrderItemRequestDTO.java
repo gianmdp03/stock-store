@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.online.dto.orderItem;
+package com.stockstore.stockstore.online.dto.onlineOrderItem;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

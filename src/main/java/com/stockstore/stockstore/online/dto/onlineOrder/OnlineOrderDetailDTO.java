@@ -1,6 +1,6 @@
-package com.stockstore.stockstore.online.dto.order;
+package com.stockstore.stockstore.online.dto.onlineOrder;
 
-import com.stockstore.stockstore.online.dto.orderItem.OnlineOrderItemDetailDTO;
+import com.stockstore.stockstore.online.dto.onlineOrderItem.OnlineOrderItemDetailDTO;
 
 import java.time.LocalDate;
 import java.util.List;

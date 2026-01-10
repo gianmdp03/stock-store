@@ -1,4 +1,4 @@
-package com.stockstore.stockstore.online.dto.order;
+package com.stockstore.stockstore.online.dto.onlineOrder;
 
 public record OnlineOrderRequestDTO(String shippingAddress) {
 }

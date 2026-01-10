@@ -1,6 +1,6 @@
 package com.stockstore.stockstore.online.mapper;
 
-import com.stockstore.stockstore.online.dto.order.OnlineOrderDetailDTO;
+import com.stockstore.stockstore.online.dto.onlineOrder.OnlineOrderDetailDTO;
 import com.stockstore.stockstore.online.model.OnlineOrder;
 import org.mapstruct.*;
 

@@ -1,7 +1,7 @@
 package com.stockstore.stockstore.online.service;
 
-import com.stockstore.stockstore.online.dto.order.OnlineOrderDetailDTO;
-import com.stockstore.stockstore.online.dto.orderItem.OnlineOrderItemRequestDTO;
+import com.stockstore.stockstore.online.dto.onlineOrder.OnlineOrderDetailDTO;
+import com.stockstore.stockstore.online.dto.onlineOrderItem.OnlineOrderItemRequestDTO;
 import com.stockstore.stockstore.online.model.OnlineOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

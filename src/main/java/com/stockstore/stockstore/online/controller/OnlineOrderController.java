@@ -1,7 +1,7 @@
 package com.stockstore.stockstore.online.controller;
 
-import com.stockstore.stockstore.online.dto.order.OnlineOrderDetailDTO;
-import com.stockstore.stockstore.online.dto.orderItem.OnlineOrderItemRequestDTO;
+import com.stockstore.stockstore.online.dto.onlineOrder.OnlineOrderDetailDTO;
+import com.stockstore.stockstore.online.dto.onlineOrderItem.OnlineOrderItemRequestDTO;
 import com.stockstore.stockstore.online.service.OnlineOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
