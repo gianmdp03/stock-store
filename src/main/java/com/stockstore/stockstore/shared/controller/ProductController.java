@@ -48,6 +48,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(id));
     }
 
+    @GetMapping("/barcode/{barcode}")
+    public ResponseEntity<ProductDetailDTO> getProductByBarcode(@PathVariable String barcode){
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByBarcode(barcode));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);

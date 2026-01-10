@@ -16,5 +16,4 @@ public interface InventoryItemService {
     Page<InventoryItemDetailDTO> searchInventoryItemsByProduct(Long productId, Pageable pageable);
     InventoryItemDetailDTO getInventoryItemById(Long id);
     void deleteInventoryItem(Long inventoryItemId);
-    Page<InventoryItemDetailDTO> searchInventoryItem(Pageable page, LocalDate date);
 }

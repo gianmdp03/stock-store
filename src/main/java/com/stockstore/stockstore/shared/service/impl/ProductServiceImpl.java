@@ -78,9 +78,17 @@ public class ProductServiceImpl implements ProductService {
         return page.map(productMapper::toListDto);
     }
 
+    @Override
     public ProductDetailDTO getProductById(Long id){
         Product product = productRepository.findByIdAndEnabledTrue(id)
                 .orElseThrow(()-> new NotFoundException("Product ID does not exist"));
+        return productMapper.toDetailDto(product);
+    }
+
+    @Override
+    public ProductDetailDTO getProductByBarcode(String barcode){
+        Product product = productRepository.findByBarcodeAndEnabledTrue(barcode)
+                .orElseThrow(()-> new NotFoundException("Product barcode does not exist"));
         return productMapper.toDetailDto(product);
     }
 
