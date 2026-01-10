@@ -14,6 +14,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByIdInAndEnabledTrue(Iterable<Long> ids);
     Optional<Product> findByName(String name);
     Optional<Product> findByIdAndEnabledTrue(Long id);
+    Optional<Product> findByBarcode(String name);
+    Optional<Product> findByBarcodeAndEnabledTrue(String barcode);
+    boolean existsByBarcode(String barcode);
     Page<Product> findByEnabledTrue(Pageable pageable);
     Page<Product> findByNameContainingIgnoreCaseAndEnabledTrue(String name, Pageable pageable);
 }

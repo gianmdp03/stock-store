@@ -33,15 +33,19 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDetailDTO addProduct(ProductRequestDTO dto) {
         Optional<Product> optionalProduct = productRepository.findByName(dto.name());
-        if(optionalProduct.isPresent()){
-           Product existingProduct = optionalProduct.get();
-           existingProduct.setEnabled(true);
-           existingProduct = productRepository.save(existingProduct);
-           return productMapper.toDetailDto(existingProduct);
-        }
         List<Category> categories = categoryRepository.findAllById(dto.categoriesId());
         if(categories.isEmpty())
             throw new NotFoundException("List is empty");
+        if(optionalProduct.isPresent()){
+           Product existingProduct = optionalProduct.get();
+           existingProduct.setEnabled(true);
+           existingProduct.setBarcode(dto.barcode());
+           existingProduct.setCategories(categories);
+           existingProduct.setImageUrl(dto.imageUrl());
+           existingProduct.setPrice(dto.price());
+           existingProduct = productRepository.save(existingProduct);
+           return productMapper.toDetailDto(existingProduct);
+        }
         Product product = productMapper.toEntity(dto);
         product.setCategories(categories);
         product = productRepository.save(product);

@@ -27,7 +27,7 @@ public class Product {
     @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String barcode;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
