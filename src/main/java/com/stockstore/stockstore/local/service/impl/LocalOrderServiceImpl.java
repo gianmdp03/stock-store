@@ -53,7 +53,9 @@ public class LocalOrderServiceImpl implements LocalOrderService {
             item.setLocalOrder(localOrder);
             Product product = productRepository.findByIdAndEnabledTrue(request.productId())
                     .orElseThrow(()-> new NotFoundException("Product ID does not exist"));
-            totalAmount = totalAmount.add(product.getPrice());
+            item.setPrice(product.getPrice());
+            BigDecimal lineTotal = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+            totalAmount = totalAmount.add(lineTotal);
             item.setProduct(product);
             orderItems.add(item);
         }

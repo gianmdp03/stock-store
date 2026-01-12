@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -22,6 +24,9 @@ public class LocalOrderItem {
 
     @Column(nullable = false)
     private int quantity;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "local_order_id")
