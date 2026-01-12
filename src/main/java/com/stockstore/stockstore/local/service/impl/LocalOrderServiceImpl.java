@@ -84,7 +84,7 @@ public class LocalOrderServiceImpl implements LocalOrderService {
     @Override
     public Page<LocalOrderDetailDTO> searchLocalOrders(LocalDate saleDate, Pageable pageable) {
         LocalDateTime saleDateA = saleDate.atStartOfDay();
-        LocalDateTime saleDateB = saleDate.atTime(LocalTime.MIN);
+        LocalDateTime saleDateB = saleDate.atTime(LocalTime.MAX);
         Page<LocalOrder> page = localOrderRepository.findBySaleDateBetween(saleDateA, saleDateB, pageable);
         if(page.isEmpty()){
             return Page.empty();

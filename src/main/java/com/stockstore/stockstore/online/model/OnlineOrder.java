@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,9 @@ public class OnlineOrder {
 
     @Enumerated(EnumType.STRING)
     private OnlineOrderStatus status;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal totalAmount;
 
     private String shippingAddress;
 

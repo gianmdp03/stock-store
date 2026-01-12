@@ -32,9 +32,10 @@ public class LocalOrderItem {
     @JoinColumn(name = "local_order_id")
     private LocalOrder localOrder;
 
-    public LocalOrderItem(Product product, int quantity, LocalOrder localOrder) {
+    public LocalOrderItem(Product product, int quantity, LocalOrder localOrder, BigDecimal price) {
         this.product = product;
         this.quantity = quantity;
         this.localOrder = localOrder;
+        this.price = price;
     }
 }

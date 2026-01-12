@@ -1,6 +1,7 @@
 package com.stockstore.stockstore.online.service.impl;
 
 import com.stockstore.stockstore.exception.NotFoundException;
+import com.stockstore.stockstore.local.model.LocalOrder;
 import com.stockstore.stockstore.online.dto.onlineOrder.OnlineOrderDetailDTO;
 import com.stockstore.stockstore.online.dto.onlineOrderItem.OnlineOrderItemRequestDTO;
 import com.stockstore.stockstore.online.enums.OnlineOrderStatus;
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -46,6 +48,7 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
         if(onlineOrderItemsDTO.isEmpty()){
             throw new NotFoundException("OrderItem list is empty");
         }
+        BigDecimal totalAmount = BigDecimal.ZERO;
         List<OnlineOrderItem> orderItems = new ArrayList<>();
         for(OnlineOrderItemRequestDTO dto : onlineOrderItemsDTO){
             OnlineOrderItem item = onlineOrderItemMapper.toEntity(dto);
@@ -53,10 +56,13 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
             Product product = productRepository.findByIdAndEnabledTrue(dto.productId()).orElseThrow(()->
                     new NotFoundException("Product ID does not exist"));
             item.setProduct(product);
+            item.setPrice(product.getPrice());
+            BigDecimal lineTotal = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+            totalAmount = totalAmount.add(lineTotal);
             orderItems.add(item);
         }
         onlineOrderItemRepository.saveAll(orderItems);
-        order = onlineOrderRepository.findById(order.getId()).orElseThrow(()-> new NotFoundException("Order ID does not exist"));
+        order = addTotalAmountToOnlineOrder(order.getId(), totalAmount);
         return onlineOrderMapper.toDetailDto(order);
     }
 
@@ -76,7 +82,7 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
     @Override
     public Page<OnlineOrderDetailDTO> searchOnlineOrders(LocalDate saleDate, Pageable pageable){
         LocalDateTime saleDateA = saleDate.atStartOfDay();
-        LocalDateTime saleDateB = saleDate.atTime(LocalTime.MIN);
+        LocalDateTime saleDateB = saleDate.atTime(LocalTime.MAX);
         Page<OnlineOrder> page = onlineOrderRepository.findBySaleDateBetween(saleDateA, saleDateB, pageable);
         if(page.isEmpty()){
             return Page.empty();
@@ -105,6 +111,14 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
         OnlineOrder onlineOrder = new OnlineOrder(LocalDateTime.now(),shippingAddress);
         onlineOrder.setUser(user);
         onlineOrder.setStatus(OnlineOrderStatus.PENDING);
+        return onlineOrderRepository.save(onlineOrder);
+    }
+
+    @Transactional
+    public OnlineOrder addTotalAmountToOnlineOrder(Long onlineOrderId, BigDecimal totalAmount){
+        OnlineOrder onlineOrder = onlineOrderRepository.findById(onlineOrderId)
+                .orElseThrow(()-> new NotFoundException("OnlineOrder ID does not exist"));
+        onlineOrder.setTotalAmount(totalAmount);
         return onlineOrderRepository.save(onlineOrder);
     }
 }
