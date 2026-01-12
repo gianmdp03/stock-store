@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,7 @@ public class LocalOrder {
     private LocalDateTime saleDate;
 
     @OneToMany(mappedBy = "localOrder")
-    private List<LocalOrderItem> localOrderItems;
+    private List<LocalOrderItem> localOrderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;

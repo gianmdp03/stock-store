@@ -23,7 +23,7 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    List<Product> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     public Category(String name) {
         this.name = name;

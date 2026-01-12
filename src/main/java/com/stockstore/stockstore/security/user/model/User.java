@@ -1,5 +1,6 @@
 package com.stockstore.stockstore.security.user.model;
 
+import com.stockstore.stockstore.online.model.Cart;
 import com.stockstore.stockstore.security.user.Enum.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,6 +39,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
