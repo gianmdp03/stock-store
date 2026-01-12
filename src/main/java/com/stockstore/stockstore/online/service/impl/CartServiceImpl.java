@@ -79,9 +79,7 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = cartItemRepository.findByIdAndCartId(cartItemId, cart.getId())
                 .orElseThrow(()->new NotFoundException("CartItem does not exist"));
         cartItem.setQuantity(quantity);
-        cartItemRepository.save(cartItem);
-        cart = cartRepository.findByUserEmail(email)
-                .orElseThrow(()->new NotFoundException("Cart does not exist"));
+
         return cartMapper.toListDto(cart);
     }
 

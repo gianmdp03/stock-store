@@ -29,7 +29,7 @@ public class Wishlist {
     private List<Product> products = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "wishlist_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Wishlist(User user) {

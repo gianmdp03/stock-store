@@ -4,4 +4,4 @@ import com.stockstore.stockstore.shared.dto.product.ProductListDTO;
 
 import java.util.List;
 
-public record WishlistDetailDTO(List<ProductListDTO> products) {}
+public record WishlistDetailDTO(Long id, List<ProductListDTO> products) {}
