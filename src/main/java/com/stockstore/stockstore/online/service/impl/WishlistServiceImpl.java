@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -57,7 +58,8 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     @Transactional
     public void deleteItemFromWishlist(String email, Long productId) {
-        User user = userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Invalid Wishlist"));
-        wishlistRepository.deleteByProductIdAndUser(productId, user);
+        Wishlist wishlist = wishlistRepository.findByUserEmail(email).orElseThrow(()-> new NotFoundException("Invalid Wishlist or User"));
+        wishlist.getProducts().removeIf(product -> product.getId().equals(productId));
+
     }
 }
