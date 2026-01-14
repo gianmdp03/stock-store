@@ -29,13 +29,13 @@ public class CartController {
     public ResponseEntity<CartListDTO> viewCart(Authentication authentication){
         return ResponseEntity.status(HttpStatus.OK).body(cartService.viewCart(authentication.getName()));
     }
-    @PatchMapping("/items/{cartItemId}/{amount}")
-    public ResponseEntity<CartListDTO> modifyCartItemAmount(
+    @PatchMapping("/items/{cartItemId}/{quantity}")
+    public ResponseEntity<CartListDTO> modifyCartItemQuantity(
             Authentication authentication,
             @PathVariable Long cartItemId,
-            @PathVariable int amount){
-        return ResponseEntity.status(HttpStatus.OK).body(cartService.modifyCartItemAmount(
-                authentication.getName(), cartItemId, amount));
+            @PathVariable int quantity){
+        return ResponseEntity.status(HttpStatus.OK).body(cartService.modifyCartItemQuantity(
+                authentication.getName(), cartItemId, quantity));
     }
     @DeleteMapping("/items/{cartItemId}")
     public ResponseEntity<Void> deleteCartItem(Authentication authentication, @PathVariable Long cartItemId){

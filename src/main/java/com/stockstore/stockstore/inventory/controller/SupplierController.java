@@ -37,7 +37,7 @@ public class SupplierController {
         return ResponseEntity.status(HttpStatus.OK).body(supplierService.listSuppliers(pageable));
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<Page<SupplierListDTO>> searchSuppliersByName(
             @PathVariable String name,
             @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable){
