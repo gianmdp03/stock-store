@@ -70,7 +70,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartListDTO modifyCartItemAmount(String email, Long cartItemId, int quantity){
+    public CartListDTO modifyCartItemQuantity(String email, Long cartItemId, int quantity){
         if(quantity < 1){
             throw new BadRequestException("Amount can't be zero or negative");
         }
