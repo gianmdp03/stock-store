@@ -21,9 +21,18 @@ import java.util.List;
 public class MercadoPagoController {
     private final MercadoPagoService mercadoPagoService;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> createPreference(Authentication authentication, @Valid @RequestBody List<PreferenceRequestDTO> dto){
+    @PostMapping("/single")
+    public ResponseEntity<String> createPreference(@Valid @RequestBody List<PreferenceRequestDTO> dto){
         Preference preference = mercadoPagoService.createPreference(dto);
+        if(preference == null){
+            return ResponseEntity.internalServerError().body("Error al crear la preferencia");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(preference.getSandboxInitPoint());
+    }
+
+    @PostMapping("/cart")
+    public ResponseEntity<String> createPreference(Authentication authentication){
+        Preference preference = mercadoPagoService.createPreference(authentication.getName());
         if(preference == null){
             return ResponseEntity.internalServerError().body("Error al crear la preferencia");
         }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MercadoPagoService {
     Preference createPreference(List<PreferenceRequestDTO> requests);
+    Preference createPreference(String email);
 }
