@@ -23,6 +23,9 @@ public class MercadoPagoController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createPreference(Authentication authentication, @Valid @RequestBody List<PreferenceRequestDTO> dto){
+        if(authentication == null || !authentication.isAuthenticated()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         Preference preference = mercadoPagoService.createPreference(dto);
         if(preference == null){
             return ResponseEntity.internalServerError().body("Error al crear la preferencia");
