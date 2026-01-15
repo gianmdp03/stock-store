@@ -20,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MercadoPagoServiceImpl implements MercadoPagoService {
     private final ProductRepository productRepository;
-
     public Preference createPreference(List<PreferenceRequestDTO> requests){
         try{
         List<PreferenceItemRequest> preferenceItemRequest = new ArrayList<>();

@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class MercadoPagoController {
     private final MercadoPagoService mercadoPagoService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createPreference(@Valid @RequestBody List<PreferenceRequestDTO> dto){
+    public ResponseEntity<String> createPreference(Authentication authentication, @Valid @RequestBody List<PreferenceRequestDTO> dto){
         Preference preference = mercadoPagoService.createPreference(dto);
         if(preference == null){
             return ResponseEntity.internalServerError().body("Error al crear la preferencia");
