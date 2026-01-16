@@ -40,6 +40,7 @@ public class User implements UserDetails {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", length = 20)
     private Role role;
 
     @OneToOne(mappedBy = "user")
