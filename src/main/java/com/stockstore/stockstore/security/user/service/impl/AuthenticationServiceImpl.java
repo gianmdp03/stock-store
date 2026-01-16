@@ -156,7 +156,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getName(),
                 user.getLastname(),
                 user.getEmail(),
-                user.getPhoneNumber()));
+                user.getPhoneNumber(),
+                user.getRole().name())
+        );
     }
 
     @Override
@@ -170,7 +172,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getName(),
                 user.getLastname(),
                 user.getEmail(),
-                user.getPhoneNumber()));
+                user.getPhoneNumber(),
+                user.getRole().name()
+                ));
     }
 
     @Override
@@ -184,7 +188,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getName(),
                 user.getLastname(),
                 user.getEmail(),
-                user.getPhoneNumber()));
+                user.getPhoneNumber(),
+                user.getRole().name()
+        ));
     }
 
     @Override
@@ -195,7 +201,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getName(),
                 user.getLastname(),
                 user.getEmail(),
-                user.getPhoneNumber());
+                user.getPhoneNumber(),
+                user.getRole().name());
     }
 
     @Override
