@@ -38,7 +38,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 
         return savePreference(items);
     }
-    
+
     @Override
     public Preference createPreference(String email){
         List<CartItem> cartItems = (cartRepository.findByUserEmail(email)

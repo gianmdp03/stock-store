@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        /*//SESION
+                        //SESION
                         .requestMatchers("/api/auth/**").permitAll()
                         //GESTION DE INVENTARIO
                         .requestMatchers("/api/categories/**").hasRole("ADMIN")
@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/online-orders/**").hasRole("ADMIN")
                         .requestMatchers("/api/mp/**").hasAnyRole("USER", "ADMIN")
                         //TIENDA LOCAL
-                        .requestMatchers("/api/local-orders/**").hasRole("ADMIN")*/
+                        .requestMatchers("/api/local-orders/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
