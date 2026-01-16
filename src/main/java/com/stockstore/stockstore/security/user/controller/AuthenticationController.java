@@ -4,14 +4,15 @@ import com.stockstore.stockstore.security.user.dto.authentication.Authentication
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationRequestDTO;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationResponseDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserRequestDTO;
+import com.stockstore.stockstore.security.user.dto.user.UserUpdatePassDTO;
 import com.stockstore.stockstore.security.user.service.AuthenticationService;
-import com.stockstore.stockstore.shared.service.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-    private final EmailService emailService;
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody UserRequestDTO request) {
@@ -40,7 +40,7 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("/password")
+    @PostMapping("/forgot")
     public ResponseEntity<String> forgotPassword(@Valid @RequestBody AuthenticationPasswordDTO dto){
         authenticationService.forgotPassword(dto.email());
         return ResponseEntity.status(HttpStatus.OK).body("Si el email es correcto, se envió un código de verificación");
@@ -55,9 +55,18 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
-    @PatchMapping("/password/change")
-    public ResponseEntity<Void> changePassword(@Valid @RequestBody AuthenticationPasswordDTO dto){
-        boolean flag = authenticationService.changePassword(dto.email(), dto.token(), dto.password());
+    @PatchMapping("/forgot/change")
+    public ResponseEntity<Void> changeForgottenPassword(@Valid @RequestBody AuthenticationPasswordDTO dto){
+        boolean flag = authenticationService.changeForgottenPassword(dto.email(), dto.token(), dto.password());
+        if(!flag){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<Void> changePassword(Authentication authentication, @Valid @RequestBody UserUpdatePassDTO dto){
+        boolean flag = authenticationService.changePassword(authentication.getName(), dto);
         if(!flag){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

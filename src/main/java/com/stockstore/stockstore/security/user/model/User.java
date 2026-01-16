@@ -36,8 +36,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastname;
 
-    private String phoneNumber;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -78,12 +76,11 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User(String email, String password, String name, String lastname, String phoneNumber, Role role) {
+    public User(String email, String password, String name, String lastname, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.lastname = lastname;
-        this.phoneNumber = phoneNumber;
         this.role = role;
     }
 }
