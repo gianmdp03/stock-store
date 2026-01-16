@@ -163,7 +163,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if(page.isEmpty()){
             return Page.empty();
         }
-        return page.map(user -> new UserDetailDTO(user.getName(),
+        return page.map(user -> new UserDetailDTO(
+                user.getId(),
+                user.getName(),
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber()));
