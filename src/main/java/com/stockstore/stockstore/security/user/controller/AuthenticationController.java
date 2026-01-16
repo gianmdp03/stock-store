@@ -3,12 +3,15 @@ package com.stockstore.stockstore.security.user.controller;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationPasswordDTO;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationRequestDTO;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationResponseDTO;
+import com.stockstore.stockstore.security.user.dto.user.UserDetailDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserRequestDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserUpdateDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserUpdatePassDTO;
 import com.stockstore.stockstore.security.user.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -77,6 +80,17 @@ public class AuthenticationController {
     @PatchMapping("/user")
     public ResponseEntity<Void> updateUser(Authentication authentication, @Valid @RequestBody UserUpdateDTO dto){
         authenticationService.updateUser(authentication.getName(), dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<UserDetailDTO>> listUsers(Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.listUsers(pageable));
+    }
+
+    @PatchMapping("/admin")
+    public ResponseEntity<Void> promoteToAdmin(@PathVariable Long id){
+        authenticationService.promoteToAdmin(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

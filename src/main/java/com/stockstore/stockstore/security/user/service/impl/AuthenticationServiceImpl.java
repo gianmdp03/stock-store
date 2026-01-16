@@ -5,6 +5,7 @@ import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.security.user.Enum.Role;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationRequestDTO;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationResponseDTO;
+import com.stockstore.stockstore.security.user.dto.user.UserDetailDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserRequestDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserUpdateDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserUpdatePassDTO;
@@ -14,6 +15,8 @@ import com.stockstore.stockstore.security.user.service.AuthenticationService;
 import com.stockstore.stockstore.security.user.service.JwtService;
 import com.stockstore.stockstore.shared.service.EmailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -140,5 +143,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if(dto.email() != null){
             user.setEmail(dto.email());
         }
+    }
+
+    @Override
+    public Page<UserDetailDTO> listUsers(Pageable pageable) {
+        Page<User> page = userRepository.findAll(pageable);
+        if(page.isEmpty()){
+            return Page.empty();
+        }
+        return page.map(user -> new UserDetailDTO(user.getName(), user.getLastname()));
+    }
+
+    @Override
+    @Transactional
+    public void promoteToAdmin(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()-> new BadRequestException("Invalid request"));
+        user.setRole(Role.ADMIN);
     }
 }
