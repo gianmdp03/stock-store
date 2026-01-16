@@ -1,6 +1,7 @@
 package com.stockstore.stockstore.security.user.service.impl;
 
 import com.stockstore.stockstore.exception.BadRequestException;
+import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.security.user.Enum.Role;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationRequestDTO;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationResponseDTO;
@@ -178,6 +179,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber()));
+    }
+
+    @Override
+    public UserDetailDTO getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Email is not valid"));
+        return new UserDetailDTO(
+                user.getName(),
+                user.getLastname(),
+                user.getEmail(),
+                user.getPhoneNumber());
     }
 
     @Override
