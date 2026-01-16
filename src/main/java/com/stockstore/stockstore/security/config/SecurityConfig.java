@@ -34,14 +34,15 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/logged/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/auth/**").permitAll()
                         //GESTION DE INVENTARIO
-                        .requestMatchers("/api/categories/**").hasRole("ADMIN")
-                        .requestMatchers("/api/inventory-items/**").hasRole("ADMIN")
-                        .requestMatchers("/api/products/**").hasRole("ADMIN")
-                        .requestMatchers("/api/suppliers/**").hasRole("ADMIN")
+                        .requestMatchers("/api/categories/**").hasAnyRole("EMPLOYEE", "ADMIN")
+                        .requestMatchers("/api/inventory-items/**").hasAnyRole("EMPLOYEE", "ADMIN")
+                        .requestMatchers("/api/products/**").hasAnyRole("EMPLOYEE", "ADMIN")
+                        .requestMatchers("/api/suppliers/**").hasAnyRole("EMPLOYEE", "ADMIN")
                         //TIENDA ONLINE
-                        .requestMatchers("/api/carts/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/carts/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
                         .requestMatchers("/api/online-orders/**").hasRole("ADMIN")
-                        .requestMatchers("/api/mp/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/mp/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
+                        .requestMatchers("/api/wishlists/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
                         //TIENDA LOCAL
                         .requestMatchers("/api/local-orders/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

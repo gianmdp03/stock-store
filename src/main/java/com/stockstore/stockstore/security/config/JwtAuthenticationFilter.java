@@ -35,8 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = null;
         String userEmail = null;
 
-
-        // 1. Intenta leer desde la cookie
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("accessToken".equals(cookie.getName())) {
@@ -46,8 +44,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-
-        // 2. Si no puede lee desde HEADER
         if (jwt == null) {
             final String authHeader = request.getHeader("Authorization");
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -55,12 +51,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        // Si no hay token en ningún lado, seguimos la cadena sin autenticar
         if (jwt == null) {
             filterChain.doFilter(request, response);
             return;
         }
-        // 3. VALIDACIÓN
+
         try {
             userEmail = jwtService.extractUsername(jwt);
 
@@ -68,6 +63,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
+
+                    if (!userDetails.isAccountNonLocked()) {
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        return;
+                    }
+
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
@@ -80,9 +81,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            // Si el token expira o es inválido, no se autentica
         }
         filterChain.doFilter(request, response);
     }
 }
-
