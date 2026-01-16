@@ -175,7 +175,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if(page.isEmpty()){
             return Page.empty();
         }
-        return page.map(user -> new UserDetailDTO(user.getName(),
+        return page.map(user -> new UserDetailDTO(
+                user.getId(),
+                user.getName(),
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber()));
@@ -185,6 +187,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public UserDetailDTO getUserByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Email is not valid"));
         return new UserDetailDTO(
+                user.getId(),
                 user.getName(),
                 user.getLastname(),
                 user.getEmail(),
