@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         //SESION
                         .requestMatchers("/api/auth/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/auth/logged/**").hasAnyRole("USER", "ADMIN")
+                      .requestMatchers("/api/auth/logged/**").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
                         .requestMatchers("/api/auth/**").permitAll()
                         //GESTION DE INVENTARIO
                         .requestMatchers("/api/categories/**").hasAnyRole("EMPLOYEE", "ADMIN")

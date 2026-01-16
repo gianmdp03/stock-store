@@ -12,6 +12,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -44,13 +46,13 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("/logged/forgot")
+    @PostMapping("/forgot")
     public ResponseEntity<String> forgotPassword(@Valid @RequestBody AuthenticationPasswordDTO dto){
         authenticationService.forgotPassword(dto.email());
         return ResponseEntity.status(HttpStatus.OK).body("Si el email es correcto, se envió un código de verificación");
     }
 
-    @PostMapping("/logged/verify/{code}")
+    @PostMapping("/verify/{code}")
     public ResponseEntity<String> validateCode(@Valid @RequestBody AuthenticationPasswordDTO dto, @PathVariable String code){
         String token = authenticationService.validateCode(dto.email(), code);
         if(token == null){
@@ -59,7 +61,7 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
-    @PatchMapping("/logged/forgot/change")
+    @PatchMapping("/forgot/change")
     public ResponseEntity<Void> changeForgottenPassword(@Valid @RequestBody AuthenticationPasswordDTO dto){
         boolean flag = authenticationService.changeForgottenPassword(dto.email(), dto.token(), dto.password());
         if(!flag){
@@ -84,12 +86,14 @@ public class AuthenticationController {
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<Page<UserDetailDTO>> listUsers(Pageable pageable){
+    public ResponseEntity<Page<UserDetailDTO>> listUsers(
+            @PageableDefault(page=0, size = 10, sort="name", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.listUsers(pageable));
     }
 
     @GetMapping("/admin/banned")
-    public ResponseEntity<Page<UserDetailDTO>> listBannedUsers(Pageable pageable){
+    public ResponseEntity<Page<UserDetailDTO>> listBannedUsers(
+            @PageableDefault(page=0, size = 10, sort="name", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.listBannedUsers(pageable));
     }
 
@@ -121,7 +125,7 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("/logout")
+    @DeleteMapping("/logout")
     public ResponseEntity<Void> logout() {
         ResponseCookie cookie = ResponseCookie.from("accessToken", "")
                 .httpOnly(true)
