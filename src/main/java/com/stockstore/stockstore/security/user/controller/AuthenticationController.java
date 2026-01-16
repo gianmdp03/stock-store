@@ -103,19 +103,19 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.getUserByEmail(email));
     }
 
-    @PostMapping("/admin/promote/employee")
+    @PostMapping("/admin/promote/employee/{id}")
     public ResponseEntity<Void> promoteToEmployee(@PathVariable Long id){
         authenticationService.promoteToEmployee(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/admin/promote/admin")
+    @PatchMapping("/admin/promote/admin/{id}")
     public ResponseEntity<Void> promoteToAdmin(@PathVariable Long id){
         authenticationService.promoteToAdmin(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("/admin/ban")
+    @PostMapping("/admin/ban/{id}")
     public ResponseEntity<Void> toggleBan(@PathVariable Long id){
         authenticationService.toggleBan(id);
         return ResponseEntity.status(HttpStatus.OK).build();
