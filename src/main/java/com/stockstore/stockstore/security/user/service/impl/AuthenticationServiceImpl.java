@@ -6,6 +6,7 @@ import com.stockstore.stockstore.security.user.Enum.Role;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationRequestDTO;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationResponseDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserRequestDTO;
+import com.stockstore.stockstore.security.user.dto.user.UserUpdateDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserUpdatePassDTO;
 import com.stockstore.stockstore.security.user.model.User;
 import com.stockstore.stockstore.security.user.repository.UserRepository;
@@ -124,5 +125,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(String email, UserUpdateDTO dto) {
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new BadRequestException("Invalid request"));
+        if(dto.name() != null){
+            user.setName(dto.name());
+        }
+        if(dto.lastname() != null){
+            user.setLastname(dto.lastname());
+        }
+        if(dto.email() != null){
+            user.setEmail(dto.email());
+        }
     }
 }

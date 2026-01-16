@@ -4,6 +4,7 @@ import com.stockstore.stockstore.security.user.dto.authentication.Authentication
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationRequestDTO;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationResponseDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserRequestDTO;
+import com.stockstore.stockstore.security.user.dto.user.UserUpdateDTO;
 import com.stockstore.stockstore.security.user.dto.user.UserUpdatePassDTO;
 import com.stockstore.stockstore.security.user.service.AuthenticationService;
 import jakarta.validation.Valid;
@@ -70,6 +71,12 @@ public class AuthenticationController {
         if(!flag){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/user")
+    public ResponseEntity<Void> updateUser(Authentication authentication, @Valid @RequestBody UserUpdateDTO dto){
+        authenticationService.updateUser(authentication.getName(), dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
