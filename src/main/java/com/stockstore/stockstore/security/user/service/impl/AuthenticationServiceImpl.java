@@ -1,7 +1,6 @@
 package com.stockstore.stockstore.security.user.service.impl;
 
 import com.stockstore.stockstore.exception.BadRequestException;
-import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.security.user.Enum.Role;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationRequestDTO;
 import com.stockstore.stockstore.security.user.dto.authentication.AuthenticationResponseDTO;
@@ -147,11 +146,45 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Page<UserDetailDTO> listUsers(Pageable pageable) {
-        Page<User> page = userRepository.findAll(pageable);
+        Page<User> page = userRepository.findByIsBannedFalse(pageable);
         if(page.isEmpty()){
             return Page.empty();
         }
-        return page.map(user -> new UserDetailDTO(user.getName(), user.getLastname()));
+        return page.map(user -> new UserDetailDTO(user.getName(),
+                user.getLastname(),
+                user.getEmail(),
+                user.getPhoneNumber()));
+    }
+
+    @Override
+    public Page<UserDetailDTO> listBannedUsers(Pageable pageable){
+        Page<User> page = userRepository.findByIsBannedTrue(pageable);
+        if(page.isEmpty()){
+            return Page.empty();
+        }
+        return page.map(user -> new UserDetailDTO(user.getName(),
+                user.getLastname(),
+                user.getEmail(),
+                user.getPhoneNumber()));
+    }
+
+    @Override
+    public Page<UserDetailDTO> listEmployees(Pageable pageable) {
+        Page<User> page = userRepository.findByRoleAndIsBannedFalse(Role.EMPLOYEE, pageable);
+        if(page.isEmpty()){
+            return Page.empty();
+        }
+        return page.map(user -> new UserDetailDTO(user.getName(),
+                user.getLastname(),
+                user.getEmail(),
+                user.getPhoneNumber()));
+    }
+
+    @Override
+    @Transactional
+    public void promoteToEmployee(Long id){
+        User user = userRepository.findById(id).orElseThrow(()-> new BadRequestException("Invalid request"));
+        user.setRole(Role.EMPLOYEE);
     }
 
     @Override
@@ -159,5 +192,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void promoteToAdmin(Long id) {
         User user = userRepository.findById(id).orElseThrow(()-> new BadRequestException("Invalid request"));
         user.setRole(Role.ADMIN);
+    }
+
+    @Override
+    @Transactional
+    public void toggleBan(Long id){
+        User user = userRepository.findById(id).orElseThrow(()-> new BadRequestException("Invalid request"));
+        user.setBanned(!user.isBanned());
     }
 }

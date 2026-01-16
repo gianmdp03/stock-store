@@ -44,13 +44,13 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("/forgot")
+    @PostMapping("/logged/forgot")
     public ResponseEntity<String> forgotPassword(@Valid @RequestBody AuthenticationPasswordDTO dto){
         authenticationService.forgotPassword(dto.email());
         return ResponseEntity.status(HttpStatus.OK).body("Si el email es correcto, se envió un código de verificación");
     }
 
-    @PostMapping("/verify/{code}")
+    @PostMapping("/logged/verify/{code}")
     public ResponseEntity<String> validateCode(@Valid @RequestBody AuthenticationPasswordDTO dto, @PathVariable String code){
         String token = authenticationService.validateCode(dto.email(), code);
         if(token == null){
@@ -59,7 +59,7 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
-    @PatchMapping("/forgot/change")
+    @PatchMapping("/logged/forgot/change")
     public ResponseEntity<Void> changeForgottenPassword(@Valid @RequestBody AuthenticationPasswordDTO dto){
         boolean flag = authenticationService.changeForgottenPassword(dto.email(), dto.token(), dto.password());
         if(!flag){
@@ -68,7 +68,7 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/password")
+    @PatchMapping("/logged/password")
     public ResponseEntity<Void> changePassword(Authentication authentication, @Valid @RequestBody UserUpdatePassDTO dto){
         boolean flag = authenticationService.changePassword(authentication.getName(), dto);
         if(!flag){
@@ -77,20 +77,42 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/user")
+    @PatchMapping("/logged/user")
     public ResponseEntity<Void> updateUser(Authentication authentication, @Valid @RequestBody UserUpdateDTO dto){
         authenticationService.updateUser(authentication.getName(), dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping
+    @GetMapping("/admin")
     public ResponseEntity<Page<UserDetailDTO>> listUsers(Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.listUsers(pageable));
     }
 
-    @PatchMapping("/admin")
+    @GetMapping("/admin/banned")
+    public ResponseEntity<Page<UserDetailDTO>> listBannedUsers(Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.listBannedUsers(pageable));
+    }
+
+    @GetMapping("/admin/employees")
+    public ResponseEntity<Page<UserDetailDTO>> listEmployees(Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.listEmployees(pageable));
+    }
+
+    @PostMapping("/admin/promote/employee")
+    public ResponseEntity<Void> promoteToEmployee(@PathVariable Long id){
+        authenticationService.promoteToEmployee(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/admin/promote/admin")
     public ResponseEntity<Void> promoteToAdmin(@PathVariable Long id){
         authenticationService.promoteToAdmin(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/admin/ban")
+    public ResponseEntity<Void> toggleBan(@PathVariable Long id){
+        authenticationService.toggleBan(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

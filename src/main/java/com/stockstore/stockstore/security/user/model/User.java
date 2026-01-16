@@ -36,6 +36,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastname;
 
+    @Column(nullable = false, unique = true)
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -45,6 +48,8 @@ public class User implements UserDetails {
     private String securityToken;
 
     private LocalDateTime tokenExpirationTime;
+
+    private boolean isBanned;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,7 +68,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !isBanned;
     }
 
     @Override
@@ -82,5 +87,6 @@ public class User implements UserDetails {
         this.name = name;
         this.lastname = lastname;
         this.role = role;
+        this.isBanned = false;
     }
 }

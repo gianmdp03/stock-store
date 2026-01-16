@@ -30,6 +30,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         //SESION
+                        .requestMatchers("/api/auth/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/auth/logged/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/auth/**").permitAll()
                         //GESTION DE INVENTARIO
                         .requestMatchers("/api/categories/**").hasRole("ADMIN")
@@ -42,7 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/mp/**").hasAnyRole("USER", "ADMIN")
                         //TIENDA LOCAL
                         .requestMatchers("/api/local-orders/**").hasRole("ADMIN")
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

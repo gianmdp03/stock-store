@@ -18,5 +18,9 @@ public interface AuthenticationService {
     boolean changePassword(String email, UserUpdatePassDTO dto);
     void updateUser(String email, UserUpdateDTO dto);
     Page<UserDetailDTO> listUsers(Pageable pageable);
+    Page<UserDetailDTO> listBannedUsers(Pageable pageable);
+    Page<UserDetailDTO> listEmployees(Pageable pageable);
+    void promoteToEmployee(Long id);
     void promoteToAdmin(Long id);
+    void toggleBan(Long id);
 }
