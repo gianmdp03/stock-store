@@ -12,8 +12,6 @@ import com.stockstore.stockstore.local.model.LocalOrderItem;
 import com.stockstore.stockstore.local.repository.LocalOrderItemRepository;
 import com.stockstore.stockstore.local.repository.LocalOrderRepository;
 import com.stockstore.stockstore.local.service.LocalOrderService;
-import com.stockstore.stockstore.online.dto.onlineOrder.OnlineOrderDetailDTO;
-import com.stockstore.stockstore.online.model.OnlineOrder;
 import com.stockstore.stockstore.shared.model.Product;
 import com.stockstore.stockstore.shared.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
