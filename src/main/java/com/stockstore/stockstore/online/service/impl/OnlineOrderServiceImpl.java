@@ -102,7 +102,7 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
     }
 
     @Transactional
-    public OnlineOrder addOnlineOrder(String shippingAddress) {
+    private OnlineOrder addOnlineOrder(String shippingAddress) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         User user = userRepository.findByEmail(email)
@@ -115,7 +115,7 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
     }
 
     @Transactional
-    public OnlineOrder addTotalAmountToOnlineOrder(Long onlineOrderId, BigDecimal totalAmount){
+    private OnlineOrder addTotalAmountToOnlineOrder(Long onlineOrderId, BigDecimal totalAmount){
         OnlineOrder onlineOrder = onlineOrderRepository.findById(onlineOrderId)
                 .orElseThrow(()-> new NotFoundException("OnlineOrder ID does not exist"));
         onlineOrder.setTotalAmount(totalAmount);

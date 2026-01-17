@@ -5,6 +5,7 @@ import com.stockstore.stockstore.local.dto.localOrderItem.LocalOrderItemRequestD
 import com.stockstore.stockstore.local.enums.PaymentMethod;
 import com.stockstore.stockstore.local.service.LocalOrderService;
 import jakarta.validation.Valid;
+import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,16 +19,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RestController("/api/local-orders")
+@RestController
+@RequestMapping("/api/local-orders")
 @RequiredArgsConstructor
 public class LocalOrderController {
     private final LocalOrderService localOrderService;
 
-    @PostMapping("/{saleDate}/{paymentMethod}")
-    public ResponseEntity<LocalOrderDetailDTO> addLocalOrderWithItems(@PathVariable LocalDateTime saleDate,
-                                                                      @Valid @RequestBody List<LocalOrderItemRequestDTO> list,
-                                                                      @PathVariable PaymentMethod paymentMethod){
-        return ResponseEntity.status(HttpStatus.CREATED).body(localOrderService.addLocalOrderWithItems(saleDate, list, paymentMethod));
+    @PostMapping("/{paymentMethod}")
+    public ResponseEntity<LocalOrderDetailDTO> addLocalOrderWithItems(@PathVariable String paymentMethod,
+                                                                      @Valid @RequestBody List<LocalOrderItemRequestDTO> list){
+        PaymentMethod aux = PaymentMethod.fromStringOrDefault(paymentMethod);
+        return ResponseEntity.status(HttpStatus.CREATED).body(localOrderService.addLocalOrderWithItems(LocalDateTime.now(), list, aux));
     }
 
     @GetMapping

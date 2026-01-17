@@ -102,12 +102,12 @@ public class LocalOrderServiceImpl implements LocalOrderService {
     }
 
     @Transactional
-    public LocalOrder addLocalOrder(LocalDateTime saleDate, PaymentMethod paymentMethod){
+    private LocalOrder addLocalOrder(LocalDateTime saleDate, PaymentMethod paymentMethod){
         return localOrderRepository.save(new LocalOrder(saleDate, paymentMethod));
     }
 
     @Transactional
-    public LocalOrder addTotalAmountToLocalOrder(Long localOrderId, BigDecimal totalAmount){
+    private LocalOrder addTotalAmountToLocalOrder(Long localOrderId, BigDecimal totalAmount){
         LocalOrder localOrder = localOrderRepository.findById(localOrderId)
                 .orElseThrow(()-> new NotFoundException("LocalOrder ID does not exist"));
         localOrder.setTotalAmount(totalAmount);
