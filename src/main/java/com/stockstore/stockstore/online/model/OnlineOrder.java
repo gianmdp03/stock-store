@@ -38,10 +38,7 @@ public class OnlineOrder {
     @Column(precision = 19, scale = 2)
     private BigDecimal totalAmount;
 
-    private String shippingAddress;
-
-    public OnlineOrder(LocalDateTime saleDate, String shippingAddress){
+    public OnlineOrder(LocalDateTime saleDate){
         this.saleDate = saleDate;
-        this.shippingAddress=shippingAddress;
     }
 }

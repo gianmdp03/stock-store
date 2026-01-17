@@ -8,11 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,9 +23,9 @@ import java.util.List;
 public class OnlineOrderController {
     private final OnlineOrderService onlineOrderService;
 
-    @PostMapping
-    public ResponseEntity<OnlineOrderDetailDTO> addOrder(@RequestBody List<OnlineOrderItemRequestDTO> dtos, @PathVariable String shippingAddress) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(onlineOrderService.addOnlineOrderWithItems(dtos, shippingAddress));
+    @PostMapping("/{saleDate}")
+    public ResponseEntity<OnlineOrderDetailDTO> addOrder(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime saleDate, @RequestBody List<OnlineOrderItemRequestDTO> dtos) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(onlineOrderService.addOnlineOrderWithItems(saleDate, dtos));
     }
 
     @GetMapping

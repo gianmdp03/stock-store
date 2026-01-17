@@ -97,6 +97,7 @@ public class LocalOrderServiceImpl implements LocalOrderService {
 
         localOrderItemRepository.saveAll(orderItems);
         localOrder = addTotalAmountToLocalOrder(localOrder.getId(), totalAmount);
+        localOrder.setLocalOrderItems(orderItems);
 
         return localOrderMapper.toDetailDTO(localOrder);
     }

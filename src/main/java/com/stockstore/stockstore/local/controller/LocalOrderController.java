@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +26,11 @@ import java.util.List;
 public class LocalOrderController {
     private final LocalOrderService localOrderService;
 
-    @PostMapping("/{paymentMethod}")
-    public ResponseEntity<LocalOrderDetailDTO> addLocalOrderWithItems(@PathVariable String paymentMethod,
+    @PostMapping("/{saleDate}/{paymentMethod}")
+    public ResponseEntity<LocalOrderDetailDTO> addLocalOrderWithItems(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime saleDate,
+                                                                      @PathVariable String paymentMethod,
                                                                       @Valid @RequestBody List<LocalOrderItemRequestDTO> list){
-        return ResponseEntity.status(HttpStatus.CREATED).body(localOrderService.addLocalOrderWithItems(LocalDateTime.now(), list, PaymentMethod.fromStringOrDefault(paymentMethod)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(localOrderService.addLocalOrderWithItems(saleDate, list, PaymentMethod.fromStringOrDefault(paymentMethod)));
     }
 
     @GetMapping

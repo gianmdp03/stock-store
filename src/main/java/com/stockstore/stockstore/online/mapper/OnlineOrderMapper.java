@@ -7,5 +7,4 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {OnlineOrderItemMapper.class})
 public abstract class OnlineOrderMapper {
     public abstract OnlineOrderDetailDTO toDetailDto(OnlineOrder order);
-
 }

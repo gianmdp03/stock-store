@@ -43,8 +43,8 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
 
     @Override
     @Transactional
-    public OnlineOrderDetailDTO addOnlineOrderWithItems(List<OnlineOrderItemRequestDTO> onlineOrderItemsDTO, String shippingAddress){
-        OnlineOrder order = addOnlineOrder(shippingAddress);
+    public OnlineOrderDetailDTO addOnlineOrderWithItems(LocalDateTime saleDate, List<OnlineOrderItemRequestDTO> onlineOrderItemsDTO){
+        OnlineOrder order = addOnlineOrder(saleDate);
         if(onlineOrderItemsDTO.isEmpty()){
             throw new NotFoundException("OrderItem list is empty");
         }
@@ -102,13 +102,13 @@ public class OnlineOrderServiceImpl implements OnlineOrderService {
     }
 
     @Transactional
-    private OnlineOrder addOnlineOrder(String shippingAddress) {
+    private OnlineOrder addOnlineOrder(LocalDateTime saleDate) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
 
-        OnlineOrder onlineOrder = new OnlineOrder(LocalDateTime.now(),shippingAddress);
+        OnlineOrder onlineOrder = new OnlineOrder(saleDate);
         onlineOrder.setUser(user);
         onlineOrder.setStatus(OnlineOrderStatus.PENDING);
         return onlineOrderRepository.save(onlineOrder);
