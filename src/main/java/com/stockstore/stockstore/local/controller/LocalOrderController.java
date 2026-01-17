@@ -28,8 +28,7 @@ public class LocalOrderController {
     @PostMapping("/{paymentMethod}")
     public ResponseEntity<LocalOrderDetailDTO> addLocalOrderWithItems(@PathVariable String paymentMethod,
                                                                       @Valid @RequestBody List<LocalOrderItemRequestDTO> list){
-        PaymentMethod aux = PaymentMethod.fromStringOrDefault(paymentMethod);
-        return ResponseEntity.status(HttpStatus.CREATED).body(localOrderService.addLocalOrderWithItems(LocalDateTime.now(), list, aux));
+        return ResponseEntity.status(HttpStatus.CREATED).body(localOrderService.addLocalOrderWithItems(LocalDateTime.now(), list, PaymentMethod.fromStringOrDefault(paymentMethod)));
     }
 
     @GetMapping
