@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/online-orders/**").hasRole("ADMIN")
                         .requestMatchers("/api/mp/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
                         .requestMatchers("/api/wishlists/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
+                        .requestMatchers("/api/addresses/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
                         //TIENDA LOCAL
                         .requestMatchers("/api/local-orders/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
