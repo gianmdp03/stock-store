@@ -39,4 +39,18 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    private boolean enabled = true;
+
+    public Address(String name, String street, String number, String apartment, String zipCode, String city, String province, User user, boolean enabled) {
+        this.name = name;
+        this.street = street;
+        this.number = number;
+        this.apartment = apartment;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.province = province;
+        this.user = user;
+        this.enabled = enabled;
+    }
 }
