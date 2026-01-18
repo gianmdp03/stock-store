@@ -52,8 +52,8 @@ public class LocalOrderController {
 
     @GetMapping("/{startDate}/{endDate}")
     public ResponseEntity<Page<LocalOrderDetailDTO>> searchLocalOrdersBetween(@PathVariable LocalDate startDate,
-                                                                        @PathVariable LocalDate endDate,
-                                                                        @PageableDefault(page = 0, size = 10, sort = "saleDate", direction = Sort.Direction.DESC) Pageable pageable){
+                                                                              @PathVariable LocalDate endDate,
+                                                                              @PageableDefault(page = 0, size = 10, sort = "saleDate", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(localOrderService.searchLocalOrdersBetween(startDate, endDate, pageable));
     }
 }
