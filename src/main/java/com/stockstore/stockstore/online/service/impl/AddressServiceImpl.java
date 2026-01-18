@@ -44,6 +44,7 @@ public class AddressServiceImpl implements AddressService {
         Address address = addressMapper.toEntity(dto);
         User user = userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Invalid user"));
         address.setUser(user);
+        address = addressRepository.save(address);
         return addressMapper.toDetailDto(address);
     }
 
