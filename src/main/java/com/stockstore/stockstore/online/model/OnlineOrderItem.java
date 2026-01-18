@@ -23,14 +23,14 @@ public class OnlineOrderItem {
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(precision = 19, scale = 2)
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "online_order_id")
+    @JoinColumn(name = "online_order_id", nullable = false)
     private OnlineOrder onlineOrder;
 
     public OnlineOrderItem(int quantity, Product product, OnlineOrder onlineOrder, BigDecimal price) {

@@ -19,7 +19,7 @@ public class LocalOrderItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(nullable = false)
@@ -29,7 +29,7 @@ public class LocalOrderItem {
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "local_order_id")
+    @JoinColumn(name = "local_order_id", nullable = false)
     private LocalOrder localOrder;
 
     public LocalOrderItem(Product product, int quantity, LocalOrder localOrder, BigDecimal price) {

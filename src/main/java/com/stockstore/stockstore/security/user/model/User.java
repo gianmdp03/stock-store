@@ -40,7 +40,7 @@ public class User implements UserDetails {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", length = 20)
+    @Column(name = "role", length = 20, nullable = false)
     private Role role;
 
     @OneToOne(mappedBy = "user")
@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
     private LocalDateTime tokenExpirationTime;
 
-    private boolean isBanned;
+    private boolean isBanned = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -88,6 +88,5 @@ public class User implements UserDetails {
         this.name = name;
         this.lastname = lastname;
         this.role = role;
-        this.isBanned = false;
     }
 }
