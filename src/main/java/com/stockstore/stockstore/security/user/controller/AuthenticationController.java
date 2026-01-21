@@ -28,22 +28,23 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<UserDetailDTO> register(@RequestBody UserRequestDTO request) {
         AuthenticationResponseDTO authResponse = authenticationService.register(request);
         ResponseCookie cookie = createAccessTokenCookie(authResponse.token());
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(authResponse.dto());
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> authenticate(@RequestBody AuthenticationRequestDTO request) {
+    public ResponseEntity<UserDetailDTO> authenticate(@RequestBody AuthenticationRequestDTO request) {
         AuthenticationResponseDTO authResponse = authenticationService.authenticate(request);
         ResponseCookie cookie = createAccessTokenCookie(authResponse.token());
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .build();
+                .body(authResponse.dto());
     }
 
     @PostMapping("/forgot")

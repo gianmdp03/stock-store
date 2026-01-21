@@ -49,9 +49,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 Role.USER
         );
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
+        UserDetailDTO userDetail = new UserDetailDTO(
+                user.getId(),
+                user.getName(),
+                user.getLastname(),
+                user.getEmail(),
+                user.getPhoneNumber(),
+                user.getRole().name()
+        );
 
-        return new AuthenticationResponseDTO(jwtToken);
+        return new AuthenticationResponseDTO(jwtToken, userDetail);
     }
 
     @Override
@@ -62,11 +70,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         request.password()
                 )
         );
-        var user = userRepository.findByEmail(request.email())
+        User user = userRepository.findByEmail(request.email())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
+        UserDetailDTO userDetail = new UserDetailDTO(
+                user.getId(),
+                user.getName(),
+                user.getLastname(),
+                user.getEmail(),
+                user.getPhoneNumber(),
+                user.getRole().name()
+        );
 
-        return new AuthenticationResponseDTO(jwtToken);
+        return new AuthenticationResponseDTO(jwtToken, userDetail);
     }
 
     @Override
