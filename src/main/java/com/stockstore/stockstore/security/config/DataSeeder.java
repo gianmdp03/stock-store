@@ -22,6 +22,7 @@ public class DataSeeder {
                 User admin = new User();
                 admin.setName("Admin");
                 admin.setLastname("Admin");
+                admin.setPhoneNumber("11111111");
                 admin.setEmail("admin@admin.com");
                 admin.setPassword(passwordEncoder.encode("1234")); // Contraseña inicial
                 admin.setRole(Role.ADMIN);

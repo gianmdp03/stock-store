@@ -30,23 +30,23 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         //SESION
-                        .requestMatchers("/api/auth/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/auth/logged/**").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
-                        .requestMatchers("/api/auth/**").permitAll()
-                        //GESTION DE INVENTARIO
-                        .requestMatchers("/api/categories/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                        .requestMatchers("/api/inventory-items/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                        .requestMatchers("/api/products/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                        .requestMatchers("/api/suppliers/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                        //TIENDA ONLINE
-                        .requestMatchers("/api/carts/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
-                        .requestMatchers("/api/online-orders/**").hasRole("ADMIN")
-                        .requestMatchers("/api/mp/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
-                        .requestMatchers("/api/wishlists/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
-                        .requestMatchers("/api/addresses/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
-                        //TIENDA LOCAL
-                        .requestMatchers("/api/local-orders/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+//                        .requestMatchers("/api/auth/admin/**").hasRole("ADMIN")
+//                        .requestMatchers("/api/auth/logged/**").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
+//                        .requestMatchers("/api/auth/**").permitAll()
+//                        //GESTION DE INVENTARIO
+//                        .requestMatchers("/api/categories/**").hasAnyRole("EMPLOYEE", "ADMIN")
+//                        .requestMatchers("/api/inventory-items/**").hasAnyRole("EMPLOYEE", "ADMIN")
+//                        .requestMatchers("/api/products/**").hasAnyRole("EMPLOYEE", "ADMIN")
+//                        .requestMatchers("/api/suppliers/**").hasAnyRole("EMPLOYEE", "ADMIN")
+//                        //TIENDA ONLINE
+//                        .requestMatchers("/api/carts/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
+//                        .requestMatchers("/api/online-orders/**").hasRole("ADMIN")
+//                        .requestMatchers("/api/mp/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
+//                        .requestMatchers("/api/wishlists/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
+//                        .requestMatchers("/api/addresses/**").hasAnyRole("USER", "EMPLOYEE","ADMIN")
+//                        //TIENDA LOCAL
+//                        .requestMatchers("/api/local-orders/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
