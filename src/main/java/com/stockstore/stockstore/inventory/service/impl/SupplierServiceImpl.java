@@ -34,9 +34,9 @@ public class SupplierServiceImpl implements SupplierService {
 
         List<Product> products = productRepository.findAllByIdInAndEnabledTrue(dto.productIds());
         Optional<Supplier> optionalSupplier = supplierRepository.findByName(dto.name());
-        if(products.isEmpty()){
-            throw new NotFoundException("Product list is empty");
-        }
+//        if(products.isEmpty()){
+//            throw new NotFoundException("Product list is empty");
+//        } por ahora queda asi
 
         if(optionalSupplier.isPresent()){
             Supplier existingSupplier = optionalSupplier.get();

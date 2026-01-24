@@ -9,4 +9,4 @@ import java.util.List;
 public record SupplierRequestDTO(@NotBlank String name,
                                  @NotBlank @Email String email,
                                  @NotBlank String phoneNumber,
-                                 @NotEmpty List<Long> productIds) {}
+                                 List<Long> productIds) {}
