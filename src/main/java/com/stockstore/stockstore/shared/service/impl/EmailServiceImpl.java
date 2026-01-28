@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
 
-    @Value("{spring.mail.username}")
+    @Value("${spring.mail.username}")
     private String email;
 
     @Override
