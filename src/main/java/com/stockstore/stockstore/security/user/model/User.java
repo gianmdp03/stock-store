@@ -82,11 +82,12 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User(String email, String password, String name, String lastname, Role role) {
+    public User(String email, String password, String name, String lastname, Role role, String phoneNumber) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.lastname = lastname;
         this.role = role;
+        this.phoneNumber = phoneNumber;
     }
 }

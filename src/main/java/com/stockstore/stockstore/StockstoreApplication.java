@@ -1,3 +1,4 @@
+
 package com.stockstore.stockstore;
 
 import org.springframework.boot.SpringApplication;
