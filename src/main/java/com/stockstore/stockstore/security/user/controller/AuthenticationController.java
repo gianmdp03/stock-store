@@ -150,4 +150,12 @@ public class AuthenticationController {
                 .sameSite("Strict")   // O "Lax", ayuda a prevenir CSRF
                 .build();
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserDetailDTO> getProfile(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(authenticationService.getUserByEmail(authentication.getName()));
+    }
 }
