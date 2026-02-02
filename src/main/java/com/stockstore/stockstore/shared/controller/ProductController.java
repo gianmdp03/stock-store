@@ -53,6 +53,12 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByBarcode(barcode));
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<Page<ProductListDTO>> getProductsWithStock(
+            @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductsWithStock(pageable));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
