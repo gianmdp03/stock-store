@@ -36,6 +36,7 @@ public class SecurityConfig {
                         //GESTION DE INVENTARIO
                         .requestMatchers("/api/categories/**").hasAnyRole("EMPLOYEE", "ADMIN")
                         .requestMatchers("/api/inventory-items/**").hasAnyRole("EMPLOYEE", "ADMIN")
+                        .requestMatchers("/api/products/available").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
                         .requestMatchers("/api/products/**").hasAnyRole("EMPLOYEE", "ADMIN")
                         .requestMatchers("/api/suppliers/**").hasAnyRole("EMPLOYEE", "ADMIN")
                         //TIENDA ONLINE
