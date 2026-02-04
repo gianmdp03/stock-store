@@ -61,8 +61,11 @@ public class SupplierController {
         return ResponseEntity.status(HttpStatus.OK).body(supplierService.searchSuppliers(email, pageable));
     }
 
-    @PostMapping("/send/{supplierId}")
-    public ResponseEntity<Void> sendOrderToSupplier(@Valid @RequestBody List<SupplierOrderDTO> items, @PathVariable Long supplierId){
+    @PostMapping("/{supplierId}/send-order")
+    public ResponseEntity<Void> sendOrderToSupplier(
+            @Valid @RequestBody List<SupplierOrderDTO> items,
+            @PathVariable Long supplierId
+    ){
         supplierService.sendOrderToSupplier(items, supplierId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

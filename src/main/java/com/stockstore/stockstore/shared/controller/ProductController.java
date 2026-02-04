@@ -55,8 +55,11 @@ public class ProductController {
 
     @GetMapping("/available")
     public ResponseEntity<Page<ProductListDTO>> getProductsWithStock(
+            @RequestParam(required = false) Long categoryId,
             @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.DESC) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductsWithStock(pageable));
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productService.getProductsWithStock(categoryId, pageable));
     }
 
     @DeleteMapping("/{id}")

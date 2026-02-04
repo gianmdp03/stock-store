@@ -93,12 +93,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductListDTO> getProductsWithStock(Pageable pageable){
-        Page<Product> page = productRepository.findProductsWithStock(pageable);
-        if(page.isEmpty()){
-            return Page.empty();
+    public Page<ProductListDTO> getProductsWithStock(Long categoryId, Pageable pageable) {
+        if (categoryId != null) {
+            return productRepository.findAvailableByCategory(categoryId, pageable)
+                    .map(productMapper::toListDto);
+        } else {
+
+            return productRepository.findProductsWithStock(pageable)
+                    .map(productMapper::toListDto);
         }
-        return page.map(productMapper::toListDto);
     }
 
     @Override

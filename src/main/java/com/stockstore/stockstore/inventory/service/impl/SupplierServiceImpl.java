@@ -113,16 +113,21 @@ public class SupplierServiceImpl implements SupplierService {
     public void sendOrderToSupplier(List<SupplierOrderDTO> items, Long supplierId) {
         Supplier supplier = supplierRepository.findByIdAndEnabledTrue(supplierId)
                 .orElseThrow(() -> new NotFoundException("Supplier ID does not exist"));
+
         StringBuilder body = new StringBuilder();
 
         body.append("Estimado proveedor ").append(supplier.getName()).append(",\n\n");
-        body.append("Queriamos realizar el siguiente pedido:\n\n");
+        body.append("Queríamos realizar el siguiente pedido:\n\n");
         body.append(String.format("%-30s | %10s\n", "PRODUCTO", "CANTIDAD"));
         body.append("-------------------------------------------\n");
 
         for (SupplierOrderDTO item : items) {
+            String productName = productRepository.findById(item.productId())
+                    .map(Product::getName)
+                    .orElse("Producto Desconocido (ID: " + item.productId() + ")");
+
             body.append(String.format("%-30s | %10d\n",
-                    item.productName(),
+                    productName,
                     item.quantity()
             ));
         }
