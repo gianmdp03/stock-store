@@ -61,8 +61,16 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @Transactional
     public SupplierDetailDTO updateSupplier(Long id, SupplierUpdateDTO dto){
-        Supplier supplier = supplierRepository.findById(id).orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
+        Supplier supplier = supplierRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Supplier ID does not exist"));
+
         supplierMapper.updateEntityFromDto(dto, supplier);
+
+        if(dto.productIds() != null) {
+            List<Product> products = productRepository.findAllByIdInAndEnabledTrue(dto.productIds());
+            supplier.setProducts(products);
+        }
+
         supplier = supplierRepository.save(supplier);
         return supplierMapper.toDetailDto(supplier);
     }
