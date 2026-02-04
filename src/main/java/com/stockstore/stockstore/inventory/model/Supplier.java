@@ -31,7 +31,7 @@ public class Supplier {
 
     private boolean enabled = true;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "suppliers_products",
             joinColumns = @JoinColumn(name = "supplier_id"),
