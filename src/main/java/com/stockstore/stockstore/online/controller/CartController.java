@@ -25,10 +25,12 @@ public class CartController {
     public ResponseEntity<CartItemListDTO> addItemToCart(Authentication authentication, @Valid @RequestBody CartItemRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(cartService.addItemToCart(authentication.getName(), dto));
     }
+
     @GetMapping
     public ResponseEntity<CartListDTO> viewCart(Authentication authentication){
         return ResponseEntity.status(HttpStatus.OK).body(cartService.viewCart(authentication.getName()));
     }
+
     @PatchMapping("/items/{cartItemId}/{quantity}")
     public ResponseEntity<CartListDTO> modifyCartItemQuantity(
             Authentication authentication,
