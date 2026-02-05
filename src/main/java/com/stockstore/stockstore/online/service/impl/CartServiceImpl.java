@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,10 +63,31 @@ public class CartServiceImpl implements CartService {
         return cartItemMapper.toListDto(cartItem);
     }
 
+
+
+
+
     @Override
-    public CartListDTO viewCart(String email){
+    @Transactional
+    public CartListDTO viewCart(String email) {
         Cart cart = cartRepository.findByUserEmail(email)
-                .orElseThrow(()->new NotFoundException("Cart does not exist"));
+                .orElseThrow(() -> new NotFoundException("Cart does not exist"));
+
+        List<CartItem> itemsToRemove = new ArrayList<>();
+
+        for (CartItem item : cart.getItems()) {
+            if (!item.getProduct().isEnabled()) {
+                itemsToRemove.add(item);
+            }
+
+
+        }
+        if (!itemsToRemove.isEmpty()) {
+            cart.getItems().removeAll(itemsToRemove);
+            cartItemRepository.deleteAll(itemsToRemove);
+            cart = cartRepository.save(cart);
+        }
+
         return cartMapper.toListDto(cart);
     }
 
