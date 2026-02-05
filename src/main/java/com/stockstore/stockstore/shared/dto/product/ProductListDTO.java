@@ -1,6 +1,9 @@
 package com.stockstore.stockstore.shared.dto.product;
 
-import java.math.BigDecimal;
+import com.stockstore.stockstore.shared.dto.category.CategoryListDTO;
 
-public record ProductListDTO(Long id, String name, String imageUrl, BigDecimal price){
+import java.math.BigDecimal;
+import java.util.List;
+
+public record ProductListDTO(Long id, String name, String imageUrl, BigDecimal price, List<CategoryListDTO>categoriesId){
 }
