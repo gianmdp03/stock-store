@@ -15,4 +15,7 @@ public interface SupplierService {
     void deleteSupplier(Long supplierId);
     Page<SupplierListDTO> searchSuppliers(String email, Pageable page);
     void sendOrderToSupplier(List<SupplierOrderDTO> items, Long supplierId);
+    Page<SupplierOrderResponseDTO> getSupplierOrders(Pageable pageable);
+    void updateOrderStatus(Long orderId, String status);
 }
+

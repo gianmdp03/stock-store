@@ -69,4 +69,20 @@ public class SupplierController {
         supplierService.sendOrderToSupplier(items, supplierId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+
+    @GetMapping("/orders")
+    public ResponseEntity<Page<SupplierOrderResponseDTO>> getSupplierOrders(
+            @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return ResponseEntity.ok(supplierService.getSupplierOrders(pageable));
+    }
+
+    @PatchMapping("/orders/{id}/status")
+    public ResponseEntity<Void> updateOrderStatus(
+            @PathVariable Long id,
+            @RequestBody java.util.Map<String, String> payload) {
+        String status = payload.get("status");
+        supplierService.updateOrderStatus(id, status);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -4,6 +4,8 @@ import com.stockstore.stockstore.exception.NotFoundException;
 import com.stockstore.stockstore.inventory.dto.supplier.*;
 import com.stockstore.stockstore.inventory.mapper.SupplierMapper;
 import com.stockstore.stockstore.inventory.model.Supplier;
+import com.stockstore.stockstore.inventory.model.SupplierOrder;
+import com.stockstore.stockstore.inventory.repository.SupplierOrderRepository;
 import com.stockstore.stockstore.inventory.repository.SupplierRepository;
 import com.stockstore.stockstore.inventory.service.SupplierService;
 import com.stockstore.stockstore.shared.model.Product;
@@ -15,7 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +31,7 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierMapper supplierMapper;
     private final ProductRepository productRepository;
     private final EmailService emailService;
+    private final SupplierOrderRepository supplierOrderRepository;
 
     @Override
     @Transactional
@@ -118,37 +123,64 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
+    @Transactional
     public void sendOrderToSupplier(List<SupplierOrderDTO> items, Long supplierId) {
         Supplier supplier = supplierRepository.findByIdAndEnabledTrue(supplierId)
                 .orElseThrow(() -> new NotFoundException("Supplier ID does not exist"));
+        BigDecimal calculatedTotalCost = BigDecimal.ZERO;
+        int calculatedTotalItems = 0;
+
+        for (SupplierOrderDTO itemDto : items) {
+            Product product = productRepository.findById(itemDto.productId())
+                    .orElseThrow(() -> new NotFoundException("Product not found"));
+            BigDecimal quantityBd = BigDecimal.valueOf(itemDto.quantity());
+            BigDecimal itemSubtotal = product.getPrice().multiply(quantityBd);
+            calculatedTotalCost = calculatedTotalCost.add(itemSubtotal);
+            calculatedTotalItems += itemDto.quantity();
+        }
+
+        SupplierOrder order = SupplierOrder.builder()
+                .supplier(supplier)
+                .date(LocalDateTime.now())
+                .totalItems(calculatedTotalItems)
+
+                .totalCost(calculatedTotalCost.doubleValue())
+                .status("PENDING")
+                .build();
+
+        supplierOrderRepository.save(order);
 
         StringBuilder body = new StringBuilder();
 
         body.append("Estimado proveedor ").append(supplier.getName()).append(",\n\n");
-        body.append("Queríamos realizar el siguiente pedido:\n\n");
-        body.append(String.format("%-30s | %10s\n", "PRODUCTO", "CANTIDAD"));
-        body.append("-------------------------------------------\n");
 
-        for (SupplierOrderDTO item : items) {
-            String productName = productRepository.findById(item.productId())
-                    .map(Product::getName)
-                    .orElse("Producto Desconocido (ID: " + item.productId() + ")");
+        body.append("ID de Pedido: #").append(order.getId()).append("\n");
 
-            body.append(String.format("%-30s | %10d\n",
-                    productName,
-                    item.quantity()
-            ));
-        }
 
-        body.append("\n-------------------------------------------\n");
-        body.append("Espero su confirmación.\n");
-        body.append("Saludos,\n");
-        body.append("Mi Empresa");
 
-        emailService.sendEmail(
-                supplier.getEmail(),
-                "Nuevo Pedido de Compra - " + LocalDate.now(),
-                body.toString()
-        );
+        emailService.sendEmail(supplier.getEmail(), "Nuevo Pedido - " + LocalDate.now(), body.toString());
+    }
+
+
+    @Override
+    public Page<SupplierOrderResponseDTO> getSupplierOrders(Pageable pageable) {
+        return supplierOrderRepository.findAllByOrderByDateDesc(pageable)
+                .map(order -> new SupplierOrderResponseDTO(
+                        order.getId(),
+                        order.getSupplier().getName(),
+                        order.getDate(),
+                        order.getTotalItems(),
+                        order.getStatus(),
+                        order.getTotalCost()
+                ));
+    }
+
+    @Override
+    @Transactional
+    public void updateOrderStatus(Long orderId, String status) {
+        SupplierOrder order = supplierOrderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException("Order not found"));
+        order.setStatus(status);
+        supplierOrderRepository.save(order);
     }
 }
