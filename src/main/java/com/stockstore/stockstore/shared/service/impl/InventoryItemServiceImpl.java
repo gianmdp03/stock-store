@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -76,5 +77,19 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     public void deleteInventoryItem(Long inventoryItemId) {
         InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()-> new NotFoundException("InventoryItem ID does not exist"));
         inventoryItemRepository.delete(inventoryItem);
+    }
+
+    @Override
+    public List<InventoryItemDetailDTO> getTopStockItems() {
+        return inventoryItemRepository.findTop10ByOrderByStockDesc().stream()
+                .map(inventoryItemMapper::toDetailDTO)
+                .toList();
+    }
+
+    @Override
+    public List<InventoryItemDetailDTO> getLowStockItems(int stockLimit) {
+        return inventoryItemRepository.findByStockLessThan(stockLimit).stream()
+                .map(inventoryItemMapper::toDetailDTO)
+                .toList();
     }
 }

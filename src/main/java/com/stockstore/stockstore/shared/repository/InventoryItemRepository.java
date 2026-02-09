@@ -13,4 +13,8 @@ import java.util.List;
 public interface InventoryItemRepository extends JpaRepository<InventoryItem, Long> {
     Page<InventoryItem> findAllByProductId(Long productId, Pageable pageable);
     List<InventoryItem> findByProductIdAndStockGreaterThanOrderByExpireDateAsc(Long productId, int stock);
+
+    List<InventoryItem> findTop10ByOrderByStockDesc();
+
+    List<InventoryItem> findByStockLessThan(int stockLimit);
 }

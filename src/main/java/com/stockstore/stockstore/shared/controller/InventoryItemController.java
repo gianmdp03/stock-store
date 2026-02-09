@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventory-items")
@@ -49,6 +50,17 @@ public class InventoryItemController {
     @GetMapping("/id/{id}")
     public ResponseEntity<InventoryItemDetailDTO> getInventoryItemById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(inventoryItemService.getInventoryItemById(id));
+    }
+
+    @GetMapping("/top-stock")
+    public ResponseEntity<List<InventoryItemDetailDTO>> getTopStockItems() {
+        return ResponseEntity.ok(inventoryItemService.getTopStockItems());
+    }
+
+    @GetMapping("/low-stock")
+    public ResponseEntity<List<InventoryItemDetailDTO>> getLowStockItems(
+            @RequestParam(defaultValue = "10") int limit) {
+        return ResponseEntity.ok(inventoryItemService.getLowStockItems(limit));
     }
 
     @DeleteMapping("/{id}")
