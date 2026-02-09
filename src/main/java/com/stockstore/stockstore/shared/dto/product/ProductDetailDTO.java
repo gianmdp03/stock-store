@@ -1,5 +1,6 @@
 package com.stockstore.stockstore.shared.dto.product;
 
+import com.stockstore.stockstore.inventory.dto.supplier.SupplierListDTO;
 import com.stockstore.stockstore.shared.dto.category.CategoryListDTO;
 import com.stockstore.stockstore.shared.dto.inventoryitem.InventoryItemDetailDTO;
 
@@ -12,4 +13,6 @@ public record ProductDetailDTO(Long id,
                                BigDecimal price,
                                String barcode,
                                List<InventoryItemDetailDTO> inventoryItems,
-                               List<CategoryListDTO> categories) {}
+                               List<CategoryListDTO> categories,
+                               List<SupplierListDTO> suppliers) {}
+

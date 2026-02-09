@@ -8,6 +8,7 @@ import com.stockstore.stockstore.shared.model.Product;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class ProductMapper {
@@ -25,6 +26,10 @@ public abstract class ProductMapper {
     public abstract Product toEntity(ProductRequestDTO dto);
     public abstract ProductDetailDTO toDetailDto(Product entity);
     public abstract ProductListDTO toListDto(Product entity);
+
+    public abstract ProductDetailDTO toDetailDTO(Product product);
+
+    public abstract List<ProductListDTO> toListDTO(List<Product> products);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)

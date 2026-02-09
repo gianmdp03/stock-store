@@ -1,5 +1,6 @@
 package com.stockstore.stockstore.shared.model;
 
+import com.stockstore.stockstore.inventory.model.Supplier;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,10 @@ public class Product {
     @Column(unique = true)
     private String barcode;
 
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    private List<Supplier> suppliers = new ArrayList<>();
+
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryItem> inventoryItems =  new ArrayList<>();
 
@@ -49,4 +54,7 @@ public class Product {
         this.price = price;
         this.barcode = barcode;
     }
+
+    public List<Supplier> getSuppliers() { return suppliers; }
+    public void setSuppliers(List<Supplier> suppliers) { this.suppliers = suppliers; }
 }
