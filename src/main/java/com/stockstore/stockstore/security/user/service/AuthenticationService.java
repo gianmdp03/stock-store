@@ -24,4 +24,8 @@ public interface AuthenticationService {
     void promoteToEmployee(Long id);
     void promoteToAdmin(Long id);
     void toggleBan(Long id);
+
+    UserDetailDTO getUserById(Long id);
+
+    void updateUserAsAdmin(Long id, UserUpdateDTO dto);
 }

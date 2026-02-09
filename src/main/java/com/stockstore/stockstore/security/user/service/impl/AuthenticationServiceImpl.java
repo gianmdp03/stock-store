@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -241,5 +242,42 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void toggleBan(Long id){
         User user = userRepository.findById(id).orElseThrow(()-> new BadRequestException("Invalid request"));
         user.setBanned(!user.isBanned());
+    }
+
+    @Override
+    public UserDetailDTO getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+
+        return new UserDetailDTO(
+                user.getId(),
+                user.getName(),
+                user.getLastname(),
+                user.getEmail(),
+                user.getPhoneNumber(),
+                user.getRole().name()
+        );
+    }
+
+    @Override
+    @Transactional
+    public void updateUserAsAdmin(Long id, UserUpdateDTO dto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        user.setName(dto.name());
+        user.setLastname(dto.lastname());
+        user.setPhoneNumber(dto.phoneNumber());
+        user.setEmail(dto.email());
+
+        if (dto.role() != null && !dto.role().isEmpty()) {
+            try {
+                user.setRole(Role.valueOf(dto.role()));
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("Rol inválido: " + dto.role());
+            }
+        }
+
+        userRepository.save(user);
     }
 }

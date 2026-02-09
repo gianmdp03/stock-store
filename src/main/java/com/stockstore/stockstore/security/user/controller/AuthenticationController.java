@@ -130,9 +130,9 @@ public class AuthenticationController {
     public ResponseEntity<Void> logout() {
         ResponseCookie cookie = ResponseCookie.from("accessToken", "")
                 .httpOnly(true)
-                .secure(false) // Igual que en login
+                .secure(false)
                 .path("/")
-                .maxAge(0) // Esto borra la cookie inmediatamente
+                .maxAge(0)
                 .build();
 
         return ResponseEntity.ok()
@@ -140,15 +140,25 @@ public class AuthenticationController {
                 .build();
     }
 
-    // Método auxiliar para crear la cookie con las configuraciones de seguridad
     private ResponseCookie createAccessTokenCookie(String token) {
         return ResponseCookie.from("accessToken", token)
-                .httpOnly(true)       // JavaScript no puede leerla
-                .secure(false)        // True para HTTPS, 'false' para localhost
-                .path("/")            // Disponible para toda la app
-                .maxAge(24 * 60 * 60) // 24 horas (mismo tiempo que JwtService)
-                .sameSite("Strict")   // O "Lax", ayuda a prevenir CSRF
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(24 * 60 * 60)
+                .sameSite("Strict")
                 .build();
+    }
+
+    @GetMapping("/admin/user-by-id/{id}")
+    public ResponseEntity<UserDetailDTO> getUserById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.getUserById(id));
+    }
+
+    @PutMapping("/admin/user/{id}")
+    public ResponseEntity<Void> updateUserAsAdmin(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto){
+        authenticationService.updateUserAsAdmin(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/profile")
