@@ -127,38 +127,52 @@ public class SupplierServiceImpl implements SupplierService {
     public void sendOrderToSupplier(List<SupplierOrderDTO> items, Long supplierId) {
         Supplier supplier = supplierRepository.findByIdAndEnabledTrue(supplierId)
                 .orElseThrow(() -> new NotFoundException("Supplier ID does not exist"));
+
         BigDecimal calculatedTotalCost = BigDecimal.ZERO;
         int calculatedTotalItems = 0;
+
+        StringBuilder body = new StringBuilder();
+
+        body.append("Estimado ").append(supplier.getName()).append(",\n\n");
+        body.append("Le enviamos la solicitud de un nuevo pedido con el siguiente detalle:\n\n");
+        body.append("--------------------------------------------------\n");
+        body.append(String.format("%-30s | %s\n", "PRODUCTO", "CANTIDAD"));
+        body.append("--------------------------------------------------\n");
 
         for (SupplierOrderDTO itemDto : items) {
             Product product = productRepository.findById(itemDto.productId())
                     .orElseThrow(() -> new NotFoundException("Product not found"));
+
             BigDecimal quantityBd = BigDecimal.valueOf(itemDto.quantity());
             BigDecimal itemSubtotal = product.getPrice().multiply(quantityBd);
+
             calculatedTotalCost = calculatedTotalCost.add(itemSubtotal);
             calculatedTotalItems += itemDto.quantity();
+
+            body.append(String.format("%-30s | %d un.\n", product.getName(), itemDto.quantity()));
         }
+
+        body.append("--------------------------------------------------\n\n");
 
         SupplierOrder order = SupplierOrder.builder()
                 .supplier(supplier)
                 .date(LocalDateTime.now())
                 .totalItems(calculatedTotalItems)
-
                 .totalCost(calculatedTotalCost.doubleValue())
                 .status("PENDING")
                 .build();
 
         supplierOrderRepository.save(order);
 
-        StringBuilder body = new StringBuilder();
+        body.append("Total de artículos: ").append(calculatedTotalItems).append("\n");
+        body.append("ID de Pedido: #").append(order.getId()).append("\n\n");
 
-        body.append("Estimado proveedor ").append(supplier.getName()).append(",\n\n");
+        body.append("Por favor, confirmen la recepción de este pedido y la fecha estimada de entrega.\n\n");
+        body.append("Saludos cordiales.");
 
-        body.append("ID de Pedido: #").append(order.getId()).append("\n");
+        String subject = "Nuevo Pedido para " + supplier.getName() + " - " + LocalDate.now();
 
-
-
-        emailService.sendEmail(supplier.getEmail(), "Nuevo Pedido - " + LocalDate.now(), body.toString());
+        emailService.sendEmail(supplier.getEmail(), subject, body.toString());
     }
 
 
