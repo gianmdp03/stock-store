@@ -99,8 +99,15 @@ public class AuthenticationController {
     }
 
     @GetMapping("/admin/employees")
-    public ResponseEntity<Page<UserDetailDTO>> listEmployees(Pageable pageable){
+    public ResponseEntity<Page<UserDetailDTO>> listEmployees(
+            @PageableDefault(page=0, size = 10, sort="name", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.listEmployees(pageable));
+    }
+
+    @GetMapping("/admin/user/email/{email}")
+    public ResponseEntity<Page<UserDetailDTO>> searchUsersByEmail(@PathVariable String email,
+                                                                  @PageableDefault(page=0, size = 10, sort="name", direction = Sort.Direction.DESC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.searchUsersByEmail(email, pageable));
     }
 
     @GetMapping("/admin/user/search")

@@ -212,6 +212,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    public Page<UserDetailDTO> searchUsersByEmail(String email, Pageable pageable) {
+        Page<User> page = userRepository.findByEmailContainingIgnoreCase(email, pageable);
+        if(page.isEmpty()){
+            return Page.empty();
+        }
+        return page.map(user -> new UserDetailDTO(user.getId(),
+                user.getName(), user.getLastname(), user.getEmail(), user.getPhoneNumber(), user.getRole().name()));
+    }
+
+    @Override
     public UserDetailDTO getUserByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Email is not valid"));
         return new UserDetailDTO(

@@ -20,12 +20,11 @@ public interface AuthenticationService {
     Page<UserDetailDTO> listUsers(Pageable pageable);
     Page<UserDetailDTO> listBannedUsers(Pageable pageable);
     Page<UserDetailDTO> listEmployees(Pageable pageable);
+    Page<UserDetailDTO> searchUsersByEmail(String email, Pageable pageable);
     UserDetailDTO getUserByEmail(String email);
     void promoteToEmployee(Long id);
     void promoteToAdmin(Long id);
     void toggleBan(Long id);
-
     UserDetailDTO getUserById(Long id);
-
     void updateUserAsAdmin(Long id, UserUpdateDTO dto);
 }
