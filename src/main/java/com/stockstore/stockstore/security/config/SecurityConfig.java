@@ -34,9 +34,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/logged/**").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
                         .requestMatchers("/api/auth/**").permitAll()
                         //GESTION DE INVENTARIO
-                        .requestMatchers("/api/categories/**").permitAll()
+                        .requestMatchers("/api/categories/id/**").permitAll()
                         .requestMatchers("/api/inventory-items/**").hasAnyRole("EMPLOYEE", "ADMIN")
                         .requestMatchers("/api/products/available").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
+                        .requestMatchers("/api/products/id/**").permitAll()
                         .requestMatchers("/api/products/**").hasAnyRole("EMPLOYEE", "ADMIN")
                         .requestMatchers("/api/suppliers/**").hasAnyRole("EMPLOYEE", "ADMIN")
                         //TIENDA ONLINE
