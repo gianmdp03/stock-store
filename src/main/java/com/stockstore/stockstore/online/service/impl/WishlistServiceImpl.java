@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -43,9 +42,20 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     @Transactional
     public WishlistDetailDTO addItemToWishlist(String email, Long productId) {
-        Wishlist wishlist = wishlistRepository.findByUserEmail(email).orElseThrow(()-> new NotFoundException("Invalid Wishlist"));
-        Product product = productRepository.findByIdAndEnabledTrue(productId).orElseThrow(()-> new NotFoundException("Product ID does not exist"));
-        wishlist.getProducts().add(product);
+        Wishlist wishlist = wishlistRepository.findByUserEmail(email)
+                .orElseThrow(()-> new NotFoundException("Invalid Wishlist"));
+
+        Product product = productRepository.findByIdAndEnabledTrue(productId)
+                .orElseThrow(()-> new NotFoundException("Product ID does not exist"));
+
+        boolean exists = wishlist.getProducts().stream()
+                .anyMatch(p -> p.getId().equals(productId));
+
+        if (!exists) {
+            wishlist.getProducts().add(product);
+            wishlistRepository.save(wishlist);
+        }
+
         return wishlistMapper.toDetailDto(wishlist);
     }
 
@@ -58,8 +68,13 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     @Transactional
     public void deleteItemFromWishlist(String email, Long productId) {
-        Wishlist wishlist = wishlistRepository.findByUserEmail(email).orElseThrow(()-> new NotFoundException("Invalid Wishlist or User"));
-        wishlist.getProducts().removeIf(product -> product.getId().equals(productId));
+        Wishlist wishlist = wishlistRepository.findByUserEmail(email)
+                .orElseThrow(()-> new NotFoundException("Invalid Wishlist or User"));
 
+        boolean removed = wishlist.getProducts().removeIf(product -> product.getId().equals(productId));
+
+        if (removed) {
+            wishlistRepository.save(wishlist);
+        }
     }
 }
