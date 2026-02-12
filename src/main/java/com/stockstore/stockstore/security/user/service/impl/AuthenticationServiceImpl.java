@@ -58,7 +58,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getRole().name()
+                user.getRole().name(),
+                user.isBanned()
         );
 
         return new AuthenticationResponseDTO(jwtToken, userDetail);
@@ -81,7 +82,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getRole().name()
+                user.getRole().name(),
+                user.isBanned()
         );
 
         return new AuthenticationResponseDTO(jwtToken, userDetail);
@@ -175,7 +177,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getRole().name())
+                user.getRole().name(),
+                user.isBanned())
         );
     }
 
@@ -191,7 +194,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getRole().name()
+                user.getRole().name(),
+                user.isBanned()
                 ));
     }
 
@@ -207,7 +211,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getRole().name()
+                user.getRole().name(),
+                user.isBanned()
         ));
     }
 
@@ -218,7 +223,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return Page.empty();
         }
         return page.map(user -> new UserDetailDTO(user.getId(),
-                user.getName(), user.getLastname(), user.getEmail(), user.getPhoneNumber(), user.getRole().name()));
+                user.getName(), user.getLastname(), user.getEmail(), user.getPhoneNumber(), user.getRole().name(), user.isBanned()));
     }
 
     @Override
@@ -230,7 +235,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getRole().name());
+                user.getRole().name(),
+                user.isBanned());
     }
 
     @Override
@@ -265,7 +271,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getRole().name()
+                user.getRole().name(),
+                user.isBanned()
         );
     }
 
