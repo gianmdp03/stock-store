@@ -40,11 +40,12 @@ public class InventoryItemController {
         return ResponseEntity.status(HttpStatus.OK).body(inventoryItemService.listInventoryItems(pageable));
     }
 
-    @GetMapping("/{productId}")
-    public ResponseEntity<Page<InventoryItemDetailDTO>> searchInventoryItemByProduct(
-            @PathVariable Long productId,
+    @GetMapping("/search")
+    public ResponseEntity<Page<InventoryItemDetailDTO>> searchInventoryItemByName(
+            @RequestParam String name,
             @PageableDefault(page = 0, size = 10, sort = "expireDate", direction = Sort.Direction.DESC) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(inventoryItemService.searchInventoryItemsByProduct(productId, pageable));
+
+        return ResponseEntity.ok(inventoryItemService.searchByProductName(name, pageable));
     }
 
     @GetMapping("/id/{id}")

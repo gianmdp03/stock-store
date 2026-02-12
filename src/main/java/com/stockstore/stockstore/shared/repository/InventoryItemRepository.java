@@ -17,4 +17,5 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
     List<InventoryItem> findTop10ByOrderByStockDesc();
 
     List<InventoryItem> findByStockLessThan(int stockLimit);
+    Page<InventoryItem> findByProduct_NameContainingIgnoreCase(String name, Pageable pageable);
 }

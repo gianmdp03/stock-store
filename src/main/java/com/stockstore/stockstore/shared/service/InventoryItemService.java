@@ -14,10 +14,11 @@ public interface InventoryItemService {
     InventoryItemDetailDTO addInventoryItem(InventoryItemRequestDTO dto);
     InventoryItemDetailDTO updateInventoryItem(Long id, InventoryItemUpdateDTO dto);
     Page<InventoryItemDetailDTO> listInventoryItems(Pageable pageable);
-    Page<InventoryItemDetailDTO> searchInventoryItemsByProduct(Long productId, Pageable pageable);
     InventoryItemDetailDTO getInventoryItemById(Long id);
     void deleteInventoryItem(Long inventoryItemId);
 
     List<InventoryItemDetailDTO> getTopStockItems();
     List<InventoryItemDetailDTO> getLowStockItems(int stockLimit);
+
+    Page<InventoryItemDetailDTO> searchByProductName(String name, Pageable pageable);
 }

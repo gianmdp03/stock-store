@@ -57,12 +57,9 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     }
 
     @Override
-    public Page<InventoryItemDetailDTO> searchInventoryItemsByProduct(Long productId, Pageable pageable){
-        if(productId == null || !productRepository.existsById(productId)){
-            throw new NotFoundException("Product ID does not exist");
-        }
-        Page<InventoryItem> page = inventoryItemRepository.findAllByProductId(productId, pageable);
-        return page.map(inventoryItemMapper::toDetailDTO);
+    public Page<InventoryItemDetailDTO> searchByProductName(String name, Pageable pageable) {
+        Page<InventoryItem> items = inventoryItemRepository.findByProduct_NameContainingIgnoreCase(name, pageable);
+        return items.map(inventoryItemMapper::toDetailDTO);
     }
 
     @Override
