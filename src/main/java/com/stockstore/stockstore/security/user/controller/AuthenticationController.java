@@ -103,11 +103,10 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.listEmployees(pageable));
     }
 
-    @GetMapping("/admin/user/{email}")
-    public ResponseEntity<UserDetailDTO> getUserByEmail(@PathVariable String email){
+    @GetMapping("/admin/user/search")
+    public ResponseEntity<UserDetailDTO> getUserByEmail(@RequestParam String email){
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.getUserByEmail(email));
     }
-
     @PostMapping("/admin/promote/employee/{id}")
     public ResponseEntity<Void> promoteToEmployee(@PathVariable Long id){
         authenticationService.promoteToEmployee(id);
