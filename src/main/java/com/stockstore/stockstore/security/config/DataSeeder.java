@@ -17,19 +17,32 @@ public class DataSeeder {
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            // Verificamos si ya existe el admin para no duplicarlo cada vez que inicias
-            if (userRepository.findByRole(Role.ADMIN).isEmpty()) {
-                User admin = new User();
-                admin.setName("Admin");
-                admin.setLastname("Admin");
-                admin.setPhoneNumber("11111111");
-                admin.setEmail("admin@admin.com");
-                admin.setPassword(passwordEncoder.encode("1234")); // Contraseña inicial
-                admin.setRole(Role.ADMIN);
+            String adminEmail = "admin@admin.com";
 
-                userRepository.save(admin);
-                System.out.println("ADMINISTRADOR INICIAL CREADO");
-            }
+            userRepository.findByEmail(adminEmail).ifPresentOrElse(
+                    (existingAdmin) -> {
+                        existingAdmin.setName("Admin");
+                        existingAdmin.setLastname("Admin");
+                        existingAdmin.setPhoneNumber("11111111");
+                        existingAdmin.setPassword(passwordEncoder.encode("123456"));
+                        existingAdmin.setRole(Role.ADMIN);
+
+                        userRepository.save(existingAdmin);
+                        System.out.println("DATOS DE ADMINISTRADOR ACTUALIZADOS AUTOMÁTICAMENTE");
+                    },
+                    () -> {
+                        User admin = new User();
+                        admin.setEmail(adminEmail);
+                        admin.setName("Admin");
+                        admin.setLastname("Admin");
+                        admin.setPhoneNumber("11111111");
+                        admin.setPassword(passwordEncoder.encode("1234"));
+                        admin.setRole(Role.ADMIN);
+
+                        userRepository.save(admin);
+                        System.out.println("ADMINISTRADOR INICIAL CREADO");
+                    }
+            );
         };
     }
 }

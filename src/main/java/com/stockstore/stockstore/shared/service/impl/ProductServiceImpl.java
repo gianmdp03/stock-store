@@ -57,6 +57,10 @@ public class ProductServiceImpl implements ProductService {
     public ProductDetailDTO updateProduct(Long id, ProductUpdateDTO dto) {
         Product product = productRepository.findByIdAndEnabledTrue(id).orElseThrow(()-> new NotFoundException("Product id does not exist"));
         productMapper.updateEntityFromDto(dto,product);
+        if(!dto.categoriesId().isEmpty()){
+            List<Category> categories = categoryRepository.findAllById(dto.categoriesId());
+            product.setCategories(categories);
+        }
         product = productRepository.save(product);
         return productMapper.toDetailDto(product);
     }

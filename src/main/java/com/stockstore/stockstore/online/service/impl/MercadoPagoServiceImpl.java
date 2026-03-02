@@ -69,8 +69,8 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                     .items(items)
                     .backUrls(PreferenceBackUrlsRequest.builder()
-                            .success("https://www.google.com.ar")
-                            .failure("https://www.bing.com")
+                            .success("https://img.freepik.com/free-photo/man-jumping-impossible-possible-cliff-sunset-background-business-concept-idea_1323-266.jpg?semt=ais_hybrid&w=740&q=80")
+                            .failure("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
                             .build())
                     .autoReturn("approved")
                     .build();

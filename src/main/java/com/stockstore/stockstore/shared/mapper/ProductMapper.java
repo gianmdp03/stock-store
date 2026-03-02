@@ -27,10 +27,6 @@ public abstract class ProductMapper {
     public abstract ProductDetailDTO toDetailDto(Product entity);
     public abstract ProductListDTO toListDto(Product entity);
 
-    public abstract ProductDetailDTO toDetailDTO(Product product);
-
-    public abstract List<ProductListDTO> toListDTO(List<Product> products);
-
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "inventoryItems", ignore = true)
