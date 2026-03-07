@@ -9,7 +9,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 @SpringBootApplication
 public class StockstoreApplication {
 
-	public static void main(String[] args) {
+	static void main(String[] args) {
 		SpringApplication.run(StockstoreApplication.class, args);
 	}
 
