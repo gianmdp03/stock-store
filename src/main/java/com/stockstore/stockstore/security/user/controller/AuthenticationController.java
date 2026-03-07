@@ -114,7 +114,7 @@ public class AuthenticationController {
     public ResponseEntity<UserDetailDTO> getUserByEmail(@RequestParam String email){
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.getUserByEmail(email));
     }
-    @PostMapping("/admin/promote/employee/{id}")
+    @PatchMapping("/admin/promote/employee/{id}")
     public ResponseEntity<Void> promoteToEmployee(@PathVariable Long id){
         authenticationService.promoteToEmployee(id);
         return ResponseEntity.status(HttpStatus.OK).build();
