@@ -7,12 +7,12 @@ A comprehensive E-commerce and Inventory Management system developed in **Spring
 # 🚀 Technologies and Tools
 
 - **Core:** Java 25, Spring Boot 4.0.1  
-- **Database:** MySQL (Spring Data JPA / Hibernate)  
-- **Security:** Spring Security, OAuth2 Authorization Server, JJWT (0.12.6)  
+- **Database:** PostgreSQL (Spring Data JPA / Hibernate)  
+- **Security:** Spring Security, JJWT (0.12.6)  
 - **Payment Gateway:** Mercado Pago SDK Java (2.8.0)  
 - **Mailing:** Spring Boot Starter Mail (For password recovery and notifications)  
 - **Data Mapping:** MapStruct 1.6.3 & Lombok  
-- **Testing:** JUnit 5, Testcontainers (MySQL), Spring Boot Test  
+- **Testing:** JUnit 5, Testcontainers (PostgreSQL), Spring Boot Test  
 - **Documentation:** SpringDoc OpenAPI 3.0.0 (Swagger UI)
 
 ---
@@ -166,7 +166,7 @@ spring.config.import=optional:classpath:secrets.properties
 ```
 ## Step 2 — Create `secrets.properties`
 # Database
-spring.datasource.url=jdbc:mysql://localhost:3306/stockstore_db
+spring.datasource.url=jdbc:postgresql://localhost:5432/stockstore
 spring.datasource.username=your_db_user
 spring.datasource.password=your_db_password
 
